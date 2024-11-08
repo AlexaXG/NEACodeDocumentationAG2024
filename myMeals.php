@@ -116,6 +116,19 @@ ob_start();
                             onclick="searchRecommendedRecipes()">Feeling lazy?</button>
                         <div id="errorMessage"></div>
                     </div>
+                    <div class="outputbox" id='BLDSelect'>
+                        <div class="title-text">Select your meal:</div>
+                        <div class="output-text">Select the type of meal you want to search for:</div>
+                        <select id="BLDChoice" name="BLDC" class="genderIn">
+                            <option value="op1">Any</option>
+                            <option value="op2">Breakfast</option>
+                            <option value="op3">Lunch</option>
+                            <option value="op4">Dinner</option>
+                            <option value="op5">Snack</option>
+                            <option value="op6">Dessert</option>
+                        </select>
+                        <div id="errorMessage"></div>
+                    </div>
                     <script>
                         var userPreference = 
                         <?php

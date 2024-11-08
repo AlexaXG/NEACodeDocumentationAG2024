@@ -121,7 +121,8 @@ ob_start();
                 ?>
                 <span class="welcome-text">Your <span id="webName">GymmieMeals</span> Homepage,
                     <span id="nameDisplay">
-                        <?php echo (htmlspecialchars($username)); ?>
+                        <?php echo (htmlspecialchars($username));
+                        echo "hello"; ?>
                     </span>
                 </span>
             </div>
@@ -132,9 +133,16 @@ ob_start();
                         <div class='output-text' id='weightCategory'>Your weight category:</div>
                         <div class='output-value' id='catVal'>
                             <?php
-                            $javaJDKPath = "C:/Program Files/Java/jdk-17/bin/java";
-                            //defining my file path to my JDK-17 java folder
-                            $javaCompiledPath = "C:/Users/algub/OneDrive/Documents/NetBeansProjects/FindBMI/src";
+                           
+                           
+
+
+                           $javaJDKPath = getenv('JAVA_JDK_PATH');
+
+                           echo $javaJDKPath;
+                           //defining my file path to my JDK java folder
+                           $javaCompiledPath = getenv('FIND_BMI_CLASS');
+                           if (file_exists($javaJDKPath)) {
                             //defining the file path to the compiled java algorithm that calculates BMI and category
                             $command = "\"$javaJDKPath\" -cp \"$javaCompiledPath\" findbmi.FindBMIValue $weightArg $heightArg 2>&1";
                             //this command does:
@@ -146,6 +154,9 @@ ob_start();
                             //splits the java algorithm output by "," and assigns each value to its own variable
                             //setting the dynamic text
                             echo htmlspecialchars($category);
+                           } else {
+                            die("JDK Path not found");
+                           }
                             ?>
                         </div> <br>
                         <div class='output-text' id='bmiText'>Your BMI:</div>
@@ -164,7 +175,7 @@ ob_start();
                     <div class='output-text' id='caloriesText'>Daily Calories:</div>
                     <div class='output-value' id='calVal'>
                         <?php
-                        $javaCompiledPath2 = "C:\Users\algub\OneDrive\Documents\NetBeansProjects\RecommendedCalories\src";
+                        $javaCompiledPath2 = getenv('RECOMMENDED_CALORIES_CLASS');
                         $command2 = "\"$javaJDKPath\" -cp \"$javaCompiledPath2\" recommendedcalories.CalculateCalories $weightArg $heightArg $ageArg $genderArg $activityArg 2>&1";
                         //using the parameters, it calculates the necessary calories that a person must eat according to their data
                         //echo("Executing command: $command2");
@@ -176,18 +187,8 @@ ob_start();
                     </div><br>
                     <div class='output-text' id='caloriesText'>Daily Macronutrients:</div>
                     <div class='output-value' id='splitVal'>
-                        <?php
-                        if (empty($goalArg) || !is_numeric($calories)) {
-                            die("Args not set");
-                        } else {
-                            $javaCompiledPath3 = "C:\Users\algub\OneDrive\Documents\NetBeansProjects\CalculateSplits\src";
-                            $command3 = "\"$javaJDKPath\" -cp \"$javaCompiledPath3\" calculatesplits.CalculateSplits $calories \"$goalArg\" 2>&1";
-                            $javaOutput3 = shell_exec($command3);
-                            list($fats, $carbs, $protein) = explode(",", trim($javaOutput3));
-                        }
-                        ?>
                         <?php 
-                        $javaCompiledPath3 = "C:\Users\algub\OneDrive\Documents\NetBeansProjects\CalculateSplits\src";
+                        $javaCompiledPath3 = getenv('CALCULATE_SPLITS_CLASS');
                         $command3 = "\"$javaJDKPath\" -cp \"$javaCompiledPath3\" calculatesplits.CalculateSplits $calories \"$goalArg\" 2>&1";
                         $javaOutput3 = shell_exec($command3);
                         list($fats, $carbs, $protein) = explode(",", trim($javaOutput3));
