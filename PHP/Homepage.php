@@ -9,7 +9,7 @@ ob_start();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GymmieMeals-Homepage</title>
-    <link rel="stylesheet" href="pageStyling.css"> 
+    <link rel="stylesheet" href="/css/pageStyling.css"> 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
 </head>
 
@@ -18,21 +18,21 @@ ob_start();
         <div class="page-banner">
             <div class="item-container">
                 <nav class="button-container">
-                    <img class="logoImg" src="GymmieMeals.png">
+                    <img class="logoImg" src="/Other Files/GymmieMeals.png">
                     <ul>
-                        <li><a class="button" href="http://localhost/Homepage.php"></li>
+                        <li><a class="button" href="http://localhost/PHP/Homepage.php"></li>
                         <button type="button">My Tracking</button></a>
-                        <li><a class="button" href="http://localhost/MyMeals.php"></li>
+                        <li><a class="button" href="http://localhost/PHP/MyMeals.php"></li>
                         <button type="button">My Meals</button></a>
-                        <li><a class="button" href="http://localhost/MyGoals.php"></li>
+                        <li><a class="button" href="http://localhost/PHP/MyGoals.php"></li>
                         <button type="button">My Goals</button></a>
-                        <li><a class="button" href="http://localhost/MySchedule.php"></li>
+                        <li><a class="button" href="http://localhost/PHP/MySchedule.php"></li>
                         <button type="button">My Schedule</button></a>
-                        <li><a class="button" href="http://localhost/LandingPage.php"></li>
+                        <li><a class="button" href="http://localhost/PHP/LandingPage.php"></li>
                         <button type="button">Test Button </button></a>
                     </ul>
-                    <a href="http://localhost/MySettings.php">
-                        <img class="logoImg" src="settingCog.png"></a>
+                    <a href="http://localhost/PHP/MySettings.php">
+                        <img class="logoImg" src="/Other Files/settingCog.png"></a>
                 </nav>
             </div>
         </div>

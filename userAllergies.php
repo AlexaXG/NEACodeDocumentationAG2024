@@ -7,7 +7,7 @@ ob_start();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GymmieMeals-Your Allergies</title>
-    <link rel="stylesheet" href="pageStyling.css">
+    <link rel="stylesheet" href="/css/ProjectStyle.css">
 </head>
 <body>
     <div class="container">
@@ -24,12 +24,12 @@ ob_start();
                 <br />
                 <input type="submit" value="Submit Selection" name="s">
                 <!--submit button does not redirect, instead refreshes the page, as the user has an unknown amount of allergies -->
-                <a href="http://localhost/userGoals.php">
+                <a href="http://localhost/PHP/userGoals.php">
                     <input type="button" value="Confirm" name="s"> </a>
                 <!--this simply redirects the user to the next page if they do not have allergies -->
-                <a href="http://localhost/Activitylevel.php">
+                <a href="http://localhost/PHP/Activitylevel.php">
                     <input type="button" value="Back" /> </a>
-                <a href="http://localhost/userGoals.php">
+                <a href="http://localhost/PHP/userGoals.php">
                     <input type="button" value="TEST BUTTON" /> </a>
             </div>
         </form>
@@ -89,7 +89,7 @@ ob_start();
                         $connUserAllergy->bind_param("ii", $userid, $AllergyID);
                         $connUserAllergy->execute();
                         //redirect and termination
-                        header("http://localhost/userAllergies.php");
+                        header("http://localhost/PHP/userAllergies.php");
                         exit();
                     }
                 } else {
@@ -107,7 +107,7 @@ ob_start();
                     $_SESSION["allergyid"] = $AllergyID;
                     $_SESSION["userid"] = $userid;
                     $_SESSION["username"] = $username;
-                    header("http://localhost/userAllergies.php");
+                    header("http://localhost/PHP/userAllergies.php");
                     exit();
                 } else {
                     die(mysqli_error());

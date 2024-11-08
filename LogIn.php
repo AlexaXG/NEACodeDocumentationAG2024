@@ -9,17 +9,17 @@ ob_start();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GymmieMeals-Log in</title>
-    <link rel="stylesheet" href="pageStyling.css">
+    <link rel="stylesheet" href="/CSS/pageStyling.css">
 </head>
 
 <body>
     <div class="page-banner">
         <div class="item-container">
             <div class="button-container">
-                <a href=""><img class="logoImg" src="GymmieMeals.png"></a>
-                <a class="button" href="http://localhost/signup.php">
+                <a href=""><img class="logoImg" src="/Other Files/GymmieMeals.png"></a>
+                <a class="button" href="http://localhost/PHP/signup.php">
                     <button type="button">Register here!</button></a>
-                <a href="http://localhost/ForgotPass.php">
+                <a href="http://localhost/PHP/ForgotPass.php">
                     <button type="button">Forgot Password?</button>
                     <a class="button" onclick="copyToCB()" onmouseover="replaceText()" onmouseout="replaceTextBack()">
                         <button type="button" value="Contact Support" id="contact-support">
@@ -29,10 +29,27 @@ ob_start();
                     </a>
             </div>
         </div>
-        <script>
+    </div>
+    <div class="container">
+        <form action="<?php $_SERVER['PHP_SELF'] ?>" method="post">
+            <div class="main-content">
+                <div class="welcome-container">
+                    <span class="welcome-text"><span id="webName">Login:</span></span>
+                </div>
+                <div class="inputbox" id="login">
+                    <label for="username"></label> <br />
+                    <input type="text" name="username" placeholder="Username" id="username" /> <br />
+                    <label for="password"> </label> <br />
+                    <input type="password" name="password" placeholder="Password" id="password1" /> <br />
+                    <label for="password1"></label>
+                    <a class="checkbox" onclick="toggleVis1()">
+                        <img class="favImg" id="toggleEye" src="/Other Files/closedEye.svg" width="28px" draggable="false">
+                        <label>Show Password</label>
+                    </a></br>
+                    <script>
                     function toggleVis1() {
                         const svgData = document.getElementById("toggleEye");
-                        svgData.src = svgData.src.includes("closedEye.svg") ? "openEye.svg" : "closedEye.svg";
+                        svgData.src = svgData.src.includes("/Other Files/closedEye.svg") ? "/Other Files/openEye.svg" : "/Other Files/closedEye.svg";
 
                         var toggle = document.getElementById("password1");
                         var toggle1 = document.getElementById("password2");
@@ -70,60 +87,6 @@ ob_start();
                         //pop up notification 
                     }
                 </script>
-    </div>
-    <div class="container">
-        <form action="<?php $_SERVER['PHP_SELF'] ?>" method="post">
-            <div class="main-content">
-                <div class="welcome-container">
-                    <span class="welcome-text"><span id="webName">Login:</span></span>
-                </div>
-                <div class="inputbox" id="login">
-                    <label for="username"></label> <br />
-                    <input type="text" name="username" placeholder="Username" id="username" /> <br />
-                    <label for="password"> </label> <br />
-                    <input type="password" name="password" placeholder="Password" id="password1" /> <br />
-                    <label for="password1"></label>
-                    <a class="checkbox" onclick="toggleVis1()">
-                        <img class="favImg" id="toggleEye" src="closedEye.svg" width="28px" draggable="false">
-                        <label>Show Password</label>
-                    </a></br>
-                    <script>
-                        function toggleVis1() {
-                            const svgData = document.getElementById("toggleEye");
-                            svgData.src = svgData.src.includes("closedEye.svg") ? "openEye.svg" : "closedEye.svg";
-                            var toggle = document.getElementById("password1");
-                            if (toggle.type === "password") {
-                                toggle.type = "text";
-                            } else {
-                                toggle.type = "password";
-                            }
-                        }
-                        function replaceText() {
-                            var buttonText = document.getElementById("contact-support");
-                            if (buttonText.innerText === "Contact Support") {
-                                buttonText.innerText = "ContactSupport@fakeSupportMail.com";
-                                //the contact support button displays as "Contact Support", this function will replace this text
-                                //with a contact email instead
-                            }
-                            clearTimeout(timeoutID);
-                            setTimeout(function () {
-                                replaceTextBack();
-                            }, 5000);
-                            //this function will undo the replaceText() by calling replaceTextBack() after 5 seconds.
-                        }
-                        function replaceTextBack() {
-                            var buttonText = document.getElementById("contact-support");
-                            buttonText.innerText = "Contact Support";
-                            // this simply does the opposite of replaceText()
-                        }
-                        function copyToCB() {
-                            var textToCopy = document.getElementById('SupportEmail').innerText;
-                            navigator.clipboard.writeText(textToCopy);
-                            alert("Support email copied to clipboard.");
-                            // upon the user clicking the button, it'll automatically copy the email to their clipboard and give them a
-                            //pop up notification 
-                        }
-                    </script>
                     <button type="submit" name="s">Confirm</button>
                 </div>
         </form>
@@ -198,7 +161,7 @@ ob_start();
                         $preferenceCheck->close();
                     }
                     unset($_SESSION["fetchedPass"]);
-                    header("Location: http://localhost/Homepage.php");
+                    header("Location: http://localhost/PHP/Homepage.php");
                     //automatic redirect and program termination
                     exit();
                 } else {

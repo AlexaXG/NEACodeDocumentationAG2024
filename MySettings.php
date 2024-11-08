@@ -8,26 +8,26 @@ ob_start();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GymmieMeals-Settings</title>
-    <link rel="stylesheet" href="pageStyling.css">
+    <link rel="stylesheet" href="/css/pageStyling.css">
 </head>
 <body>
     <form action="<?php $_SERVER["PHP_SELF"] ?>" method="post">
         <div class="page-banner">
             <div class="item-container">
-                <a href="#"><img class="logoImg" src="GymmieMeals.png"></a>
+                <a href="#"><img class="logoImg" src="/Other Files/GymmieMeals.png"></a>
                 <div class="button-container">
-                    <a class="button" href="#" onclick="handlePageLoad('AccountContent.php', this)">
+                    <a class="button" href="#" onclick="handlePageLoad('/PHP/AccountContent.php', this)">
                         <!-- each button calling teh handlePageLoad function loads a separate php page within the html -->
                         <button type="button">My Account</button></a>
-                    <a class="button" href="#" onclick="handlePageLoad('DetailsContent.php', this)">
+                    <a class="button" href="#" onclick="handlePageLoad('/PHP/DetailsContent.php', this)">
                         <button type="button">My Details</button></a>
-                    <a class="button" href="#" onclick="handlePageLoad('PreferencesContent.php', this)">
+                    <a class="button" href="#" onclick="handlePageLoad('/PHP/PreferencesContent.php', this)">
                         <button type="button">My Preferences</button></a>
-                    <a class="button" href="#" onclick="handlePageLoad('AllergiesContent.php', this)">
+                    <a class="button" href="#" onclick="handlePageLoad('/PHP/AllergiesContent.php', this)">
                         <button type="button">My Allergies</button></a>
-                    <a class="button" href="#" onclick="handlePageLoad('ActivityContent.php', this)">
+                    <a class="button" href="#" onclick="handlePageLoad('/PHP/ActivityContent.php', this)">
                         <button type="button">My Activity</button></a>
-                    <a class="button" href="http://localhost/Homepage.php">
+                    <a class="button" href="http://localhost/PHP/Homepage.php">
                         <button type="button">Home</button></a>
                 </div>
             </div>
@@ -90,7 +90,7 @@ ob_start();
                 window.onload = function () {
                     var defaultLink = document.querySelector('a');
                     //when the page is loaded, it will call the php page below as the default. 
-                    handlePageLoad('AccountContent.php', defaultLink);
+                    handlePageLoad('/PHP/AccountContent.php', defaultLink);
                 };
 
             </script>
