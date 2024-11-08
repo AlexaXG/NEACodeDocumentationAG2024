@@ -9,7 +9,7 @@ ob_start();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GymmieMeals-Your Allergies</title>
-    <link rel="stylesheet" href="/css/ProjectStyle.css">
+    <link rel="stylesheet" href="ProjectStyle.css">
 </head>
 
 <body>
@@ -53,11 +53,11 @@ ob_start();
                 <input type="number" name="targetweight" placeholder="Target weight" id="weightKG" autocomplete="off"
                     required min="0" />
                 <br /><br /><br />
-                <a href="http://localhost/PHP/Homepage.php">
+                <a href="http://localhost/Homepage.php">
                     <input type="submit" value="Confirm" name="s"></a>
-                <a href="http://localhost/PHP/userAllergies.php">
+                <a href="http://localhost/userAllergies.php">
                     <input type="button" value="Back"></input> </a>
-                <a href="http://localhost/PHP/Homepage.php">
+                <a href="http://localhost/Homepage.php">
                     <input type="button" value="TEST BUTTON"> </input> </a>
             </div>
         </form>
@@ -113,7 +113,7 @@ ob_start();
             $result->bind_param("ssiiii", $goalStatus, $goalStartDate, $GoalPriority, $userid, $goalID, $targetWeight);
             if ($result->execute()) {
                 $result->close();
-                header("Location: http://localhost/PHP/Homepage.php");
+                header("Location: http://localhost/Homepage.php");
                 exit();
             } else {
                 die("couldnt insert values");

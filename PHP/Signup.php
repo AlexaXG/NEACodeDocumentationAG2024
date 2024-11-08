@@ -10,7 +10,7 @@ ob_start(); //output buffer, holds any data temporarily before sendingto the bro
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GymmieMeals-Sign Up</title>
-    <link rel="stylesheet" href="/CSS/pageStyling.css">
+    <link rel="stylesheet" href="pageStyling.css">
 </head>
 <style>
     .checklist {
@@ -19,15 +19,12 @@ ob_start(); //output buffer, holds any data temporarily before sendingto the bro
         list-style-type: none;
         padding-left: 0;
     }
-
-    #usernameCheck {
+    #usernameCheck{
         margin-right: 50px;
     }
-
     .checklistitem {
         color: #ff0000;
     }
-
     #username-length2 {
         color: #008000;
         font-weight: bold;
@@ -37,7 +34,6 @@ ob_start(); //output buffer, holds any data temporarily before sendingto the bro
         color: #008000;
         font-weight: bold;
     }
-
     .checklistitem.notValid {
         color: #ff0000;
     }
@@ -47,8 +43,8 @@ ob_start(); //output buffer, holds any data temporarily before sendingto the bro
     <div class="page-banner">
         <div class="item-container">
             <div class="button-container">
-                <a href=""><img class="logoImg" src="/Other Files/GymmieMeals.png"></a>
-                <a class="button" href="http://localhost/PHP/Login.php">
+                <a href=""><img class="logoImg" src="GymmieMeals.png"></a>
+                <a class="button" href="http://localhost/Login.php">
                     <button type="button">Have an account?</button></a>
                 <a class="button" onclick="copyToCB()" onmouseover="replaceText()" onmouseout="replaceTextBack()">
                     <button type="button" value="Contact Support" id="contact-support">
@@ -82,8 +78,7 @@ ob_start(); //output buffer, holds any data temporarily before sendingto the bro
                     <li class="checklistitem" id="password-upper"> - Contains an uppercase letter</li>
                     <li class="checklistitem" id="password-lower"> - Contains a lowercase letter</li>
                     <li class="checklistitem" id="password-number"> - Contains a number</li>
-                    <li class="checklistitem" id="password-special"> - Contains a special character (e.g., !@#$%^&*)
-                    </li>
+                    <li class="checklistitem" id="password-special"> - Contains a special character (e.g., !@#$%^&*)</li>
                 </ul>
                 <script>
                     // Username checklist validation
@@ -101,7 +96,7 @@ ob_start(); //output buffer, holds any data temporarily before sendingto the bro
                         if (usernameInput.value.length > 16) {
                             document.getElementById("username-length2").style.color = '#ff0000';
                             document.getElementById("username-length2").style.fontWeight = 'normal';
-                        }
+                        } 
                         if (/^[a-zA-Z0-9]+$/.test(usernameInput.value)) {
                             usernameLetters.classList.add('valid');
                         } else {
@@ -150,13 +145,13 @@ ob_start(); //output buffer, holds any data temporarily before sendingto the bro
                     autocomplete="off" />
                 <!-- input for the second password field-->
                 <a class="checkbox" onclick="toggleVis1()">
-                    <img class="favImg" id="toggleEye" src="/Other Files/closedEye.svg" width="28px" draggable="false">
+                    <img class="favImg" id="toggleEye" src="closedEye.svg" width="28px" draggable="false">
                     <label>Show Password</label>
                 </a></br>
                 <script>
                     function toggleVis1() {
                         const svgData = document.getElementById("toggleEye");
-                        svgData.src = svgData.src.includes("/Other Files/closedEye.svg") ? "/Other Files/openEye.svg" : "/Other Files/closedEye.svg";
+                        svgData.src = svgData.src.includes("closedEye.svg") ? "openEye.svg" : "closedEye.svg";
 
                         var toggle = document.getElementById("password1");
                         var toggle1 = document.getElementById("password2");
@@ -223,7 +218,7 @@ ob_start(); //output buffer, holds any data temporarily before sendingto the bro
         die("<div id='error-container' class='error-message'>Passwords do not match.</div>");
     } else {
         //selection to ensure username and password fall under a criteria
-    
+
         $javaJDKPath = "C:/Program Files/Java/jdk-17/bin/java";
         $javaCompiledPath = "C:/Users/algub/OneDrive/Documents/NetBeansProjects/secureSaltingAlgorithm/src";
         $saltLen = 18;
@@ -265,7 +260,7 @@ ob_start(); //output buffer, holds any data temporarily before sendingto the bro
                     $_SESSION["username"] = $username;
                     $_SESSION["userid"] = $userid;
                     //stores username and userid in session for use throughout the website
-                    header("Location: http://localhost/PHP/signupAttributes.php");
+                    header("Location: http://localhost/signupAttributes.php");
                     //automatic redirect and program termination
                     exit();
                 }

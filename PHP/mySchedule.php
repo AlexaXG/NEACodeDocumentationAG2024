@@ -93,20 +93,20 @@ $activities = $activity->getActivities($_SESSION['userid']);
         <div class="page-banner">
             <div class="item-container">
                 <nav class="button-container">
-                    <img class="logoImg" src="/Other Files/GymmieMeals.png">
+                    <img class="logoImg" src="GymmieMeals.png">
                     <ul>
-                        <li><a class="button" href="http://localhost/PHP/Homepage.php"></li>
+                        <li><a class="button" href="http://localhost/Homepage.php"></li>
                         <button type="button">My Tracking</button></a>
-                        <li><a class="button" href="http://localhost/PHP/MyMeals.php"></li>
+                        <li><a class="button" href="http://localhost/MyMeals.php"></li>
                         <button type="button">My Meals</button></a>
-                        <li><a class="button" href="http://localhost/PHP/MyGoals.php"></li>
+                        <li><a class="button" href="http://localhost/MyGoals.php"></li>
                         <button type="button">My Goals</button></a>
-                        <li><a class="button" href="http://localhost/PHP/MySchedule.php"></li>
+                        <li><a class="button" href="http://localhost/MySchedule.php"></li>
                         <button type="button">My Schedule</button></a>
-                        <li><a class="button" href="http://localhost/PHP/LandingPage.php"></li>
+                        <li><a class="button" href="http://localhost/LandingPage.php"></li>
                         <button type="button">Test Button </button></a>
                     </ul>
-                    <a href="http://localhost/PHP/MySettings.php">
+                    <a href="http://localhost/MySettings.php">
                         <img class="logoImg" src="settingCog.png"></a>
                 </nav>
             </div>
