@@ -1,6 +1,7 @@
 <?php
 session_start();
 try {
+    // thats it
     $connection = new mysqli("localhost", "root", "", "neaDatabaseAlexG");
 } catch (mysqli_sql_exception $e) {
     die("<div class='error-message'>Something went wrong: </div>" . $e);
