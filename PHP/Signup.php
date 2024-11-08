@@ -10,7 +10,7 @@ ob_start(); //output buffer, holds any data temporarily before sendingto the bro
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GymmieMeals-Sign Up</title>
-    <link rel="stylesheet" href="pageStyling.css">
+    <link rel="stylesheet" href="/css/pageStyling.css">
 </head>
 <style>
     .checklist {
@@ -43,8 +43,8 @@ ob_start(); //output buffer, holds any data temporarily before sendingto the bro
     <div class="page-banner">
         <div class="item-container">
             <div class="button-container">
-                <a href=""><img class="logoImg" src="GymmieMeals.png"></a>
-                <a class="button" href="http://localhost/Login.php">
+                <a href=""><img class="logoImg" src="/Other Files/GymmieMeals.png"></a>
+                <a class="button" href="http://localhost//php/Login.php">
                     <button type="button">Have an account?</button></a>
                 <a class="button" onclick="copyToCB()" onmouseover="replaceText()" onmouseout="replaceTextBack()">
                     <button type="button" value="Contact Support" id="contact-support">
@@ -145,13 +145,13 @@ ob_start(); //output buffer, holds any data temporarily before sendingto the bro
                     autocomplete="off" />
                 <!-- input for the second password field-->
                 <a class="checkbox" onclick="toggleVis1()">
-                    <img class="favImg" id="toggleEye" src="closedEye.svg" width="28px" draggable="false">
+                    <img class="favImg" id="toggleEye" src="/Other Files/closedEye.svg" width="28px" draggable="false">
                     <label>Show Password</label>
                 </a></br>
                 <script>
                     function toggleVis1() {
                         const svgData = document.getElementById("toggleEye");
-                        svgData.src = svgData.src.includes("closedEye.svg") ? "openEye.svg" : "closedEye.svg";
+                        svgData.src = svgData.src.includes("/Other Files/closedEye.svg") ? "/Other Files/openEye.svg" : "/Other Files/closedEye.svg";
 
                         var toggle = document.getElementById("password1");
                         var toggle1 = document.getElementById("password2");
@@ -260,7 +260,7 @@ ob_start(); //output buffer, holds any data temporarily before sendingto the bro
                     $_SESSION["username"] = $username;
                     $_SESSION["userid"] = $userid;
                     //stores username and userid in session for use throughout the website
-                    header("Location: http://localhost/signupAttributes.php");
+                    header("Location: http://localhost/php/signupAttributes.php");
                     //automatic redirect and program termination
                     exit();
                 }

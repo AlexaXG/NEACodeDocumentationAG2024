@@ -9,7 +9,7 @@ ob_start();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GymmieMeals-Your Preferences</title>
-    <link rel="stylesheet" href="ProjectStyle.css">
+    <link rel="stylesheet" href="/css/pageStyling.css">
 </head>
 
 <body>
@@ -62,9 +62,9 @@ ob_start();
                     </div>
                 </div><br />
                 <input type="submit" value="Confirm" name="s">
-                <a href="http://localhost/ActivityLevel.php">
+                <a href="http://localhost/php/ActivityLevel.php">
                     <input type="button" value="Back" /> </a>
-                <a href="http://localhost/userAllergies.php">
+                <a href="http://localhost/php/userAllergies.php">
                     <input type="button" value="TEST BUTTON" /> </a>
             </div>
         </form>
@@ -108,7 +108,7 @@ ob_start();
                 }
                 $result->close();
                 $_SESSION["Preference"] = $Preference;
-                header("Location: http://localhost/userAllergies.php");
+                header("Location: http://localhost/php/userAllergies.php");
                 exit();
             } catch (mysqli_sql_exception $e) {
                 die("$e");
