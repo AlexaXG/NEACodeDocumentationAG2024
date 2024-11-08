@@ -3,9 +3,9 @@
 
 //const apiKey = "a92238f287be4371a6b190852c0be1b5"; 
 //first account
-//const apiKey = "342899e01df24fd79ae66ccd8fcb542d"; 
+const apiKey = "342899e01df24fd79ae66ccd8fcb542d"; 
 //recipeAPI1@gmail.com
-const apiKey = "912595cf052c4231ac1e2528628d9d09";
+//const apiKey = "912595cf052c4231ac1e2528628d9d09";
 //recipeAPI2@gmail.com
 //const apiKey ="9d323fbea5be46e5b6872aaf660584f7";
 let recipeIds = [];
@@ -26,8 +26,9 @@ async function searchRecipesByName() {
 			"Must enter a query";
 		return;
 	}
-
-	const apiQueryingUrl = `https://api.spoonacular.com/recipes/complexSearch?query=${encodeURIComponent(query)}&apiKey=${apiKey}&number=4`;
+	var apiQueryingUrl = `https://api.spoonacular.com/recipes/complexSearch?query=${encodeURIComponent(query)}&apiKey=${apiKey}&number=3`;
+		apiQueryingUrl = apiQueryingUrl + `&diet=${encodeURIComponent(userPreference)}`;
+	console.log("URL:" + apiQueryingUrl);
 
 	try {
 		const response = await fetch(apiQueryingUrl);
@@ -39,18 +40,13 @@ async function searchRecipesByName() {
 	}
 }
 
-
-
-
-
 async function searchRecommendedRecipes() {
-    console.log("preference: ". userPreference);
 	//add allergies
 	var queryURLBuilder = `https://api.spoonacular.com/recipes/random?apiKey=${apiKey}&number=2`;
 
     if (usePreferenceCheck() === false) {
     } else {
-		queryURLBuilder += `&include-tags=${encodeURIComponent(userPreference)}`;
+		queryURLBuilder = queryURLBuilder + `&include-tags=${encodeURIComponent(userPreference)}`;
 	}
 	stringOfAllergies = "";
 	if (allergyCheck() === true) {
@@ -59,7 +55,7 @@ async function searchRecommendedRecipes() {
 		}
 		stringOfAllergies = stringOfAllergies.slice(0, -1);
 		console.log("SOA:" . stringOfAllergies);
-		queryURLBuilder += `$exclude-tags=${encodeURIComponent(stringOfAllergies)}`;
+		queryURLBuilder = queryURLBuilder + `$exclude-tags=${encodeURIComponent(stringOfAllergies)}`;
 	}
     
 	var apiQueryingUrl = queryURLBuilder;

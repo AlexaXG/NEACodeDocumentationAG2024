@@ -8,23 +8,22 @@ function createActivity(name, day, startTime, endTime) {
 
 function renderActivities() {
     const grid = document.querySelector('.grid');
-    grid.innerHTML = ''; // Clear previous activities
+    grid.innerHTML = ''; 
 
     const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
-    const timeSlots = Array.from({ length: 24 }, (_, i) => `${String(i).padStart(2, '0')}:00`); // 00:00 to 23:00
+    const timeSlots = Array.from({ length: 24 }, (_, i) => `${String(i).padStart(2, '0')}:00`); 
 
-    // Create time slots in the grid
     timeSlots.forEach(time => {
         const row = document.createElement('div');
         row.classList.add('time-slot');
 
-        // Create a cell for each day
+
         daysOfWeek.forEach(day => {
             const dayDiv = document.createElement('div');
             dayDiv.classList.add('day');
             dayDiv.style.position = 'relative';
 
-            // Render activities for that day
+        
             activities.forEach(activity => {
                 if (activity.day === day || (activity.startTime > activity.endTime && activity.day === day)) {
                     const startHour = parseInt(activity.startTime.split(':')[0], 10);
@@ -35,11 +34,11 @@ function renderActivities() {
                     const startInMinutes = startHour * 60 + startMinute;
                     const endInMinutes = endHour * 60 + endMinute;
 
-                    // Check for overflow into the next day
+    
                     if (activity.startTime > activity.endTime && activity.day === day) {
-                        // Same day, but end time is the next day
+                       
                         const height = (60 - (startInMinutes % 60)) + ((endInMinutes - (24 * 60)) % 60);
-                        const top = (startInMinutes % 60) + 'px'; // Position from top in current day
+                        const top = (startInMinutes % 60) + 'px';
                         const activityDiv = document.createElement('div');
                         activityDiv.classList.add('activity');
                         activityDiv.style.height = height + 'px';
@@ -48,8 +47,8 @@ function renderActivities() {
 
                         dayDiv.appendChild(activityDiv);
                     } else if (activity.day === day) {
-                        // Normal same day activity
-                        const height = (endInMinutes - startInMinutes) / 60 * 60; // height in pixels
+             
+                        const height = (endInMinutes - startInMinutes) / 60 * 60; 
                         const top = (startInMinutes % 60) + 'px'; // position from top
 
                         const activityDiv = document.createElement('div');

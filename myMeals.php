@@ -31,7 +31,7 @@ ob_start();
                         <li><a class="button" href="http://localhost/PHP/Homepage.php"></li>
                         <button type="button">My Tracking</button></a>
                         <!-- simply refreshes the page as tracking is dynamically loaded onto the homepage-->
-                        <li><a class="button" href="http://localhost/PHP/MyMeals.php"></li>
+                        <li><a class="button" href="http://localhost/MyMeals.php"></li>
                         <button type="button">My Meals</button></a>
                         <li><a class="button" href="http://localhost/PHP/MyGoals.php"></li>
                         <button type="button">My Goals</button></a>
@@ -114,6 +114,19 @@ ob_start();
                         <div class="output-text">This section generates recommended meals tailored to you:</div>
                         <button type="button" class="recommendedMeals" id="recommendedSearch"
                             onclick="searchRecommendedRecipes()">Feeling lazy?</button>
+                        <div id="errorMessage"></div>
+                    </div>
+                    <div class="outputbox" id='BLDSelect'>
+                        <div class="title-text">Select your meal:</div>
+                        <div class="output-text">Select the type of meal you want to search for:</div>
+                        <select id="BLDChoice" name="BLDC" class="genderIn">
+                            <option value="op1">Any</option>
+                            <option value="op2">Breakfast</option>
+                            <option value="op3">Lunch</option>
+                            <option value="op4">Dinner</option>
+                            <option value="op5">Snack</option>
+                            <option value="op6">Dessert</option>
+                        </select>
                         <div id="errorMessage"></div>
                     </div>
                     <script>
