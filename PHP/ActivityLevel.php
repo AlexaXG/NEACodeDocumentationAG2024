@@ -9,15 +9,15 @@ ob_start();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GymmieMeals-Your Activity</title>
-    <link rel="stylesheet" href="pageStyling.css">
+    <link rel="stylesheet" href="/css/pageStyling.css">
 </head>
 
 <body>
     <div class="page-banner">
         <div class="item-container">
             <div class="button-container">
-                <a href=""><img class="logoImg" src="GymmieMeals.png"></a>
-                <a class="button" href="http://localhost/Login.php">
+                <a href=""><img class="logoImg" src="/Other Files/GymmieMeals.png"></a>
+                <a class="button" href="http://localhost/PHP/Login.php">
                 <button type="button">Have an account?</button></a>
                     <a class="button" onclick="copyToCB()" onmouseover="replaceText()" onmouseout="replaceTextBack()">
                         <button type="button" value="Contact Support" id="contact-support">
@@ -106,7 +106,7 @@ ob_start();
                         </div><br />
                         <div class="ButtonCont">
                         <button type="submit" name="s">Confirm</button>
-                        <a href="http://localhost/signupAttributes.php">
+                        <a href="http://localhost/PHP/signupAttributes.php">
                             <button type="button">Back</button>
                         </a>
                         </div>
@@ -118,7 +118,7 @@ ob_start();
             $userid = $_SESSION["userid"];
             $username = $_SESSION["username"];
         } else {
-            header("location: http://localhost/LandingPage.php");
+            header("location: http://localhost/PHP/LandingPage.php");
         }
         if (!isset($_POST["s"])) {
             die("");
@@ -138,7 +138,7 @@ ob_start();
                     die( "<div id='error-container' class='error-message'>Something went wrong inserting values.</div>");
                 } else {
                     $_SESSION["ActivityLevel"] = $ActivityLevel;
-                    header("Location: http://localhost/userPreferences.php");
+                    header("Location: http://localhost/PHP/userPreferences.php");
                     exit();
                 }
             } catch (mysqli_sql_exception $e) {

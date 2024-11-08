@@ -9,15 +9,15 @@ ob_start();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GymmieMeals-Your Details</title>
-    <link rel="stylesheet" href="pageStyling.css">
+    <link rel="stylesheet" href="/css/pageStyling.css">
 </head>
 
 <body>
     <div class="page-banner">
         <div class="item-container">
             <div class="button-container">
-                <a href=""><img class="logoImg" src="GymmieMeals.png"></a>
-                <a class="button" href="http://localhost/Login.php">
+                <a href=""><img class="logoImg" src="/Other Files/GymmieMeals.png"></a>
+                <a class="button" href="http://localhost/PHP/Login.php">
                     <button type="button">Have an account?</button></a>
                 <a class="button" onclick="copyToCB()" onmouseover="replaceText()" onmouseout="replaceTextBack()">
                     <button type="button" value="Contact Support" id="contact-support">
@@ -57,13 +57,13 @@ ob_start();
                         </select>
                    <br />
                     <button type="submit" name="s">Confirm</button>
-                    <a href="http://localhost/Signup.php">
+                    <a href="http://localhost/PHP/Signup.php">
                     <button>Back</button> </a>
                 </div>
                 <script>
                     function toggleVis1() {
                         const svgData = document.getElementById("toggleEye");
-                        svgData.src = svgData.src.includes("closedEye.svg") ? "openEye.svg" : "closedEye.svg";
+                        svgData.src = svgData.src.includes("/Other Files/closedEye.svg") ? "/Other Files/openEye.svg" : "/Other Files/closedEye.svg";
 
                         var toggle = document.getElementById("password1");
                         var toggle1 = document.getElementById("password2");
@@ -108,7 +108,7 @@ ob_start();
             $userid = $_SESSION["userid"];
             $username = $_SESSION["username"];
         } else {
-            header("location: http://localhost/LandingPage.php");
+            header("location: http://localhost/PHP/LandingPage.php");
         }
         if (!isset($_GET["s"])) {
             die("");
@@ -135,7 +135,7 @@ ob_start();
                     $_SESSION["height"] = $height;
                     $_SESSION["gender"] = $gender;
                     $_SESSION["age"] = $age;
-                    header("Location: http://localhost/ActivityLevel.php");
+                    header("Location: http://localhost/PHP/ActivityLevel.php");
                     exit();
                 }
             } catch (mysqli_sql_exception $e) {

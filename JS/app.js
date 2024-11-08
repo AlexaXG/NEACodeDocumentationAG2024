@@ -16,7 +16,7 @@ function addStylesheet(url) {
     link.href = url;
     document.head.appendChild(link);
 }
-addStylesheet('pageStyling.css');
+addStylesheet('/css/pageStyling.css');
 
 async function searchRecipesByName() {
 	const query = document.getElementById("userInput").value;
@@ -125,7 +125,7 @@ function displayResultsHere(recipes) {
 		<a class="urlButton" href="${recipe.sourceUrl}" target="_blank">
 		<button type="button" id="recipeLink">Recipe Link</button></a>
 		<a class="favButton" onclick="saveThisRecipe(${recipe.id})">
-		<img class="favImg" id=${recipe.id} src="heart-empty.svg" width="35px" draggable="false"></a>
+		<img class="favImg" id=${recipe.id} src="../Other Files/heart-empty.svg" width="35px" draggable="false"></a>
 		</div>
         `;
 		resultsDiv.appendChild(recipeElement);
@@ -135,7 +135,9 @@ function displayResultsHere(recipes) {
 //add recipe id to database
 function saveThisRecipe(recipeID) {
 	const svgData = document.getElementById(recipeID);
-	svgData.src = svgData.src.includes("heart-empty.svg") ? "heart-full.svg" : "heart-empty.svg";
+	const emptyHeart = "../Other Files/heart-empty.svg";
+	const fullHeart = "../Other Files/heart-full.svg";
+	svgData.src = svgData.src.includes("heart-empty.svg") ? fullHeart : emptyHeart;
 }
 
 function imagePostError(image) {
