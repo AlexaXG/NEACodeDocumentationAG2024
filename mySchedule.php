@@ -362,7 +362,7 @@ $activities = $activity->getActivities($_SESSION['userid']);
                     <div class="day-label" id="Sun">Sunday</div>
                 </div> -->
 
-            <!-- Weekly Planner Grid -->
+            
             <div class="ActivityCreation">
                 <div class="welcome-container">
                     <?php
@@ -380,12 +380,12 @@ $activities = $activity->getActivities($_SESSION['userid']);
                         $genderArg = $_SESSION["gender"];
                         $ageArg = $_SESSION["age"];
                         $activityArg = $_SESSION["ActivityLevel"];
-                        //assigning session variables to local variables
+                        
                     }
                     $dob = new DateTime($ageArg);
                     $now = new DateTime();
                     $ageArg = $now->diff($dob)->y;
-                    //standardising dates for age and calculating the age number (age is stored as a date in the DB)
+                    
                     ?>
                 </div>
                 <div class="display-content">

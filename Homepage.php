@@ -122,7 +122,7 @@ ob_start();
                 <span class="welcome-text">Your <span id="webName">GymmieMeals</span> Homepage,
                     <span id="nameDisplay">
                         <?php echo (htmlspecialchars($username));
-                        echo "hello"; ?>
+                        ?>
                     </span>
                 </span>
             </div>
@@ -133,16 +133,10 @@ ob_start();
                         <div class='output-text' id='weightCategory'>Your weight category:</div>
                         <div class='output-value' id='catVal'>
                             <?php
-                           
-                           
-
-
                            $javaJDKPath = getenv('JAVA_JDK_PATH');
-
-                           echo $javaJDKPath;
                            //defining my file path to my JDK java folder
                            $javaCompiledPath = getenv('FIND_BMI_CLASS');
-                           if (file_exists($javaJDKPath)) {
+                           
                             //defining the file path to the compiled java algorithm that calculates BMI and category
                             $command = "\"$javaJDKPath\" -cp \"$javaCompiledPath\" findbmi.FindBMIValue $weightArg $heightArg 2>&1";
                             //this command does:
@@ -154,9 +148,6 @@ ob_start();
                             //splits the java algorithm output by "," and assigns each value to its own variable
                             //setting the dynamic text
                             echo htmlspecialchars($category);
-                           } else {
-                            die("JDK Path not found");
-                           }
                             ?>
                         </div> <br>
                         <div class='output-text' id='bmiText'>Your BMI:</div>
