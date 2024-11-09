@@ -52,7 +52,7 @@ $connection = $dbConnection->getConnection();
 // Check if user is logged in
 if (!isset($_SESSION['userid'])) {
     $_SESSION['toast_message'] = "UserID isn't set";
-    header("Location: " . "http://localhost/login.php");
+    header("Location: " . "http://localhost/php/login.php");
     exit();
 }
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -85,7 +85,7 @@ $activities = $activity->getActivities($_SESSION['userid']);
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>GymmieMeals-Homepage</title>
-        <link rel="stylesheet" href="pageStyling.css"> <!-- referencing the updated Styling page-->
+        <link rel="stylesheet" href="/css/pageStyling.css"> <!-- referencing the updated Styling page-->
     </head>
 
     <!-- <div> -->
@@ -93,21 +93,21 @@ $activities = $activity->getActivities($_SESSION['userid']);
         <div class="page-banner">
             <div class="item-container">
                 <nav class="button-container">
-                    <img class="logoImg" src="GymmieMeals.png">
+                    <img class="logoImg" src="/Other Files/GymmieMeals.png">
                     <ul>
-                        <li><a class="button" href="http://localhost/Homepage.php"></li>
+                        <li><a class="button" href="http://localhost/php/Homepage.php"></li>
                         <button type="button">My Tracking</button></a>
-                        <li><a class="button" href="http://localhost/MyMeals.php"></li>
+                        <li><a class="button" href="http://localhost/php/MyMeals.php"></li>
                         <button type="button">My Meals</button></a>
-                        <li><a class="button" href="http://localhost/MyGoals.php"></li>
+                        <li><a class="button" href="http://localhost/php/MyGoals.php"></li>
                         <button type="button">My Goals</button></a>
-                        <li><a class="button" href="http://localhost/MySchedule.php"></li>
+                        <li><a class="button" href="http://localhost/php/MySchedule.php"></li>
                         <button type="button">My Schedule</button></a>
-                        <li><a class="button" href="http://localhost/LandingPage.php"></li>
+                        <li><a class="button" href="http://localhost/php/LandingPage.php"></li>
                         <button type="button">Test Button </button></a>
                     </ul>
-                    <a href="http://localhost/MySettings.php">
-                        <img class="logoImg" src="settingCog.png"></a>
+                    <a href="http://localhost/php/MySettings.php">
+                        <img class="logoImg" src="/Other Files/%settingCog.png"></a>
                 </nav>
             </div>
         </div>

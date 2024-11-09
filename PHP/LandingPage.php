@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GymmieMeals-Landing Page</title> <!-- titles the browser tab -->
-    <link rel="stylesheet" href="pageStyling.css"> <!-- inheriting classes from the External CSS code -->
+    <link rel="stylesheet" href="/css/pageStyling.css"> <!-- inheriting classes from the External CSS code -->
 </head>
 
 
@@ -13,10 +13,10 @@
     <div class="page-banner">
         <div class="item-container">
             <div class="button-container">
-                <a href=""><img class="logoImg" src="GymmieMeals.png"></a>
-                <a class="button" href="http://localhost/Signup.php">
+                <a href=""><img class="logoImg" src="/Other Files/GymmieMeals.png"></a>
+                <a class="button" href="http://localhost/php/Signup.php">
                     <button type="button">Signup</button></a>
-                <a class="button" href="http://localhost/Login.php">
+                <a class="button" href="http://localhost/php/Login.php">
                     <button type="button">Login</button></a>
                 <a class="button" onclick="copyToCB()" onmouseover="replaceText()" onmouseout="replaceTextBack()">
                     <button type="button" value="Contact Support" id="contact-support">
