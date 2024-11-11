@@ -43,12 +43,13 @@ ob_start();
                     <input type="password" name="password" placeholder="Password" id="password1" /> <br />
                     <label for="password1"></label>
                     <a class="checkbox" onclick="toggleVis1()">
-                        <img class="favImg" id="toggleEye" src="closedEye.svg" width="28px" draggable="false">
+                        <img class="favImg" id="toggleEye" src="/Other Files/closedEye.svg" width="28px" draggable="false">
                         <label>Show Password</label>
                     </a></br>
                     <script>
                         function toggleVis1() {
                             const svgData = document.getElementById("toggleEye");
+                            
                             svgData.src = svgData.src.includes("/Other Files/closedEye.svg") ? "/Other Files/openEye.svg" : "/Other Files/closedEye.svg";
 
                             var toggle = document.getElementById("password1");

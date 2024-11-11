@@ -121,11 +121,20 @@ ob_start();
                         <div class="output-text">Select the type of meal you want to search for:</div>
                         <select id="BLDChoice" name="BLDC" class="genderIn">
                             <option value="op1">Any</option>
-                            <option value="op2">Breakfast</option>
-                            <option value="op3">Lunch</option>
-                            <option value="op4">Dinner</option>
-                            <option value="op5">Snack</option>
-                            <option value="op6">Dessert</option>
+                            <option value="op2">Main Course</option>
+                            <option value="op3">Side Dish</option>
+                            <option value="op4">Dessert</option>
+                            <option value="op5">Appetizer</option>
+                            <option value="op6">Salad</option>
+                            <option value="op7">Bread</option>
+                            <option value="op8">Breakfast</option>
+                            <option value="op9">Soup</option>
+                            <option value="op10">Beverage</option>
+                            <option value="op11">Sauce</option>
+                            <option value="op12">Marinade</option>
+                            <option value="op13">Fingerfood</option>
+                            <option value="op14">Snack</option>
+                            <option value="op15">Drink</option>
                         </select>
                         <div id="errorMessage"></div>
                     </div>
@@ -158,7 +167,7 @@ ob_start();
 
         </div>
     </form>
-    <script src="./app.js"></script>
+    <script src="/JS/app.js"></script>
 </body>
 
 </html>

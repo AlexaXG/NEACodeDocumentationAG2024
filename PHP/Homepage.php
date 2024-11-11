@@ -9,7 +9,7 @@ ob_start();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GymmieMeals-Homepage</title>
-    <link rel="stylesheet" href="/css/pageStyling.css"> 
+    <link rel="stylesheet" href="/css/pageStyling.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
 </head>
 
@@ -67,7 +67,7 @@ ob_start();
                 $connUserDetails->bind_result($weight, $height, $gender, $age);
                 $connUserDetails->fetch();
 
-                if (!isset($_SESSION["weight"])) { 
+                if (!isset($_SESSION["weight"])) {
                     echo "weight NS";
                     $weightArg = $weight;
                 } else {
@@ -122,7 +122,7 @@ ob_start();
                 <span class="welcome-text">Your <span id="webName">GymmieMeals</span> Homepage,
                     <span id="nameDisplay">
                         <?php echo (htmlspecialchars($username));
-                        echo "hello"; ?>
+                        ?>
                     </span>
                 </span>
             </div>
@@ -133,30 +133,22 @@ ob_start();
                         <div class='output-text' id='weightCategory'>Your weight category:</div>
                         <div class='output-value' id='catVal'>
                             <?php
-                           
-                           
+                            $javaJDKPath = getenv('JAVA_JDK_PATH');
 
-
-                           $javaJDKPath = getenv('JAVA_JDK_PATH');
-
-                           echo $javaJDKPath;
-                           //defining my file path to my JDK java folder
-                           $javaCompiledPath = getenv('FIND_BMI_CLASS');
-                           if (file_exists($javaJDKPath)) {
-                            //defining the file path to the compiled java algorithm that calculates BMI and category
-                            $command = "\"$javaJDKPath\" -cp \"$javaCompiledPath\" findbmi.FindBMIValue $weightArg $heightArg 2>&1";
-                            //this command does:
-                            // = "using this JDK version" -cp sets classpath, findbmi.FindBMIValue is the file name of my java algorithm, followed by parameters to parse into it
-                            // 2&>1 is used for debugging, redirecting error messages and outputs to the same location
-                            $javaOutput = shell_exec($command);
-                            //executing the command
-                            list($category, $bmi) = explode(",", trim($javaOutput));
-                            //splits the java algorithm output by "," and assigns each value to its own variable
-                            //setting the dynamic text
-                            echo htmlspecialchars($category);
-                           } else {
-                            die("JDK Path not found");
-                           }
+                            //defining my file path to my JDK java folder
+                            $javaCompiledPath = getenv('FIND_BMI_CLASS');
+                            
+                                //defining the file path to the compiled java algorithm that calculates BMI and category
+                                $command = "\"$javaJDKPath\" -cp \"$javaCompiledPath\" findbmi.FindBMIValue $weightArg $heightArg 2>&1";
+                                //this command does:
+                                // = "using this JDK version" -cp sets classpath, findbmi.FindBMIValue is the file name of my java algorithm, followed by parameters to parse into it
+                                // 2&>1 is used for debugging, redirecting error messages and outputs to the same location
+                                $javaOutput = shell_exec($command);
+                                //executing the command
+                                list($category, $bmi) = explode(",", trim($javaOutput));
+                                //splits the java algorithm output by "," and assigns each value to its own variable
+                                //setting the dynamic text
+                                echo htmlspecialchars($category);
                             ?>
                         </div> <br>
                         <div class='output-text' id='bmiText'>Your BMI:</div>
@@ -187,7 +179,7 @@ ob_start();
                     </div><br>
                     <div class='output-text' id='caloriesText'>Daily Macronutrients:</div>
                     <div class='output-value' id='splitVal'>
-                        <?php 
+                        <?php
                         $javaCompiledPath3 = getenv('CALCULATE_SPLITS_CLASS');
                         $command3 = "\"$javaJDKPath\" -cp \"$javaCompiledPath3\" calculatesplits.CalculateSplits $calories \"$goalArg\" 2>&1";
                         $javaOutput3 = shell_exec($command3);
@@ -203,52 +195,52 @@ ob_start();
                             <tr>
                                 <td id="bf">Breakfast</td>
                                 <td>
-                                    <?php 
-                                        echo ($protein * 0.3) . 'g';
+                                    <?php
+                                    echo ($protein * 0.3) . 'g';
                                     ?>
                                 </td>
                                 <td>
-                                    <?php 
-                                        echo ($fats * 0.3). 'g';
+                                    <?php
+                                    echo ($fats * 0.3) . 'g';
                                     ?>
                                 </td>
                                 <td>
-                                    <?php 
-                                        echo ($carbs * 0.3). 'g';
+                                    <?php
+                                    echo ($carbs * 0.3) . 'g';
                                     ?>
                                 </td>
                             </tr>
                             <tr>
                                 <td id="lu">Lunch</td>
-                                <td> <?php 
-                                        echo ($protein * 0.4). 'g';
+                                <td> <?php
+                                echo ($protein * 0.4) . 'g';
+                                ?>
+                                </td>
+                                <td>
+                                    <?php
+                                    echo ($fats * 0.4) . 'g';
                                     ?>
                                 </td>
                                 <td>
-                                    <?php 
-                                        echo ($fats * 0.4). 'g';
-                                    ?>
-                                </td>
-                                <td>
-                                    <?php 
-                                        echo ($carbs * 0.4). 'g';
+                                    <?php
+                                    echo ($carbs * 0.4) . 'g';
                                     ?>
                                 </td>
                             </tr>
                             <tr>
                                 <td id="di">Dinner</td>
-                                <td> <?php 
-                                        echo ($protein * 0.3). 'g';
+                                <td> <?php
+                                echo ($protein * 0.3) . 'g';
+                                ?>
+                                </td>
+                                <td>
+                                    <?php
+                                    echo ($fats * 0.3) . 'g';
                                     ?>
                                 </td>
                                 <td>
-                                    <?php 
-                                        echo ($fats * 0.3). 'g';
-                                    ?>
-                                </td>
-                                <td>
-                                    <?php 
-                                        echo ($carbs * 0.3). 'g';
+                                    <?php
+                                    echo ($carbs * 0.3) . 'g';
                                     ?>
                                 </td>
                             </tr>

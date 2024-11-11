@@ -167,12 +167,12 @@ button:hover {
 	display: flex;
 	flex-direction: column;
 	justify-content: flex-start;
-	gap: 60px;
+	gap: 40px;
 	align-items: center;
 }
 #recommendedSearchBox {
 	width: 400px;
-	height: 260px;
+	height: 230px;
 }
 #BLDSelect {
 	width: 400px;

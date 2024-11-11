@@ -66,7 +66,10 @@ ob_start(); //output buffer, holds any data temporarily before sendingto the bro
                 <script>
                     function toggleVis1() {
                         const svgData = document.getElementById("toggleEye");
-                        svgData.src = svgData.src.includes("/Other Files/closedEye.svg") ? "/Other Files/openEye.svg" : "/Other Files/closedEye.svg";
+                        const openEye = "/Other Files/openEye.svg";
+                        const closedEye = "/Other Files/closedEye.svg";
+                        svgData.src = svgData.src.includes("/Other Files/closedEye.svg") ? openEye : closedEye;
+                        console.log("Current src:", svgData.src);
 
                         var toggle = document.getElementById("password1");
                         var toggle1 = document.getElementById("password2");

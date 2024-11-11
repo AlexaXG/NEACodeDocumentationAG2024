@@ -3,9 +3,9 @@
 
 //const apiKey = "a92238f287be4371a6b190852c0be1b5"; 
 //first account
-const apiKey = "342899e01df24fd79ae66ccd8fcb542d"; 
+//const apiKey = "342899e01df24fd79ae66ccd8fcb542d"; 
 //recipeAPI1@gmail.com
-//const apiKey = "912595cf052c4231ac1e2528628d9d09";
+const apiKey = "912595cf052c4231ac1e2528628d9d09";
 //recipeAPI2@gmail.com
 //const apiKey ="9d323fbea5be46e5b6872aaf660584f7";
 let recipeIds = [];
@@ -18,6 +18,12 @@ function addStylesheet(url) {
 }
 addStylesheet('/css/pageStyling.css');
 
+	const value = document.getElementById("BLDChoice");
+	const selectedValue = value.value;
+	console.log(selectedValue);
+
+
+
 async function searchRecipesByName() {
 	const query = document.getElementById("userInput").value;
 
@@ -28,6 +34,7 @@ async function searchRecipesByName() {
 	}
 	var apiQueryingUrl = `https://api.spoonacular.com/recipes/complexSearch?query=${encodeURIComponent(query)}&apiKey=${apiKey}&number=3`;
 		apiQueryingUrl = apiQueryingUrl + `&diet=${encodeURIComponent(userPreference)}`;
+		apiQueryingUrl = apiQueryingUrl + `&type=${encodeURIComponent(selectedValue)}`;
 	console.log("URL:" + apiQueryingUrl);
 
 	try {
@@ -55,7 +62,7 @@ async function searchRecommendedRecipes() {
 		}
 		stringOfAllergies = stringOfAllergies.slice(0, -1);
 		console.log("SOA:" . stringOfAllergies);
-		queryURLBuilder = queryURLBuilder + `$exclude-tags=${encodeURIComponent(stringOfAllergies)}`;
+		queryURLBuilder = queryURLBuilder + `&exclude-tags=${encodeURIComponent(stringOfAllergies)}`;
 	}
     
 	var apiQueryingUrl = queryURLBuilder;

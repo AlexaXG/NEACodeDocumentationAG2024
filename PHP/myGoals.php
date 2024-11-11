@@ -68,20 +68,7 @@ ob_start();
                     <div class='output-text' id='weightCategory'>Your weight category:</div>
                     <div class='output-value' id='catVal'>
                         <?php
-                        $javaJDKPath = "C:/Program Files/Java/jdk-17/bin/java";
-                        //defining my file path to my JDK-17 java folder
-                        $javaCompiledPath = "C:/Users/algub/OneDrive/Documents/NetBeansProjects/FindBMI/src";
-                        //defining the file path to the compiled java algorithm that calculates BMI and category
-                        $command = "\"$javaJDKPath\" -cp \"$javaCompiledPath\" findbmi.FindBMIValue $weightArg $heightArg 2>&1";
-                        //this command does:
-                        // = "using this JDK version" -cp sets classpath, findbmi.FindBMIValue is the file name of my java algorithm, followed by parameters to parse into it
-                        // 2&>1 is used for debugging, redirecting error messages and outputs to the same location
-                        $javaOutput = shell_exec($command);
-                        //executing the command
-                        list($category, $bmi) = explode(",", trim($javaOutput));
-                        //splits the java algorithm output by "," and assigns each value to its own variable
-                        //setting the dynamic text
-                        echo htmlspecialchars($category);
+                       
                         ?>
                     </div>
                     <div class='output-text' id='bmiInfo'>Your BMI:</div>

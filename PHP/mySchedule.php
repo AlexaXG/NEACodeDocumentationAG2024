@@ -107,7 +107,7 @@ $activities = $activity->getActivities($_SESSION['userid']);
                         <button type="button">Test Button </button></a>
                     </ul>
                     <a href="http://localhost/php/MySettings.php">
-                        <img class="logoImg" src="/Other Files/%settingCog.png"></a>
+                        <img class="logoImg" src="/Other Files/settingCog.png"></a>
                 </nav>
             </div>
         </div>
