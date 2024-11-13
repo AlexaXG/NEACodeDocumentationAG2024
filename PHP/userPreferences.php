@@ -14,59 +14,79 @@ ob_start();
 
 <body>
     <div class="container">
-        <p>Your Preferences:</p>
-        <div class='login-text'>
+        <div class="page-banner">
+            <div class="item-container">
+                <div class="button-container">
+                    <a href=""><img class="logoImg" src="/Other Files/GymmieMeals.png"></a>
+                    <a class="button" href="http://localhost/php/Signup.php">
+                        <button type="button">Signup</button></a>
+                    <a class="button" href="http://localhost/php/Login.php">
+                        <button type="button">Login</button></a>
+                    <a class="button" onclick="copyToCB()" onmouseover="replaceText()" onmouseout="replaceTextBack()">
+                        <button type="button" value="Contact Support" id="contact-support">
+                            Contact Support</button>
+                        <div id="SupportEmail" style="display:none;">fakeContactSupport@fakeSupportMail.com</div>
+
+                    </a>
+                </div>
+            </div>
         </div>
         <form action="<?php $_SERVER['PHP_SELF'] ?>" method="GET">
-            <div class="variables">
-                <div class="activity-box">
-                    <div>
-                        <input type="radio" id="veg1" name="active" value="vegetarian" required>
-                        <label for="veg1"><span class="labelText">Vegetarian: </span></br>- Excluding meat, fish and
-                            poultry</label><br />
+            <div class="main-content">
+                <div class="welcome-container">
+                    <span class="welcome-text"><span id="webName">Your Preferences:</span></span>
+                </div>
+                <div class="inputbox" id="preferenceSelect">
+                    <div class="radioButtons">
+                        <div>
+                            <input type="radio" id="veg1" name="active" value="vegetarian" required>
+                            <label for="veg1"><span class="labelText">Vegetarian: </span><br>- Excluding meat, fish and
+                                poultry.</label><br />
+                        </div>
+                        <div>
+                            <input type="radio" id="veg2" name="active" value="vegan">
+                            <label for="veg2"><span class="labelText">Vegan: </span><br>- Excludes all animal
+                                products</label><br />
+                        </div>
+                        <div>
+                            <input type="radio" id="pesc" name="active" value="pescetarian">
+                            <label for="pesc"><span class="labelText">Pescetarian: </span><br>- Excludes all other
+                                meats, aside from fish and seafood</label><br />
+                        </div>
+                        <div>
+                            <input type="radio" id="glut" name="active" value="gluten free">
+                            <label for="glut"><span class="labelText">Gluten-Free: </span><br>- Avoiding Gluten based
+                                products</label><br />
+                        </div>
+                        <div>
+                            <input type="radio" id="pale" name="active" value="paleo" required>
+                            <label for="pale"><span class="labelText">Paleo: </span><br>- Lean meats, fruit, vegetables,
+                                nuts, seeds, fish, and excluding processed food, grains and dairy</label><br />
+                        </div>
+                        <div>
+                            <input type="radio" id="lact" name="active" value="lacto vegetarian" required>
+                            <label for="lact"><span class="labelText">Lacto-Vegetarian: </span><br>- All ingredients
+                                must be vegetarian and none of the ingredients can be or contain egg.</label><br />
+                        </div>
+                        <div>
+                            <input type="radio" id="orga" name="active" value="ketogenic" required>
+                            <label for="orga"><span class="labelText">Ketogenic: </span><br>- The keto diet is based
+                                more on the ratio of fat, protein, and carbs</label><br />
+                        </div>
+                        <div>
+                            <input type="radio" id="nopr" name="active" value="No Preference" required>
+                            <label for="nopr"><span class="labelText">No Preference: </span><br>- Like wide varieties,
+                                minimal to no dietary restrictions</label><br />
+                        </div>
+                        <br />
+                        <div class="ButtonCont">
+                            <button type="submit" name="s">Confirm</button>
+                            <a href="http://localhost/php/ActivityLevel.php">
+                                <button type="button">Back</button>
+                            </a>
+                        </div>
                     </div>
-                    <div>
-                        <input type="radio" id="veg2" name="active" value="vegan">
-                        <label for="veg2"><span class="labelText">Vegan: </span></br>- Excludes all animal
-                            products</label><br />
-                    </div>
-                    <div>
-                        <input type="radio" id="pesc" name="active" value="pescetarian">
-                        <label for="pesc"><span class="labelText">Pescetarian: </span></br>- Excludes all other meats,
-                            aside from fish and seafood</label><br />
-                    </div>
-                    <div>
-                        <input type="radio" id="glut" name="active" value="gluten free">
-                        <label for="glut"><span class="labelText">Gluten-Free: </span></br>- Avoiding Gluten based
-                            products</label><br />
-                    </div>
-                    <div>
-                        <input type="radio" id="pale" name="active" value="paleo" required>
-                        <label for="pale"><span class="labelText">Paleo: </span></br>- Lean meats, fruit, vegetables,
-                            nuts, seeds, fish, and excluding processed food, grains and dairy</label><br />
-                    </div>
-                    <div>
-                        <input type="radio" id="lact" name="active" value="lacto vegetarian" required>
-                        <label for="lact"><span class="labelText">Lacto-Vegetarian: </span></br>- All ingredients must
-                            be vegetarian and none of the ingredients can be or contain egg.</label><br />
-                    </div>
-                    <div>
-                        <input type="radio" id="orga" name="active" value="ketogenic" required>
-                        <label for="orga"><span class="labelText">Ketogenic: </span></br>- The keto diet is based more
-                            on the ratio of fat, protein, and carbs</label><br />
-                    </div>
-                    <div>
-                        <input type="radio" id="nopr" name="active" value="No Preference" required>
-                        <label for="nopr"><span class="labelText">No Preference: </span></br>- Like wide varieties,
-                            minimal to no dietary restrictions</label><br />
-                    </div>
-                </div><br />
-                <input type="submit" value="Confirm" name="s">
-                <a href="http://localhost/php/ActivityLevel.php">
-                    <input type="button" value="Back" /> </a>
-                <a href="http://localhost/php/userAllergies.php">
-                    <input type="button" value="TEST BUTTON" /> </a>
-            </div>
+                </div>
         </form>
         <?php
         if (isset($_SESSION["userid"]) || isset($_SESSION["username"])) {

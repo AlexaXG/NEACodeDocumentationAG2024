@@ -9,28 +9,55 @@ ob_start();
     <title>GymmieMeals-Your Allergies</title>
     <link rel="stylesheet" href="/css/pageStyling.css">
 </head>
+<style>
+    .small-text {
+        font-size: 15px;
+        display: block;
+         text-align: center;
+    }
+</style>
 <body>
     <div class="container">
-        <p>Your Allergies:</p>
-        <div class='login-text'></div>
+    <div class="page-banner">
+            <div class="item-container">
+                <div class="button-container">
+                    <a href=""><img class="logoImg" src="/Other Files/GymmieMeals.png"></a>
+                    <a class="button" href="http://localhost/php/Signup.php">
+                        <button type="button">Signup</button></a>
+                    <a class="button" href="http://localhost/php/Login.php">
+                        <button type="button">Login</button></a>
+                    <a class="button" onclick="copyToCB()" onmouseover="replaceText()" onmouseout="replaceTextBack()">
+                        <button type="button" value="Contact Support" id="contact-support">
+                            Contact Support</button>
+                        <div id="SupportEmail" style="display:none;">fakeContactSupport@fakeSupportMail.com</div>
+
+                    </a>
+                </div>
+            </div>
+        </div>
         <form action="<?php $_SERVER['PHP_SELF'] ?>" method="get">
-            <div class="variables">
-                <label for="allergy"></label> <br />
+            <div class="main-content">
+            <div class="welcome-container">
+                    <span class="welcome-text"><span id="webName">Your Allergies:</span></span>
+                </div>
+                <div class="inputbox" id="allergyContent">
+                <span class="small-text">
+                    <h3>In one entry, separate each allergy by a comma</h3></br>
+</span>
+                <label for="allergy"></label> 
                 <input type="text" name="allergy" placeholder="Type an allergy..." id="allergy" autocomplete="off"
                     required /><br />
-                <div class="small-text">
-                    <h3>If you do not have allergies, simply skip by pressing 'Confirm'</h3></br>
-                </div>
-                <br />
-                <input type="submit" value="Submit Selection" name="s">
+                
+                <button type="submit" name="s">Confirm</button>
                 <!--submit button does not redirect, instead refreshes the page, as the user has an unknown amount of allergies -->
                 <a href="http://localhost/php/userGoals.php">
-                    <input type="button" value="Confirm" name="s"> </a>
+                                <button type="button">Skip</button>
+                
                 <!--this simply redirects the user to the next page if they do not have allergies -->
                 <a href="http://localhost/php/Activitylevel.php">
-                    <input type="button" value="Back" /> </a>
-                <a href="http://localhost/php/userGoals.php">
-                    <input type="button" value="TEST BUTTON" /> </a>
+                    <button type="button">Back</button>
+                </div>
+                
             </div>
         </form>
         <?php

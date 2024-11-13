@@ -329,12 +329,22 @@ input:focus {
 .labelText {
 	color: #b35cc3;
 	font-weight: bold;
+	min-width: 200px;
+	text-align: left;
 }
 #activ1,
 #activ2,
 #activ3,
 #activ4,
-#activ5 {
+#activ5,
+#veg1,
+#veg2,
+#pesc,
+#glut,
+#pale,
+#lact,
+#orga,
+#nopr {
 	accent-color: #b35cc3;
 }
 .error-message {
@@ -534,4 +544,19 @@ input:focus {
 .content > div {
 	border-left: 1px solid black;
 	border-bottom: 1px solid black;
+}
+
+#preferenceSelect {
+	width: 400px;
+	height: 700px;
+	display: flex;
+	flex-direction: column;
+	align-items: left;
+	padding: 20px;
+}
+
+#allergyContent {
+	width: 400px;
+	height: 330px;
+	padding: 20px;
 }
