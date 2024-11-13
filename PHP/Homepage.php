@@ -24,14 +24,14 @@ ob_start();
                         <button type="button">My Tracking</button></a>
                         <li><a class="button" href="http://localhost/php/MyMeals.php"></li>
                         <button type="button">My Meals</button></a>
-                        <li><a class="button" href="http://localhost/php/#34a4e0MyGoals.php"></li>
+                        <li><a class="button" href="http://localhost/php/MyGoals.php"></li>
                         <button type="button">My Goals</button></a>
                         <li><a class="button" href="http://localhost/php/MySchedule.php"></li>
                         <button type="button">My Schedule</button></a>
                         <li><a class="button" href="http://localhost/php/LandingPage.php"></li>
                         <button type="button">Test Button </button></a>
                     </ul>
-                    <a href="http://localhost/MySettings.php">
+                    <a href="http://localhost/php/MySettings.php">
                         <img class="logoImg" src="/Other Files/settingCog.png"></a>
                 </nav>
             </div>

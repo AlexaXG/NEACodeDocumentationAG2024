@@ -1,6 +1,13 @@
 <?php
-session_start(); //starts a session 
+
+session_start(); //starts a new session 
+if (isset($_SESSION["userid"])) {
+    session_destroy();
+    session_unset();
+    $_SESSION = [];
+}
 ob_start(); //output buffer, holds any data temporarily before sendingto the browser 
+
 ?>
 
 <!DOCTYPE HTML>
@@ -259,6 +266,7 @@ ob_start(); //output buffer, holds any data temporarily before sendingto the bro
 
                     $_SESSION["username"] = $username;
                     $_SESSION["userid"] = $userid;
+                    $_SESSION["Signup_in_progress"] = true;
                     //stores username and userid in session for use throughout the website
                     header("Location: http://localhost/php/signupAttributes.php");
                     //automatic redirect and program termination
