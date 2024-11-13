@@ -1,5 +1,11 @@
 <?php
 session_start();
+if (isset($_SESSION["userid"])) {
+    session_destroy();
+    session_unset();
+}
+setcookie("PHPSESSID", '', time() - 3600, '/');
+session_regenerate_id(true);
 ob_start();
 ?>
 <!DOCTYPE HTML>
@@ -107,8 +113,11 @@ ob_start();
         if (isset($_SESSION["userid"]) || isset($_SESSION["username"])) {
             $userid = $_SESSION["userid"];
             $username = $_SESSION["username"];
+            if (!isset($_SESSION["Signup_in_progress"])) {
+                header("location: http://localhost/php/Homepage.php");
+            } 
         } else {
-            header("location: http://localhost/php/LandingPage.php");
+            header("location: http://localhost/php/landingpage.php");
         }
         if (!isset($_GET["s"])) {
             die("");
