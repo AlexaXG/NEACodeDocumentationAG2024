@@ -178,5 +178,9 @@ ob_start();
 
 </html>
 <?php
+if (isset($_SESSION['toast_message'])) {
+    echo "<script>showToast('" . addslashes($_SESSION['toast_message']) . "');</script>";
+    unset($_SESSION['toast_message']);
+}
 ob_end_flush();
 ?>

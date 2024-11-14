@@ -201,6 +201,16 @@ ob_start(); //output buffer, holds any data temporarily before sendingto the bro
             </div>
     </form>
     <?php
+    if (isset($_SESSION["userid"]) || isset($_SESSION["username"])) {
+        $userid = $_SESSION["userid"];
+        $username = $_SESSION["username"];
+        if (!isset($_SESSION["Signup_in_progress"])) {
+            header("location: http://localhost/php/Homepage.php");
+        } 
+    } else {
+        header("location: http://localhost/php/login.php");
+        exit();
+    }
     if (!isset($_POST["s"])) {
         die("");
         //if the form has not been submitted (i.e: submit button has not been pressed) it will stop further execution
@@ -266,7 +276,7 @@ ob_start(); //output buffer, holds any data temporarily before sendingto the bro
                     $_SESSION["userid"] = $userid;
                     $_SESSION["Signup_in_progress"] = true;
                     //stores username and userid in session for use throughout the website
-                    header("Location: http://localhost/php/signupAttributes.php");
+                    header("Location: http://localhost/php/signupAttributes.php");                    
                     exit();
                 }
             } catch (mysqli_sql_exception $e) {
@@ -280,5 +290,9 @@ ob_start(); //output buffer, holds any data temporarily before sendingto the bro
 
 </html>
 <?php
+if (isset($_SESSION['toast_message'])) {
+    echo "<script>showToast('" . addslashes($_SESSION['toast_message']) . "');</script>";
+    unset($_SESSION['toast_message']);
+}
 ob_end_flush(); 
 ?>

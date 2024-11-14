@@ -70,6 +70,7 @@ ob_start();
             } 
         } else {
             header("location: http://localhost/php/login.php");
+            exit();
         }
         if (!isset($_POST["s"])) {
             die("");
@@ -136,5 +137,10 @@ ob_start();
 
 </html>
 <?php
+unset($_SESSION["signup_in_progress"]);
+if (isset($_SESSION['toast_message'])) {
+    echo "<script>showToast('" . addslashes($_SESSION['toast_message']) . "');</script>";
+    unset($_SESSION['toast_message']);
+}
 ob_end_flush();
 ?>

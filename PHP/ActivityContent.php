@@ -4,12 +4,13 @@ try {
     
     $connection = new mysqli("localhost", "root", "", "neaDatabaseAlexG");
 } catch (mysqli_sql_exception $e) {
-    die("<div class='error-message'>Something went wrong: </div>" . $e);
+    $_SESSION['toast_message'] = "Database Issue";
     //connect to DB
 }
 echo "<span class='welcome-text'>Your<span id='webName'> Activity:</span></span>";
 if (!isset($_SESSION["userid"])  || !isset($_SESSION["username"])) {
-    die("No session variables set");
+    header("Location: http://localhost//php/Login.php");
+    exit();
 }
 if (!isset($_SESSION["ActivityLevel"])) {
     //checks if activity level session variable is set
