@@ -269,7 +269,6 @@ ob_start(); //output buffer, holds any data temporarily before sendingto the bro
                     $_SESSION["Signup_in_progress"] = true;
                     //stores username and userid in session for use throughout the website
                     header("Location: http://localhost/php/signupAttributes.php");
-                    //automatic redirect and program termination
                     exit();
                 }
             } catch (mysqli_sql_exception $e) {
@@ -283,5 +282,5 @@ ob_start(); //output buffer, holds any data temporarily before sendingto the bro
 
 </html>
 <?php
-ob_end_flush(); //stops output buffering
+ob_end_flush(); 
 ?>

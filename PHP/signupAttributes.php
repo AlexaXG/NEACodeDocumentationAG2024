@@ -117,7 +117,7 @@ ob_start();
                 header("location: http://localhost/php/Homepage.php");
             } 
         } else {
-            header("location: http://localhost/php/landingpage.php");
+            header("location: http://localhost/php/login.php");
         }
         if (!isset($_GET["s"])) {
             die("");
