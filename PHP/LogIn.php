@@ -98,25 +98,25 @@ ob_start();
         try {
             $connection = new mysqli("localhost", "root", "", "neaDatabaseAlexG");
         } catch (mysqli_sql_exception $e) {
-            die("<div id='error-container' class='error-message'>Something went wrong: . $e</div>");
+            $_SESSION['toast_message'] = "Database Issue" . $e;
         }
         $username = $_POST["username"];
         $password = $_POST["password"];
         //collects data from POST form
         try {
             if (empty($username) || empty($password)) {
-                die("<div id='error-container' class='error-message'>All fields are required.</div>");
+                $_SESSION['toast_message'] = "All fields required!";
             } else {
                 $userCheck = $connection->prepare("SELECT passwords, userid, weight, height, gender, age, activity From user Where user.username = ?");
                 //prepares a select statement to bind all user information to variables
                 $userCheck->bind_param("s", $username);
                 if (!$userCheck->execute()) {
                     die("<div id='error-container' class='error-message'>USVal error: . $connection->error</div>");
-                } else {
+                } else {$_SESSION['toast_message'] = "UserCheck didn't execute correctly." . $userCheck->error;
                     $userCheck->store_result();
                     if ($userCheck->num_rows == 0) {
                         $userCheck->close();
-                        die("<div id='error-container' class='error-message'>Username doesn't exist.</div>");
+                        $_SESSION['toast_message'] = "Username doesn't exist.";
                     } else {
                         $userCheck->bind_result($fetchedPass, $userid, $weight, $height, $gender, $age, $activity);
                         //binds results to written variables
@@ -142,7 +142,7 @@ ob_start();
                     $preferenceIDCheck = $connection->prepare("SELECT preferenceID From userpreferences Where userid = ?");
                     $preferenceIDCheck->bind_param("i", $userid);
                     if (!$preferenceIDCheck->execute()) {
-                        die("<div id='error-container' class='error-message'>PIDerr: . $connection->error</div>");
+                        $_SESSION['toast_message'] = "PreferenceIDCheck didn't execute correctly." . $preferenceIDCheck->error;
                     } else {
                         $preferenceIDCheck->bind_result($preferenceID);
                         //prepares a statement to also fetch the preference associated with the user
@@ -166,11 +166,11 @@ ob_start();
                     //automatic redirect and program termination
                     exit();
                 } else {
-                    die("<div id='error-container' class='error-message'>Password is incorrect.</div>");
+                    $_SESSION['toast_message'] = "Incorrect password.";
                 }
             }
         } catch (mysqli_sql_exception $e) {
-            die("<div id='error-container' class='error-message'>Something went wrong: . $e</div>");
+            $_SESSION['toast_message'] = "MySQLi Exception" . $e;
         }
         ?>
     </div>

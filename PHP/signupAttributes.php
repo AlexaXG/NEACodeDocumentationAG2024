@@ -49,22 +49,23 @@ ob_start();
                     <label for="weight"></label> <br />
                     <input type="number" name="weight" placeholder="Weight" id="weightKG" autocomplete="off" min="0"
                         step="any" /> <br />
-                    <label for="height"> </label> 
+                    <label for="height"> </label>
                     <input type="number" name="height" placeholder="Height" id="heightCM" autocomplete="off" min="0"
                         step="any" /> <br />
-                    <label for="age"> </label> 
+                    <label for="age"> </label>
                     <input type="date" name="age" id="ageYRS" autocomplete="off" /> <br />
-                    
-                        <label for="gender"></label>
-                        <select name="gender" id="GenderENUM" type="text" required placeholder="Select gender" class="genderIn">
-                            <option value="Male">Male</option>
-                            <option value="Female">Female</option>
-                            <option value="PNTS">Prefer not to say</option>
-                        </select>
-                   <br />
+
+                    <label for="gender"></label>
+                    <select name="gender" id="GenderENUM" type="text" required placeholder="Select gender"
+                        class="genderIn">
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="PNTS">Prefer not to say</option>
+                    </select>
+                    <br />
                     <button type="submit" name="s">Confirm</button>
                     <a href="http://localhost/php/Signup.php">
-                    <button>Back</button> </a>
+                        <button>Back</button> </a>
                 </div>
                 <script>
                     function toggleVis1() {
@@ -115,7 +116,7 @@ ob_start();
             $username = $_SESSION["username"];
             if (!isset($_SESSION["Signup_in_progress"])) {
                 header("location: http://localhost/php/Homepage.php");
-            } 
+            }
         } else {
             header("location: http://localhost/php/login.php");
             exit();
@@ -126,32 +127,30 @@ ob_start();
         try {
             $connection = new mysqli("localhost", "root", "", "neaDatabaseAlexG");
         } catch (mysqli_sql_exception $e) {
-            die( "<div id='error-container' class='error-message'>Something went wrong: . $e</div>");
+            $_SESSION['toast_message'] = "Database Issue" . $e;
         }
         $weight = $_GET["weight"];
         $height = $_GET["height"];
         $gender = $_GET["gender"];
         $age = $_GET["age"];
-        if (empty($weight) || empty($height) || empty($gender)) {
-            die( "<div id='error-container' class='error-message'>All fields required</div>");
-        } else {
-            try {
-                $result = $connection->prepare("UPDATE user SET weight=?, height=?, gender=?, age=? WHERE user.userID = ?");
-                $result->bind_param("ddssi", $weight, $height, $gender, $age, $userid);
-                if (!$result->execute()) {
-                    die( "<div id='error-container' class='error-message'>Something went wrong inserting values.</div>");
-                } else {
-                    $_SESSION["weight"] = $weight;
-                    $_SESSION["height"] = $height;
-                    $_SESSION["gender"] = $gender;
-                    $_SESSION["age"] = $age;
-                    header("Location: http://localhost/php/ActivityLevel.php");
-                    exit();
-                }
-            } catch (mysqli_sql_exception $e) {
-                die( "<div id='error-container' class='error-message'>Error: . $e </div>");
+
+        try {
+            $result = $connection->prepare("UPDATE user SET weight=?, height=?, gender=?, age=? WHERE user.userID = ?");
+            $result->bind_param("ddssi", $weight, $height, $gender, $age, $userid);
+            if (!$result->execute()) {
+                $_SESSION['toast_message'] = "Result issue, couldn't insert values. " .$e;
+            } else {
+                $_SESSION["weight"] = $weight;
+                $_SESSION["height"] = $height;
+                $_SESSION["gender"] = $gender;
+                $_SESSION["age"] = $age;
+                header("Location: http://localhost/php/ActivityLevel.php");
+                exit();
             }
+        } catch (mysqli_sql_exception $e) {
+            $_SESSION['toast_message'] = "MySQLi failed to execute correctly." . $e;
         }
+
         ?>
     </div>
 </body>

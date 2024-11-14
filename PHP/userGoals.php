@@ -78,13 +78,13 @@ ob_start();
         try {
             $connection = new mysqli("localhost", "root", "", "neaDatabaseAlexG");
         } catch (mysqli_sql_exception $e) {
-            die("Something went wrong: " . $e);
+            $_SESSION['toast_message'] = "Database Issue" . $e;
         }
         if (isset($_SESSION["userid"]) || isset($_SESSION["username"])) {
             $userid = $_SESSION["userid"];
             $username = $_SESSION["username"];
         } else {
-            die("No user id or name set.");
+            header("Location: http://localhost/php/Login.php");
         }
         
         $goal = $_POST["goal"];
@@ -109,7 +109,7 @@ ob_start();
                 $goalInsert->close();
                 //limited number of goals, so goalID is selected according to the name
             } else {
-                die($connection->error);
+                $_SESSION['toast_message'] = "goalInsert failed to execute." . $goalInsert->error;
             }
             // echo $goalID;
             $goalID = $_SESSION["goalid"];
@@ -126,10 +126,10 @@ ob_start();
                 header("Location: http://localhost/php/Homepage.php");
                 exit();
             } else {
-                die("couldnt insert values");
+                $_SESSION['toast_message'] = "Couldn't insert values.";
             }
         } catch (mysqli_sql_exception $e) {
-            die("$e");
+            $_SESSION['toast_message'] = "MySQLi failed to execute correctly" . $e;
         }
         ?>
     </div>

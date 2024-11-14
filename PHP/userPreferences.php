@@ -105,17 +105,17 @@ ob_start();
         try {
             $connection = new mysqli("localhost", "root", "", "neaDatabaseAlexG");
         } catch (mysqli_sql_exception $e) {
-            die("Something went wrong: " . $e);
+            $_SESSION['toast_message'] = "Database Issue" . $e;
         }
         $Preference = $_GET["active"];
         if (empty($Preference)) {
-            die("<div class='error-message'>Must select an option.</div></div>");
+            $_SESSION['toast_message'] = "Must select an option";
         } else {
             try {
                 $connUserID = $connection->prepare("select preferenceID from preference where PreferenceName = ?");
                 //since a preference name, not ID was inputted, this first selects the ID and binds it to a variable
                 if (!$connUserID) {
-                    die(mysqli_error());
+                    $_SESSION['toast_message'] = "connUserID Failed to execute" . $connUserID->error;
                 } else {
                     $connUserID->bind_param("s", $Preference);
                     $connUserID->execute();
@@ -128,14 +128,14 @@ ob_start();
                 $result->bind_param("ii", $userid, $PreferenceID);
                 //inserting userID and preferenceID into userPreferences which links each user to a preference
                 if (!$result->execute()) {
-                    die("Something went wrong inserting values.");
+                    $_SESSION['toast_message'] = "Result couldn't insert values" . $result->error;
                 }
                 $result->close();
                 $_SESSION["Preference"] = $Preference;
                 header("Location: http://localhost/php/userAllergies.php");
                 exit();
             } catch (mysqli_sql_exception $e) {
-                die("$e");
+                $_SESSION['toast_message'] = "MySQLi failed to execute correctly" . $e;
             }
         }
         ?>

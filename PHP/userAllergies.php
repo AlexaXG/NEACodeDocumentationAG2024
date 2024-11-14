@@ -77,14 +77,14 @@ ob_start();
         try {
             $connection = new mysqli("localhost", "root", "", "neaDatabaseAlexG");
         } catch (mysqli_sql_exception $e) {
-            die("Something went wrong: " . $e);
+            $_SESSION['toast_message'] = "Database Issue" . $e;
         }
         $Allergy = trim($_GET["allergy"]);
         //removing any unnecessary characters such as whitespace around the string
         $Allergy = strtolower($Allergy);
 
         if (empty($Allergy)) {
-            die("Allergy not set");
+            $_SESSION['toast_message'] = "Allergy not set";
         }
         try {
             
@@ -97,7 +97,7 @@ ob_start();
                 $AllergyCheck->fetch();
                 $_SESSION["allergyid"] = $AllergyID;
             } else {
-                die(mysqli_error());
+                $_SESSION['toast_message'] = "AllergyCheck failed to execute." . $AllergyCheck->error;
             }
             if ($AllergyCheck->num_rows > 0) {
                 //if it already exists, it will not insert it as a new allergy, and instead does the following
@@ -107,7 +107,7 @@ ob_start();
                 if ($duplicateCheck->execute()) {
                     $duplicateCheck->store_result();
                 } else {
-                    die(mysqli_error());
+                    $_SESSION['toast_message'] = "duplicateCheck failed to execute." . $duplicateCheck->error;
                 }
 
                 if ($duplicateCheck->num_rows == 0) {
@@ -115,7 +115,7 @@ ob_start();
                     $connUserAllergy = $connection->prepare("insert into userallergies (userID, AllergyID) values (?, ?)");
                     //it will add this allergyID and userID into the "userAllergies" table, associating them together
                     if (!$connUserAllergy) {
-                        die(mysqli_error());
+                        $_SESSION['toast_message'] = "ConnUserAllergy failed to execute" . $connUserAllergy->error;
                     } else {
                         $connUserAllergy->bind_param("ii", $userid, $AllergyID);
                         $connUserAllergy->execute();
@@ -124,7 +124,7 @@ ob_start();
                         exit();
                     }
                 } else {
-                    die("<div class='error-message'>This allergy has already been added.</div>");
+                    $_SESSION['toast_message'] = "Allergy already exists.";
                     //else statement checking if the allergy is already associated with the user
                 }
             } else {
@@ -141,7 +141,7 @@ ob_start();
                     header("http://localhost/php/userAllergies.php");
                     exit();
                 } else {
-                    die(mysqli_error());
+                    $_SESSION['toast_message'] = "MySQLi failed to execute correctly." . mysqli_error();
                 }
             }
         } catch (mysqli_sql_exception $e) {

@@ -219,7 +219,7 @@ ob_start(); //output buffer, holds any data temporarily before sendingto the bro
         $connection = new mysqli("localhost", "root", "", "neaDatabaseAlexG");
         //attempts a connection to mySQL database, defining the port, username, password, and database name.
     } catch (mysqli_sql_exception $e) {
-        die("<div id='error-container' class='error-message'>Something went wrong: . $e</div>");
+        $_SESSION['toast_message'] = "Database Issue" . $e;
         //error handling
     }
 
@@ -229,10 +229,8 @@ ob_start(); //output buffer, holds any data temporarily before sendingto the bro
     $createdDate = date("Y-m-d H:i:s"); //current timestamp
     
     //sets local variables by calling their values from the POST method
-    if (empty($username) || empty($password) || empty($password2)) {
-        die("<div id='error-container' class='error-message'>All fields required.</div>");
-    } else if ($password !== $password2) {
-        die("<div id='error-container' class='error-message'>Passwords do not match.</div>");
+    if ($password !== $password2) {
+        $_SESSION['toast_message'] = "Passwords don't match.";
     } else {
         //selection to ensure username and password fall under a criteria
 
@@ -253,18 +251,18 @@ ob_start(); //output buffer, holds any data temporarily before sendingto the bro
         if ($userCheck->execute()) {
             $userCheck->store_result();
         } else {
-            die(mysqli_error());
+            $_SESSION['toast_message'] = "MySQLi error" . mysqli_error();
         }
         if ($userCheck->num_rows > 0) {
             //checks the number of rows returned from the SQL statement
-            die("<div id='error-container' class='error-message>Username already exists.</div>");
+            $_SESSION['toast_message'] = "Username doesn't exist.";
         } else {
             try {
                 $connResult = $connection->prepare("INSERT INTO user (userName, Passwords, CreatedDate, salt) values (?, ?, ?, ?)");
                 //prepares another parameterised sql statement to insert the entered information correctly
                 $connResult->bind_param("ssss", $username, $hashPW, $CreatedDate, $salt);
                 if (!$connResult->execute()) {
-                    die("<div id='error-container' class='error-message'>Something went wrong inserting values.</div>");
+                    $_SESSION['toast_message'] = "ConnResult failed to execute correctly" . $connResult->error;
                 } else {
                     $connUserID = $connection->prepare("select userID from user where username = ?");
                     //selects the automatically generated userid after insertion of username/password
@@ -282,7 +280,7 @@ ob_start(); //output buffer, holds any data temporarily before sendingto the bro
                     exit();
                 }
             } catch (mysqli_sql_exception $e) {
-                die("<div id='error-container' class='error-message'>Something went wrong: . $e</div>");
+                $_SESSION['toast_message'] = "MySQLi failed to execute correctly" . $e;
             }
         }
     }

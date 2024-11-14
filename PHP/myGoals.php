@@ -46,7 +46,7 @@ ob_start();
                     $username = $_SESSION["username"];
                 }
                 if (!isset($_SESSION["weight"]) || !isset($_SESSION["height"]) || !isset($_SESSION["gender"]) || !isset($_SESSION["age"]) || !isset($_SESSION["ActivityLevel"])) {
-                    die("session variables not set");
+                    $_SESSION['toast_message'] = "Session variables not set";
                 } else {
                     $weightArg = $_SESSION["weight"];
                     $heightArg = $_SESSION["height"];
