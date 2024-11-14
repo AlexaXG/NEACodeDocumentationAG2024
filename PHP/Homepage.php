@@ -51,8 +51,7 @@ ob_start();
             <div class="welcome-container">
                 <?php
                 if (!isset($_SESSION["userid"]) || !isset($_SESSION["username"])) {
-                    header("location: http://localhost/php/login.php");
-                    exit();
+                    die("You must log in first!");
                 } else {
                     $userid = $_SESSION["userid"];
                     $username = $_SESSION["username"];
@@ -60,7 +59,7 @@ ob_start();
                 try {
                     $connection = new mysqli("localhost", "root", "", "neaDatabaseAlexG");
                 } catch (mysqli_sql_exception $e) {
-                    $_SESSION['toast_message'] = "Database Issue" . $e;
+                    die("Something went wrong: " . $e);
                 }
                 $connUserDetails = $connection->prepare("select weight, height, gender, age from user where username = ?");
                 $connUserDetails->bind_param("s", $username);
@@ -69,25 +68,25 @@ ob_start();
                 $connUserDetails->fetch();
 
                 if (!isset($_SESSION["weight"])) {
-                    $_SESSION['toast_message'] = "Weight session variable not set";
+                    echo "weight NS";
                     $weightArg = $weight;
                 } else {
                     $weightArg = $_SESSION["weight"];
                 }
                 if (!isset($_SESSION["height"])) {
-                    $_SESSION['toast_message'] = "Height session variable not set";
+                    echo "height NS";
                     $heightArg = $height;
                 } else {
                     $heightArg = $_SESSION["height"];
                 }
                 if (!isset($_SESSION["gender"])) {
-                    $_SESSION['toast_message'] = "Gender session variable not set";
+                    echo "gender NS";
                     $genderArg = $gender;
                 } else {
                     $genderArg = $_SESSION["gender"];
                 }
                 if (!isset($_SESSION["age"])) {
-                    $_SESSION['toast_message'] = "Age session variable not set";
+                    echo "age NS";
                     $ageArg = $age;
                 } else {
                     $ageArg = $_SESSION["age"];
@@ -282,9 +281,5 @@ ob_start();
 
 </html>
 <?php
-if (isset($_SESSION['toast_message'])) {
-    echo "<script>showToast('" . addslashes($_SESSION['toast_message']) . "');</script>";
-    unset($_SESSION['toast_message']);
-}
 ob_end_flush();
 ?>

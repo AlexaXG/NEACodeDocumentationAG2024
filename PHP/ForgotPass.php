@@ -120,7 +120,7 @@ ob_start(); //output buffer, holds any data temporarily before sendingto the bro
         try {
             $connection = new mysqli("localhost", "root", "", "neaDatabaseAlexG");
         } catch (mysqli_sql_exception $e) {
-            $_SESSION['toast_message'] = "Database Issue" . $e;
+            die("Something went wrong: " . $e);
         }
 
         $username = $_POST["username"];
@@ -129,8 +129,10 @@ ob_start(); //output buffer, holds any data temporarily before sendingto the bro
         $password = $_POST["password"];
         $password2 = $_POST["password2"];
 
-        if ($password !== $password2) {
-            $_SESSION['toast_message'] = "Passwords don't match!";
+        if (empty($username) || empty($password) || empty($password2)) {
+            die("<div class='error-message'> All fields are required. </div>");
+        } else if ($password !== $password2) {
+            die("<div class='error-message'> Passwords do not match.</div>");
         } else {
             function passwordCheck($password)
         {
@@ -159,13 +161,13 @@ ob_start(); //output buffer, holds any data temporarily before sendingto the bro
                 $result->bind_param("si", $saltedPassword, $userid);
                 //in essence does the same function as the sign-up page, but instead of inserting values it updates at the username.
                 if (!$result->execute()) {
-                    $_SESSION['toast_message'] = "Mysqli Issue";
+                    die(mysqli_error());
                 } else {
                     header("Location: http://localhost/php/Login.php");
                     exit();
                 }
             } catch (mysqli_sql_exception $e) {
-                $_SESSION['toast_message'] = "MySQLi exception" . $e;
+                die("Something went wrong." . $e);
             }
         }
         ?>
@@ -174,9 +176,5 @@ ob_start(); //output buffer, holds any data temporarily before sendingto the bro
 
 </html>
 <?php
-if (isset($_SESSION['toast_message'])) {
-    echo "<script>showToast('" . addslashes($_SESSION['toast_message']) . "');</script>";
-    unset($_SESSION['toast_message']);
-}
 ob_end_flush(); //stops output buffering
 ?>

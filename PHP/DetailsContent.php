@@ -3,14 +3,13 @@ session_start();
 try {
     $connection = new mysqli("localhost", "root", "", "neaDatabaseAlexG");
 } catch (mysqli_sql_exception $e) {
-    $_SESSION['toast_message'] = "Database Issue" . $e;
+    die("<div class='error-message'>Something went wrong: </div>" . $e);
     //establish database connection
 }
 echo "<span class='welcome-text'>Your<span id='webName'> Details:</span></span>";
 //welcome message
 if (!isset($_SESSION["userid"])  || !isset($_SESSION["username"])) {
-    header("Location: http://localhost//php/Login.php");
-    exit();
+    die("No session variables set");
 }
 if (!isset($_SESSION["weight"]) || !isset($_SESSION["height"]) || !isset($_SESSION["gender"]) || !isset($_SESSION["age"])) {
     //selects the session variables from sql if they are not set
@@ -45,5 +44,4 @@ if (!isset($_SESSION["weight"]) || !isset($_SESSION["height"]) || !isset($_SESSI
     echo "<h2>Your Weight: </h2>" . htmlspecialchars($weight) . "\n" . "<h2>Your Height: </h2>" . htmlspecialchars($height) . "\n"
         . "<h2>Your Gender: </h2>" . htmlspecialchars($gender) . "\n" . "<h2>Your Date of Birth: </h2>" . htmlspecialchars($age);
 }
-
 ?>

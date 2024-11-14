@@ -14,7 +14,7 @@ ob_start();
 
 <body>
     <form action="<?php $_SERVER['PHP_SELF'] ?>" method="post">
-        <div class="page-banner">
+    <div class="page-banner">
             <div class="item-container">
                 <nav class="button-container">
                     <img class="logoImg" src="/Other Files/GymmieMeals.png">
@@ -39,8 +39,7 @@ ob_start();
             <div class="welcome-container">
                 <?php
                 if (!isset($_SESSION["userid"]) || !isset($_SESSION["username"])) {
-                    header("Location: http://localhost//php/Login.php");
-                    exit();
+                    die("You must log in first!");
                 } else {
                     $userid = $_SESSION["userid"];
                     $username = $_SESSION["username"];
@@ -69,7 +68,7 @@ ob_start();
                     <div class='output-text' id='weightCategory'>Your weight category:</div>
                     <div class='output-value' id='catVal'>
                         <?php
-
+                       
                         ?>
                     </div>
                     <div class='output-text' id='bmiInfo'>Your BMI:</div>
@@ -82,7 +81,7 @@ ob_start();
                         // echo "<pre>$command2</pre>";
                         // echo "<pre>$javaOutput2</pre>";
                         $calories = htmlspecialchars($javaOutput2);
-                        echo htmlspecialchars($bmi);
+                        echo htmlspecialchars($bmi); 
                         ?>
                     </div>
                 </div>
@@ -98,9 +97,5 @@ ob_start();
 
 </html>
 <?php
-if (isset($_SESSION['toast_message'])) {
-    echo "<script>showToast('" . addslashes($_SESSION['toast_message']) . "');</script>";
-    unset($_SESSION['toast_message']);
-}
 ob_end_flush();
 ?>

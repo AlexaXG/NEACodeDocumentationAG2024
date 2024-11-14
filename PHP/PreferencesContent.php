@@ -8,8 +8,7 @@ try {
 }
 echo "<span class='welcome-text'>Your<span id='webName'> Preference:</span></span>";
 if (!isset($_SESSION["userid"])  || !isset($_SESSION["username"])) {
-    header("Location: http://localhost/php/Login.php");
-    exit();
+    die("No session variables set");
 }
 if (!isset($_SESSION["Preference"])) {
     $userid = $_SESSION["userid"];

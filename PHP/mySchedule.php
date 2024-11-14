@@ -362,32 +362,30 @@ $activities = $activity->getActivities($_SESSION['userid']);
                     <div class="day-label" id="Sun">Sunday</div>
                 </div> -->
 
-
+            
             <div class="ActivityCreation">
                 <div class="welcome-container">
                     <?php
                     if (!isset($_SESSION["userid"]) || !isset($_SESSION["username"])) {
-                        header("Location: http://localhost/php/Login.php");
-                        exit();
+                        $_SESSION['toast_message'] = "You must log in first!";
                     } else {
                         $userid = $_SESSION["userid"];
                         $username = $_SESSION["username"];
                     }
                     if (!isset($_SESSION["weight"]) || !isset($_SESSION["height"]) || !isset($_SESSION["gender"]) || !isset($_SESSION["age"]) || !isset($_SESSION["ActivityLevel"])) {
-                        header("Location: http://localhost/php/Login.php");
-                        exit();
+                        $_SESSION['toast_message'] = "Session not set!";
                     } else {
                         $weightArg = $_SESSION["weight"];
                         $heightArg = $_SESSION["height"];
                         $genderArg = $_SESSION["gender"];
                         $ageArg = $_SESSION["age"];
                         $activityArg = $_SESSION["ActivityLevel"];
-
+                        
                     }
                     $dob = new DateTime($ageArg);
                     $now = new DateTime();
                     $ageArg = $now->diff($dob)->y;
-
+                    
                     ?>
                 </div>
                 <div class="display-content">
