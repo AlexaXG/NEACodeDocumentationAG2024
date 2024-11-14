@@ -3,11 +3,12 @@ session_start();
 try {
     $connection = new mysqli("localhost", "root", "", "neaDatabaseAlexG");
 } catch (mysqli_sql_exception $e) {
-    die("<div class='error-message'>Something went wrong: </div>" . $e);
+    $_SESSION['toast_message'] = "Database Issue" . $e;
 }
 echo "<span class='welcome-text'>Your<span id='webName'> Allergies:</span></span>";
 if (!isset($_SESSION["userid"])  || !isset($_SESSION["username"])) {
-    die("No session variables set");
+    header("Location: http://localhost//php/Login.php");
+    exit();
 }
     $userid = $_SESSION["userid"];
     $connUserAllergies = $connection->prepare("SELECT Allergy.AllergyName from userAllergies join Allergy on 

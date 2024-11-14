@@ -3,12 +3,13 @@ session_start();
 try {
     $connection = new mysqli("localhost", "root", "", "neaDatabaseAlexG");
 } catch (mysqli_sql_exception $e) {
-    die("<div class='error-message'>Something went wrong: </div>" . $e);
+    $_SESSION['toast_message'] = "Database Issue";
     //connect to database
 }
 echo "<span class='welcome-text'>Your<span id='webName'> Preference:</span></span>";
 if (!isset($_SESSION["userid"])  || !isset($_SESSION["username"])) {
-    die("No session variables set");
+    header("Location: http://localhost/php/Login.php");
+    exit();
 }
 if (!isset($_SESSION["Preference"])) {
     $userid = $_SESSION["userid"];

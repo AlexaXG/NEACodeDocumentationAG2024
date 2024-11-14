@@ -122,6 +122,7 @@ ob_start();
             } 
         } else {
             header("location: http://localhost/php/login.php");
+            exit();
         }
         if (!isset($_POST["s"])) {
             die("");
@@ -129,7 +130,7 @@ ob_start();
         try {
             $connection = new mysqli("localhost", "root", "", "neaDatabaseAlexG");
         } catch (mysqli_sql_exception $e) {
-            die( "<div id='error-container' class='error-message'>Something went wrong . $e </div>");
+            $_SESSION['toast_message'] = "Database Issue";
         }
         $ActivityLevel = $_POST["active"];
             try {
@@ -138,14 +139,14 @@ ob_start();
                 $result->bind_param("ss", $ActivityLevel, $userid);
                 //adding the users activity to their relevant field in the 'user' table
                 if (!$result->execute()) {
-                    die( "<div id='error-container' class='error-message'>Something went wrong inserting values.</div>");
+                    $_SESSION['toast_message'] = "Database Issue inserting values";
                 } else {
                     $_SESSION["ActivityLevel"] = $ActivityLevel;
                     header("Location: http://localhost/php/userPreferences.php");
                     exit();
                 }
             } catch (mysqli_sql_exception $e) {
-                die("$e");
+                $_SESSION['toast_message'] = "MySQLi issue" . $e;
             }
         ?>
     </div>
@@ -154,5 +155,9 @@ ob_start();
 </html>
 
 <?php
+if (isset($_SESSION['toast_message'])) {
+    echo "<script>showToast('" . addslashes($_SESSION['toast_message']) . "');</script>";
+    unset($_SESSION['toast_message']);
+}
 ob_end_flush();
 ?>

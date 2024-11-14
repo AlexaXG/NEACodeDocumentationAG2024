@@ -40,7 +40,7 @@ ob_start();
                         <li><a class="button" href="http://localhost/php/LandingPage.php"></li>
                         <button type="button">Test Button </button></a>
                     </ul>
-                    <a href="http://localhost/MySettings.php">
+                    <a href="http://localhost/php/MySettings.php">
                         <img class="logoImg" src="/Other Files/settingCog.png"></a>
                 </nav>
             </div>
@@ -49,7 +49,8 @@ ob_start();
             <div class="welcome-container">
                 <?php
                 if (!isset($_SESSION["userid"]) || !isset($_SESSION["username"])) {
-                    die("You must log in first!");
+                    header("Location: http://localhost/php/Login.php");
+                    exit();
                 } else {
                     $userid = $_SESSION["userid"];
                     $username = $_SESSION["username"];
@@ -139,23 +140,25 @@ ob_start();
                         <div id="errorMessage"></div>
                     </div>
                     <script>
-                        var userPreference = 
-                        <?php
-                        echo json_encode($preference);
-                        ?>;
+                        var userPreference =
+                            <?php
+                            echo json_encode($preference);
+                            ?>;
                         console.log("User Preference from PHP:", userPreference);
 
-                        var userAllergies = 
-                        <?php
-                        echo json_encode($allergies);
-                        ?>;
+                        var userAllergies =
+                            <?php
+                            echo json_encode($allergies);
+                            ?>;
                         console.log("User allergies from PHP:", userAllergies);
                     </script>
                 </div>
                 <div class="outputbox" id='searchResults'>
                     <div class="title-text">Recipe Results:</div>
-                    
-                    <div class="mealDisplay" id="displayResultsHere"><div class="shadowing"></div></div>
+
+                    <div class="mealDisplay" id="displayResultsHere">
+                        <div class="shadowing"></div>
+                    </div>
                 </div>
                 <div class="outputbox" id="queriesBox">
                     <div class="title-text">Specific Search Queries:</div>
@@ -172,5 +175,9 @@ ob_start();
 
 </html>
 <?php
+if (isset($_SESSION['toast_message'])) {
+    echo "<script>showToast('" . addslashes($_SESSION['toast_message']) . "');</script>";
+    unset($_SESSION['toast_message']);
+}
 ob_end_flush();
 ?>
