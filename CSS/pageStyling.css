@@ -351,7 +351,7 @@ input:focus {
 	color: red;
 	font-weight: bold;
 }
-#toast {
+/* #toast {
 	position: fixed;
 	bottom: 20px;
 	right: 20px;
@@ -365,12 +365,22 @@ input:focus {
 	opacity: 0;
 	visibility: hidden;
 	transition: opacity 0.3s, visibility 0.3s;
+} */
+.toast {
+    position: fixed;
+    background-color: #f44336; /* Red */
+    color: white;
+    padding: 16px;
+    border-radius: 5px;
+    z-index: 1000;
+    transition: opacity 0.5s ease;
+}
+#toast {
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 
-#toast.show {
-	visibility: visible;
-	opacity: 1;
-}
 #note {
 	width: 100%;
 	max-width: 600px;

@@ -16,6 +16,7 @@ ob_start();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GymmieMeals-Your Details</title>
     <link rel="stylesheet" href="/css/pageStyling.css">
+    <script src="toast.js"></script>
 </head>
 
 <body>
@@ -109,6 +110,7 @@ ob_start();
                     }
                 </script>
             </div>
+            <div id="toast"></div>
         </form>
         <?php
         if (isset($_SESSION["userid"]) || isset($_SESSION["username"])) {
@@ -157,9 +159,11 @@ ob_start();
 
 </html>
 <?php
-if (isset($_SESSION['toast_message'])) {
-    echo "<script>showToast('" . addslashes($_SESSION['toast_message']) . "');</script>";
-    unset($_SESSION['toast_message']);
+if (isset($_SESSION['toast_message'])) { ?>
+    <script>
+        document.getElementById("toast").innerHTML = '<div class="toast"><?php echo $_SESSION['toast_message']; ?></div>';
+    </script>
+    <?php unset($_SESSION['toast_message']); // Clear the message after displaying it
 }
 ob_end_flush();
 ?>

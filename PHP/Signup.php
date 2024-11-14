@@ -18,6 +18,7 @@ ob_start(); //output buffer, holds any data temporarily before sendingto the bro
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GymmieMeals-Sign Up</title>
     <link rel="stylesheet" href="/css/pageStyling.css">
+    <script src="toast.js"></script>
 </head>
 <style>
     .checklist {
@@ -199,6 +200,7 @@ ob_start(); //output buffer, holds any data temporarily before sendingto the bro
                 <button type="submit" name="s">Confirm</button>
                 <!-- button to submit the form and redirect to header-->
             </div>
+            <div id="toast"></div>
     </form>
     <?php
     if (isset($_SESSION["userid"]) || isset($_SESSION["username"])) {
@@ -290,9 +292,11 @@ ob_start(); //output buffer, holds any data temporarily before sendingto the bro
 
 </html>
 <?php
-if (isset($_SESSION['toast_message'])) {
-    echo "<script>showToast('" . addslashes($_SESSION['toast_message']) . "');</script>";
-    unset($_SESSION['toast_message']);
+if (isset($_SESSION['toast_message'])) { ?>
+    <script>
+        document.getElementById("toast").innerHTML = '<div class="toast"><?php echo $_SESSION['toast_message']; ?></div>';
+    </script>
+    <?php unset($_SESSION['toast_message']); // Clear the message after displaying it
 }
 ob_end_flush(); 
 ?>

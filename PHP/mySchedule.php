@@ -86,6 +86,7 @@ $activities = $activity->getActivities($_SESSION['userid']);
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>GymmieMeals-Homepage</title>
         <link rel="stylesheet" href="/css/pageStyling.css"> <!-- referencing the updated Styling page-->
+        <script src="toast.js"></script>
     </head>
 
     <!-- <div> -->
@@ -429,6 +430,7 @@ $activities = $activity->getActivities($_SESSION['userid']);
                 </div>
             </div>
     </div>
+    <div id="toast"></div>
     </form>
     </div>
 
@@ -437,9 +439,11 @@ $activities = $activity->getActivities($_SESSION['userid']);
 
 </html>
 <?php
-if (isset($_SESSION['toast_message'])) {
-    echo "<script>showToast('" . addslashes($_SESSION['toast_message']) . "');</script>";
-    unset($_SESSION['toast_message']);
+if (isset($_SESSION['toast_message'])) { ?>
+    <script>
+        document.getElementById("toast").innerHTML = '<div class="toast"><?php echo $_SESSION['toast_message']; ?></div>';
+    </script>
+    <?php unset($_SESSION['toast_message']); // Clear the message after displaying it
 }
 ob_end_flush();
 $dbConnection->close();
