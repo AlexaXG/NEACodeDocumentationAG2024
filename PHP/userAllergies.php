@@ -64,8 +64,11 @@ ob_start();
         if (isset($_SESSION["userid"]) || isset($_SESSION["username"])) {
             $userid = $_SESSION["userid"];
             $username = $_SESSION["username"];
+            if (!isset($_SESSION["Signup_in_progress"])) {
+                header("location: http://localhost/php/Homepage.php");
+            } 
         } else {
-            die("no userid or username in session");
+            header("location: http://localhost/php/login.php");
         }
         if (!isset($_GET["s"])) {
             die("");
