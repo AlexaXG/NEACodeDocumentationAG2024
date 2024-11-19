@@ -122,7 +122,7 @@ ob_start();
                     } else {
                         $userCheck->bind_result($fetchedPass, $userid, $weight, $height, $gender, $age, $activity);
                         //binds results to written variables
-                        while ($userCheck->fetch()) {
+                        while ($userCheck->fetch()) {   
                             //fetch recieves 1 row at a time from the results so it iterates until all data has been collected
                             $_SESSION["fetchedPass"] = $fetchedPass;
                             $_SESSION["weight"] = $weight;
@@ -166,7 +166,7 @@ ob_start();
                         } else {
                             $_SESSION['toast_message'] = "Incorrect password.";
                         }
-                    }
+                    }   
                 }
             }
         } catch (mysqli_sql_exception $e) {
@@ -177,14 +177,17 @@ ob_start();
 </body>
 
 </html>
-<?php
-if (isset($_SESSION['toast_message'])) {
-    var_dump($_SESSION["toast_message"]); ?>
+<?php if (isset($_SESSION['toast_message'])): ?>
     <script>
-        document.getElementById("toast").innerHTML = '<div class="toast"><?php echo $_SESSION['toast_message']; ?></div>';
+        document.addEventListener('DOMContentLoaded', function () {
+            const toast = document.getElementById('toast');
+            if (toast) {
+                // Set the inner HTML or text content of the toast div
+                toast.innerHTML = <?php echo json_encode($_SESSION['toast_message']); ?>;
+            }
+        });
     </script>
-    <?php unset($_SESSION['toast_message']);
-}
+    <?php unset($_SESSION['toast_message']); ?>
+<?php endif;
 ob_end_flush();
-
 ?>

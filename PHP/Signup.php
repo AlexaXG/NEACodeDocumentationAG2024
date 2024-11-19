@@ -208,11 +208,10 @@ ob_start(); //output buffer, holds any data temporarily before sendingto the bro
         $username = $_SESSION["username"];
         if (!isset($_SESSION["Signup_in_progress"])) {
             header("location: http://localhost/php/Homepage.php");
-        } 
-    } else {
-        header("location: http://localhost/php/login.php");
-        exit();
-    }
+        } else {
+            header("location: http://localhost/php/signupattributes.php");
+        }
+    } 
     if (!isset($_POST["s"])) {
         die("");
         //if the form has not been submitted (i.e: submit button has not been pressed) it will stop further execution
