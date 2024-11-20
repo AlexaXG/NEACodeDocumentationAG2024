@@ -31,7 +31,6 @@ ob_start();
                     <ul>
                         <li><a class="button" href="http://localhost/php/Homepage.php"></li>
                         <button type="button">My Tracking</button></a>
-                        <!-- simply refreshes the page as tracking is dynamically loaded onto the homepage-->
                         <li><a class="button" href="http://localhost/php/MyMeals.php"></li>
                         <button type="button">My Meals</button></a>
                         <li><a class="button" href="http://localhost/php/MyGoals.php"></li>
@@ -122,21 +121,21 @@ ob_start();
                         <div class="title-text">Select your meal:</div>
                         <div class="output-text">Select the type of meal you want to search for:</div>
                         <select id="BLDChoice" name="BLDC" class="genderIn">
-                            <option value="op1">Any</option>
-                            <option value="op2">Main Course</option>
-                            <option value="op3">Side Dish</option>
-                            <option value="op4">Dessert</option>
-                            <option value="op5">Appetizer</option>
-                            <option value="op6">Salad</option>
-                            <option value="op7">Bread</option>
-                            <option value="op8">Breakfast</option>
-                            <option value="op9">Soup</option>
-                            <option value="op10">Beverage</option>
-                            <option value="op11">Sauce</option>
-                            <option value="op12">Marinade</option>
-                            <option value="op13">Fingerfood</option>
-                            <option value="op14">Snack</option>
-                            <option value="op15">Drink</option>
+                            <option value="Any">Any</option>
+                            <option value="Main%20Course">Main Course</option>
+                            <option value="Side%20Dish">Side Dish</option>
+                            <option value="Dessert">Dessert</option>
+                            <option value="Appetizer">Appetizer</option>
+                            <option value="Salad">Salad</option>
+                            <option value="Bread">Bread</option>
+                            <option value="Breakfast">Breakfast</option>
+                            <option value="Soup">Soup</option>
+                            <option value="Beverage">Beverage</option>
+                            <option value="Sauce">Sauce</option>
+                            <option value="Marinade">Marinade</option>
+                            <option value="Fingerfood">Fingerfood</option>
+                            <option value="Snack">Snack</option>
+                            <option value="Drink">Drink</option>
                         </select>
                         <div id="errorMessage"></div>
                     </div>
@@ -181,7 +180,7 @@ if (isset($_SESSION['toast_message'])) { ?>
     <script>
         document.getElementById("toast").innerHTML = '<div class="toast"><?php echo $_SESSION['toast_message']; ?></div>';
     </script>
-    <?php unset($_SESSION['toast_message']); // Clear the message after displaying it
+    <?php unset($_SESSION['toast_message']); 
 }
 ob_end_flush();
 ?>

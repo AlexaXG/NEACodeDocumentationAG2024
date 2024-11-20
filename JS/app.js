@@ -17,24 +17,31 @@ function addStylesheet(url) {
     document.head.appendChild(link);
 }
 addStylesheet('/css/pageStyling.css');
-
-	const value = document.getElementById("BLDChoice");
-	const selectedValue = value.value;
+const SelectedMealType = document.getElementById("BLDChoice");
+const selectedValue = SelectedMealType.value;
 	console.log(selectedValue);
 
 
 
 async function searchRecipesByName() {
+
 	const query = document.getElementById("userInput").value;
 
 	if (!query) {
 		document.getElementById("errorMessage").innerHTML =
 			"Must enter a query";
 		return;
+		
 	}
 	var apiQueryingUrl = `https://api.spoonacular.com/recipes/complexSearch?query=${encodeURIComponent(query)}&apiKey=${apiKey}&number=3`;
-		apiQueryingUrl = apiQueryingUrl + `&diet=${encodeURIComponent(userPreference)}`;
-		apiQueryingUrl = apiQueryingUrl + `&type=${encodeURIComponent(selectedValue)}`;
+		if (usePreferenceCheck() === false) {
+		} else {
+			queryURLBuilder = queryURLBuilder + `&diet=${encodeURIComponent(userPreference)}`;
+		}
+		if (selectedValue == "") {}
+		else {
+			apiQueryingUrl = apiQueryingUrl + `&type=${encodeURIComponent(selectedValue)}`;
+		}
 	console.log("URL:" + apiQueryingUrl);
 
 	try {
@@ -49,6 +56,7 @@ async function searchRecipesByName() {
 
 async function searchRecommendedRecipes() {
 	//add allergies
+	var selectedMealType = document.getElementById("BLDChoice").value;
 	var queryURLBuilder = `https://api.spoonacular.com/recipes/random?apiKey=${apiKey}&number=2`;
 
     if (usePreferenceCheck() === false) {
