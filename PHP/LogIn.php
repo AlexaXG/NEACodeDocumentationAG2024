@@ -11,7 +11,7 @@ ob_start();
     <title>GymmieMeals-Log in</title>
     <link rel="stylesheet" href="/css/pageStyling.css">
 </head>
-<script src="toast.js"></script>
+
 
 <body>
     <div class="page-banner">
@@ -182,12 +182,15 @@ ob_start();
         document.addEventListener('DOMContentLoaded', function () {
             const toast = document.getElementById('toast');
             if (toast) {
-                // Set the inner HTML or text content of the toast div
                 toast.innerHTML = <?php echo json_encode($_SESSION['toast_message']); ?>;
+                toast.style.display = 'block'; 
+                setTimeout(() => {
+                    toast.style.display = 'none'; 
+                }, 5000); 
             }
         });
     </script>
-    <?php unset($_SESSION['toast_message']); ?>
-<?php endif;
+    <?php unset($_SESSION['toast_message']); ?> 
+<?php endif; 
 ob_end_flush();
 ?>
