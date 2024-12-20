@@ -9,56 +9,49 @@ ob_start();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GymmieMeals-Homepage</title>
-    <link rel="stylesheet" href="/css/pageStyling.css">
-    <script src="toast.js"></script>
+    <link rel="stylesheet" href="pageStyling.css"> 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
 </head>
-<style>
-    #logout {
-        background-color: red;
-    }
-    #logout:hover {
-	background-color: #ffff;
-	color: red;
-}
-</style>
 
 <body>
     <form action="<?php $_SERVER['PHP_SELF'] ?>" method="post">
         <div class="page-banner">
             <div class="item-container">
                 <nav class="button-container">
-                    <img class="logoImg" src="/Other Files/GymmieMeals.png">
+                    <img class="logoImg" src="GymmieMeals.png">
                     <ul>
-                        <li><a class="button" href="http://localhost/php/Homepage.php"></li>
+                        <li><a class="button" href="http://localhost/Homepage.php"></li>
                         <button type="button">My Tracking</button></a>
-                        <li><a class="button" href="http://localhost/php/MyMeals.php"></li>
+                        <li><a class="button" href="http://localhost/MyMeals.php"></li>
                         <button type="button">My Meals</button></a>
-                        <li><a class="button" href="http://localhost/php/MyGoals.php"></li>
+                        <li><a class="button" href="http://localhost/MyGoals.php"></li>
                         <button type="button">My Goals</button></a>
-                        <li><a class="button" href="http://localhost/php/MySchedule.php"></li>
+                        <li><a class="button" href="http://localhost/MySchedule.php"></li>
                         <button type="button">My Schedule</button></a>
-                        <li><a class="button" href="http://localhost/php/LandingPage.php"></li>
+                        <li><a class="button" href="http://localhost/LandingPage.php"></li>
                         <button type="button">Test Button </button></a>
                     </ul>
-                    <a href="http://localhost/php/MySettings.php">
-                        <img class="logoImg" src="/Other Files/settingCog.png"></a>
-                    <a href="http://localhost/php/signup.php"> 
-                        <button type="button" id="logout">Log out</button>
-                        <?php 
-                        $_SESSION["logout"] = true;
-                        ?>
-                    </a>
+                    <a href="http://localhost/MySettings.php">
+                        <img class="logoImg" src="settingCog.png"></a>
                 </nav>
             </div>
         </div>
-        
+        <script>
+            function highlightIt(element) {
+                var links = document.querySelectorAll('a');
+                links.forEach(link => {
+                    link.classList.remove('highlighted');
+                    //removes "highlighted" css class from all <a> references
+                });
+                element.classList.add('highlighted');
+                //then it adds the highlighted class to the button "this" that was clicked
+            }
+        </script>
         <div class="main-content">
             <div class="welcome-container">
                 <?php
                 if (!isset($_SESSION["userid"]) || !isset($_SESSION["username"])) {
-                    header("location: http://localhost/php/login.php");
-                    exit();
+                    die("You must log in first!");
                 } else {
                     $userid = $_SESSION["userid"];
                     $username = $_SESSION["username"];
@@ -66,7 +59,7 @@ ob_start();
                 try {
                     $connection = new mysqli("localhost", "root", "", "neaDatabaseAlexG");
                 } catch (mysqli_sql_exception $e) {
-                    $_SESSION['toast_message'] = "Database Issue" . $e;
+                    die("Something went wrong: " . $e);
                 }
                 $connUserDetails = $connection->prepare("select weight, height, gender, age from user where username = ?");
                 $connUserDetails->bind_param("s", $username);
@@ -74,26 +67,26 @@ ob_start();
                 $connUserDetails->bind_result($weight, $height, $gender, $age);
                 $connUserDetails->fetch();
 
-                if (!isset($_SESSION["weight"])) {
-                    $_SESSION['toast_message'] = "Weight session variable not set";
+                if (!isset($_SESSION["weight"])) { 
+                    echo "weight NS";
                     $weightArg = $weight;
                 } else {
                     $weightArg = $_SESSION["weight"];
                 }
                 if (!isset($_SESSION["height"])) {
-                    $_SESSION['toast_message'] = "Height session variable not set";
+                    echo "height NS";
                     $heightArg = $height;
                 } else {
                     $heightArg = $_SESSION["height"];
                 }
                 if (!isset($_SESSION["gender"])) {
-                    $_SESSION['toast_message'] = "Gender session variable not set";
+                    echo "gender NS";
                     $genderArg = $gender;
                 } else {
                     $genderArg = $_SESSION["gender"];
                 }
                 if (!isset($_SESSION["age"])) {
-                    $_SESSION['toast_message'] = "Age session variable not set";
+                    echo "age NS";
                     $ageArg = $age;
                 } else {
                     $ageArg = $_SESSION["age"];
@@ -132,8 +125,6 @@ ob_start();
                         ?>
                     </span>
                 </span>
-
-                <div id="toast"></div>
             </div>
             <div class="display-content">
                 <div class="bmiAndAnnulusBox">
@@ -142,22 +133,21 @@ ob_start();
                         <div class='output-text' id='weightCategory'>Your weight category:</div>
                         <div class='output-value' id='catVal'>
                             <?php
-                            $javaJDKPath = getenv('JAVA_JDK_PATH');
-
-                            //defining my file path to my JDK java folder
-                            $javaCompiledPath = getenv('FIND_BMI_CLASS');
-                            
-                                //defining the file path to the compiled java algorithm that calculates BMI and category
-                                $command = "\"$javaJDKPath\" -cp \"$javaCompiledPath\" findbmi.FindBMIValue $weightArg $heightArg 2>&1";
-                                //this command does:
-                                // = "using this JDK version" -cp sets classpath, findbmi.FindBMIValue is the file name of my java algorithm, followed by parameters to parse into it
-                                // 2&>1 is used for debugging, redirecting error messages and outputs to the same location
-                                $javaOutput = shell_exec($command);
-                                //executing the command
-                                list($category, $bmi) = explode(",", trim($javaOutput));
-                                //splits the java algorithm output by "," and assigns each value to its own variable
-                                //setting the dynamic text
-                                echo htmlspecialchars($category);
+                           $javaJDKPath = getenv('JAVA_JDK_PATH');
+                           //defining my file path to my JDK java folder
+                           $javaCompiledPath = getenv('FIND_BMI_CLASS');
+                           
+                            //defining the file path to the compiled java algorithm that calculates BMI and category
+                            $command = "\"$javaJDKPath\" -cp \"$javaCompiledPath\" findbmi.FindBMIValue $weightArg $heightArg 2>&1";
+                            //this command does:
+                            // = "using this JDK version" -cp sets classpath, findbmi.FindBMIValue is the file name of my java algorithm, followed by parameters to parse into it
+                            // 2&>1 is used for debugging, redirecting error messages and outputs to the same location
+                            $javaOutput = shell_exec($command);
+                            //executing the command
+                            list($category, $bmi) = explode(",", trim($javaOutput));
+                            //splits the java algorithm output by "," and assigns each value to its own variable
+                            //setting the dynamic text
+                            echo htmlspecialchars($category);
                             ?>
                         </div> <br>
                         <div class='output-text' id='bmiText'>Your BMI:</div>
@@ -188,7 +178,7 @@ ob_start();
                     </div><br>
                     <div class='output-text' id='caloriesText'>Daily Macronutrients:</div>
                     <div class='output-value' id='splitVal'>
-                        <?php
+                        <?php 
                         $javaCompiledPath3 = getenv('CALCULATE_SPLITS_CLASS');
                         $command3 = "\"$javaJDKPath\" -cp \"$javaCompiledPath3\" calculatesplits.CalculateSplits $calories \"$goalArg\" 2>&1";
                         $javaOutput3 = shell_exec($command3);
@@ -204,52 +194,52 @@ ob_start();
                             <tr>
                                 <td id="bf">Breakfast</td>
                                 <td>
-                                    <?php
-                                    echo ($protein * 0.3) . 'g';
+                                    <?php 
+                                        echo ($protein * 0.3) . 'g';
                                     ?>
                                 </td>
                                 <td>
-                                    <?php
-                                    echo ($fats * 0.3) . 'g';
+                                    <?php 
+                                        echo ($fats * 0.3). 'g';
                                     ?>
                                 </td>
                                 <td>
-                                    <?php
-                                    echo ($carbs * 0.3) . 'g';
+                                    <?php 
+                                        echo ($carbs * 0.3). 'g';
                                     ?>
                                 </td>
                             </tr>
                             <tr>
                                 <td id="lu">Lunch</td>
-                                <td> <?php
-                                echo ($protein * 0.4) . 'g';
-                                ?>
-                                </td>
-                                <td>
-                                    <?php
-                                    echo ($fats * 0.4) . 'g';
+                                <td> <?php 
+                                        echo ($protein * 0.4). 'g';
                                     ?>
                                 </td>
                                 <td>
-                                    <?php
-                                    echo ($carbs * 0.4) . 'g';
+                                    <?php 
+                                        echo ($fats * 0.4). 'g';
+                                    ?>
+                                </td>
+                                <td>
+                                    <?php 
+                                        echo ($carbs * 0.4). 'g';
                                     ?>
                                 </td>
                             </tr>
                             <tr>
                                 <td id="di">Dinner</td>
-                                <td> <?php
-                                echo ($protein * 0.3) . 'g';
-                                ?>
-                                </td>
-                                <td>
-                                    <?php
-                                    echo ($fats * 0.3) . 'g';
+                                <td> <?php 
+                                        echo ($protein * 0.3). 'g';
                                     ?>
                                 </td>
                                 <td>
-                                    <?php
-                                    echo ($carbs * 0.3) . 'g';
+                                    <?php 
+                                        echo ($fats * 0.3). 'g';
+                                    ?>
+                                </td>
+                                <td>
+                                    <?php 
+                                        echo ($carbs * 0.3). 'g';
                                     ?>
                                 </td>
                             </tr>
@@ -290,11 +280,5 @@ ob_start();
 
 </html>
 <?php
-if (isset($_SESSION['toast_message'])) { ?>
-    <script>
-        document.getElementById("toast").innerHTML = '<div class="toast"><?php echo $_SESSION['toast_message']; ?></div>';
-    </script>
-    <?php unset($_SESSION['toast_message']); // Clear the message after displaying it
-}
 ob_end_flush();
 ?>

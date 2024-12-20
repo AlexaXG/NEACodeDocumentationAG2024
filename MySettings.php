@@ -4,43 +4,37 @@ ob_start();
 ?>
 <!DOCTYPE HTML>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GymmieMeals-Settings</title>
     <link rel="stylesheet" href="/css/pageStyling.css">
-    <script src="toast.js"></script>
 </head>
-<style>
-    .logoImg {
-        height: 50px;
-    }
-</style>
 <body>
     <form action="<?php $_SERVER["PHP_SELF"] ?>" method="post">
         <div class="page-banner">
             <div class="item-container">
+                <a href="#"><img class="logoImg" src="/Other Files/GymmieMeals.png"></a>
                 <div class="button-container">
-                    <a href="#"><img class="logoImg" src="/Other Files/GymmieMeals.png"></a>
-                    <a class="button" href="#" onclick="handlePageLoad('/php/AccountContent.php', this)">
+                    <a class="button" href="#" onclick="handlePageLoad('/PHP/AccountContent.php', this)">
+                        <!-- each button calling teh handlePageLoad function loads a separate php page within the html -->
                         <button type="button">My Account</button></a>
-                    <a class="button" href="#" onclick="handlePageLoad('/php/DetailsContent.php', this)">
+                    <a class="button" href="#" onclick="handlePageLoad('/PHP/DetailsContent.php', this)">
                         <button type="button">My Details</button></a>
-                    <a class="button" href="#" onclick="handlePageLoad('/php/PreferencesContent.php', this)">
+                    <a class="button" href="#" onclick="handlePageLoad('/PHP/PreferencesContent.php', this)">
                         <button type="button">My Preferences</button></a>
-                    <a class="button" href="#" onclick="handlePageLoad('/php/AllergiesContent.php', this)">
+                    <a class="button" href="#" onclick="handlePageLoad('/PHP/AllergiesContent.php', this)">
                         <button type="button">My Allergies</button></a>
-                    <a class="button" href="#" onclick="handlePageLoad('/php/ActivityContent.php', this)">
+                    <a class="button" href="#" onclick="handlePageLoad('/PHP/ActivityContent.php', this)">
                         <button type="button">My Activity</button></a>
-                    <a href="http://localhost/php/homepage.php">
-                        <img class="logoImg" src="/Other Files/home.svg"></a>
+                    <a class="button" href="http://localhost/PHP/Homepage.php">
+                        <button type="button">Home</button></a>
                 </div>
             </div>
         </div>
         <div class="main-content">
             <div class="welcome-container">
-
+                
             </div>
             <script>
 
@@ -71,7 +65,7 @@ ob_start();
 
                 function loadUserData() {
                     fetch('getUserData.php')
-                        //http request to that php page
+                    //http request to that php page
                         .then(response => response.json())
                         //formats the response as json
                         .then(data => {
@@ -88,7 +82,7 @@ ob_start();
                     var links = document.querySelectorAll('a');
                     links.forEach(link => {
                         link.classList.remove('highlighted');
-                        //removes "highlighted" css class from all <a> references
+                    //removes "highlighted" css class from all <a> references
                     });
                     element.classList.add('highlighted');
                     //then it adds the highlighted class to the button "this" that was clicked
@@ -96,7 +90,7 @@ ob_start();
                 window.onload = function () {
                     var defaultLink = document.querySelector('a');
                     //when the page is loaded, it will call the php page below as the default. 
-                    handlePageLoad('AccountContent.php', defaultLink);
+                    handlePageLoad('/PHP/AccountContent.php', defaultLink);
                 };
 
             </script>
@@ -125,17 +119,9 @@ ob_start();
                 }
             </script>
         </div>
-        <div id="toast"></div>
     </form>
 </body>
-
 </html>
 <?php
-if (isset($_SESSION['toast_message'])) { ?>
-    <script>
-        document.getElementById("toast").innerHTML = '<div class="toast"><?php echo $_SESSION['toast_message']; ?></div>';
-    </script>
-    <?php unset($_SESSION['toast_message']); // Clear the message after displaying it
-}
 ob_end_flush();
 ?>

@@ -39,7 +39,7 @@ body {
 	float: left;
 }
 .logoImg {
-	height: 60px;
+	height: 70px;
 }
 button {
 	border-radius: 3px;
@@ -167,12 +167,12 @@ button:hover {
 	display: flex;
 	flex-direction: column;
 	justify-content: flex-start;
-	gap: 40px;
+	gap: 60px;
 	align-items: center;
 }
 #recommendedSearchBox {
 	width: 400px;
-	height: 230px;
+	height: 260px;
 }
 #BLDSelect {
 	width: 400px;
@@ -329,29 +329,19 @@ input:focus {
 .labelText {
 	color: #b35cc3;
 	font-weight: bold;
-	min-width: 200px;
-	text-align: left;
 }
 #activ1,
 #activ2,
 #activ3,
 #activ4,
-#activ5,
-#veg1,
-#veg2,
-#pesc,
-#glut,
-#pale,
-#lact,
-#orga,
-#nopr {
+#activ5 {
 	accent-color: #b35cc3;
 }
 .error-message {
 	color: red;
 	font-weight: bold;
 }
-/* #toast {
+#toast {
 	position: fixed;
 	bottom: 20px;
 	right: 20px;
@@ -365,19 +355,12 @@ input:focus {
 	opacity: 0;
 	visibility: hidden;
 	transition: opacity 0.3s, visibility 0.3s;
-} */
-
-#toast {
-    display: none; 
-    background-color: red; 
-	border-radius: 5px;
-    color: white; 
-    padding: 16px; 
-    position: relative;
-	margin-top: 10px; 
-    z-index: 1; 
 }
 
+#toast.show {
+	visibility: visible;
+	opacity: 1;
+}
 #note {
 	width: 100%;
 	max-width: 600px;
@@ -553,17 +536,3 @@ input:focus {
 	border-bottom: 1px solid black;
 }
 
-#preferenceSelect {
-	width: 400px;
-	height: 700px;
-	display: flex;
-	flex-direction: column;
-	align-items: left;
-	padding: 20px;
-}
-
-#allergyContent {
-	width: 400px;
-	height: 330px;
-	padding: 20px;
-}

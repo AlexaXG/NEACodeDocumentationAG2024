@@ -1,8 +1,6 @@
 <?php
-
-session_start();  
+session_start(); //starts a session 
 ob_start(); //output buffer, holds any data temporarily before sendingto the browser 
-
 ?>
 
 <!DOCTYPE HTML>
@@ -12,8 +10,7 @@ ob_start(); //output buffer, holds any data temporarily before sendingto the bro
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GymmieMeals-Sign Up</title>
-    <link rel="stylesheet" href="/css/pageStyling.css">
-    <script src="toast.js"></script>
+    <link rel="stylesheet" href="/CSS/pageStyling.css">
 </head>
 <style>
     .checklist {
@@ -22,12 +19,15 @@ ob_start(); //output buffer, holds any data temporarily before sendingto the bro
         list-style-type: none;
         padding-left: 0;
     }
-    #usernameCheck{
+
+    #usernameCheck {
         margin-right: 50px;
     }
+
     .checklistitem {
         color: #ff0000;
     }
+
     #username-length2 {
         color: #008000;
         font-weight: bold;
@@ -37,6 +37,7 @@ ob_start(); //output buffer, holds any data temporarily before sendingto the bro
         color: #008000;
         font-weight: bold;
     }
+
     .checklistitem.notValid {
         color: #ff0000;
     }
@@ -47,7 +48,7 @@ ob_start(); //output buffer, holds any data temporarily before sendingto the bro
         <div class="item-container">
             <div class="button-container">
                 <a href=""><img class="logoImg" src="/Other Files/GymmieMeals.png"></a>
-                <a class="button" href="http://localhost//php/Login.php">
+                <a class="button" href="http://localhost/PHP/Login.php">
                     <button type="button">Have an account?</button></a>
                 <a class="button" onclick="copyToCB()" onmouseover="replaceText()" onmouseout="replaceTextBack()">
                     <button type="button" value="Contact Support" id="contact-support">
@@ -81,9 +82,11 @@ ob_start(); //output buffer, holds any data temporarily before sendingto the bro
                     <li class="checklistitem" id="password-upper"> - Contains an uppercase letter</li>
                     <li class="checklistitem" id="password-lower"> - Contains a lowercase letter</li>
                     <li class="checklistitem" id="password-number"> - Contains a number</li>
-                    <li class="checklistitem" id="password-special"> - Contains a special character (e.g., !@#$%^&*)</li>
+                    <li class="checklistitem" id="password-special"> - Contains a special character (e.g., !@#$%^&*)
+                    </li>
                 </ul>
                 <script>
+                    // Username checklist validation
                     const usernameInput = document.getElementById('username');
                     const usernameLength = document.getElementById('username-length');
                     const usernameLength2 = document.getElementById('username-length2');
@@ -98,7 +101,7 @@ ob_start(); //output buffer, holds any data temporarily before sendingto the bro
                         if (usernameInput.value.length > 16) {
                             document.getElementById("username-length2").style.color = '#ff0000';
                             document.getElementById("username-length2").style.fontWeight = 'normal';
-                        } 
+                        }
                         if (/^[a-zA-Z0-9]+$/.test(usernameInput.value)) {
                             usernameLetters.classList.add('valid');
                         } else {
@@ -141,9 +144,11 @@ ob_start(); //output buffer, holds any data temporarily before sendingto the bro
                         }
                     });
                 </script>
+                <!-- input for the first password field -->
                 <label for="password1"></label>
                 <input type="password" name="password2" id="password2" placeholder="Confirm password" required
                     autocomplete="off" />
+                <!-- input for the second password field-->
                 <a class="checkbox" onclick="toggleVis1()">
                     <img class="favImg" id="toggleEye" src="/Other Files/closedEye.svg" width="28px" draggable="false">
                     <label>Show Password</label>
@@ -190,44 +195,35 @@ ob_start(); //output buffer, holds any data temporarily before sendingto the bro
                     }
                 </script>
                 <button type="submit" name="s">Confirm</button>
+                <!-- button to submit the form and redirect to header-->
             </div>
-            <div id="toast"></div>
     </form>
     <?php
-    if ($_SESSION["logout"] == true) {
-        $_SESSION = [];
-    } 
-    if (isset($_SESSION["userid"]) || isset($_SESSION["username"])) {
-        $userid = $_SESSION["userid"];
-        $username = $_SESSION["username"];
-        if (!isset($_SESSION["Signup_in_progress"])) {
-            header("location: http://localhost/php/Homepage.php");
-        } else {
-            header("location: http://localhost/php/signupattributes.php");
-        }
-    } 
     if (!isset($_POST["s"])) {
         die("");
+        //if the form has not been submitted (i.e: submit button has not been pressed) it will stop further execution
     }
     try {
         $connection = new mysqli("localhost", "root", "", "neaDatabaseAlexG");
         //attempts a connection to mySQL database, defining the port, username, password, and database name.
     } catch (mysqli_sql_exception $e) {
-        $_SESSION['toast_message'] = "Database Issue" . $e;
+        die("<div id='error-container' class='error-message'>Something went wrong: . $e</div>");
         //error handling
     }
 
     $username = $_POST["username"];
     $password = $_POST["password"];
     $password2 = $_POST["password2"];
-    $createdDate = date("Y-m-d H:i:s"); 
+    $createdDate = date("Y-m-d H:i:s"); //current timestamp
     
     //sets local variables by calling their values from the POST method
-    if ($password !== $password2) {
-        $_SESSION['toast_message'] = "Passwords don't match.";
+    if (empty($username) || empty($password) || empty($password2)) {
+        die("<div id='error-container' class='error-message'>All fields required.</div>");
+    } else if ($password !== $password2) {
+        die("<div id='error-container' class='error-message'>Passwords do not match.</div>");
     } else {
         //selection to ensure username and password fall under a criteria
-
+    
         $javaJDKPath = "C:/Program Files/Java/jdk-17/bin/java";
         $javaCompiledPath = "C:/Users/algub/OneDrive/Documents/NetBeansProjects/secureSaltingAlgorithm/src";
         $saltLen = 18;
@@ -245,18 +241,18 @@ ob_start(); //output buffer, holds any data temporarily before sendingto the bro
         if ($userCheck->execute()) {
             $userCheck->store_result();
         } else {
-            $_SESSION['toast_message'] = "MySQLi error" . mysqli_error();
+            die(mysqli_error());
         }
         if ($userCheck->num_rows > 0) {
             //checks the number of rows returned from the SQL statement
-            $_SESSION['toast_message'] = "Username already exists!";
+            die("<div id='error-container' class='error-message>Username already exists.</div>");
         } else {
             try {
                 $connResult = $connection->prepare("INSERT INTO user (userName, Passwords, CreatedDate, salt) values (?, ?, ?, ?)");
                 //prepares another parameterised sql statement to insert the entered information correctly
                 $connResult->bind_param("ssss", $username, $hashPW, $CreatedDate, $salt);
                 if (!$connResult->execute()) {
-                    $_SESSION['toast_message'] = "ConnResult failed to execute correctly" . $connResult->error;
+                    die("<div id='error-container' class='error-message'>Something went wrong inserting values.</div>");
                 } else {
                     $connUserID = $connection->prepare("select userID from user where username = ?");
                     //selects the automatically generated userid after insertion of username/password
@@ -268,13 +264,13 @@ ob_start(); //output buffer, holds any data temporarily before sendingto the bro
 
                     $_SESSION["username"] = $username;
                     $_SESSION["userid"] = $userid;
-                    $_SESSION["Signup_in_progress"] = true;
                     //stores username and userid in session for use throughout the website
-                    header("Location: http://localhost/php/signupAttributes.php");                    
+                    header("Location: http://localhost/PHP/signupAttributes.php");
+                    //automatic redirect and program termination
                     exit();
                 }
             } catch (mysqli_sql_exception $e) {
-                $_SESSION['toast_message'] = "MySQLi failed to execute correctly" . $e;
+                die("<div id='error-container' class='error-message'>Something went wrong: . $e</div>");
             }
         }
     }
@@ -283,20 +279,6 @@ ob_start(); //output buffer, holds any data temporarily before sendingto the bro
 </body>
 
 </html>
-<?php if (isset($_SESSION['toast_message'])): ?>
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const toast = document.getElementById('toast');
-            if (toast) {
-                toast.innerHTML = <?php echo json_encode($_SESSION['toast_message']); ?>;
-                toast.style.display = 'block'; 
-                setTimeout(() => {
-                    toast.style.display = 'none'; 
-                }, 5000); 
-            }
-        });
-    </script>
-    <?php unset($_SESSION['toast_message']); ?> 
-<?php endif; 
-ob_end_flush();
+<?php
+ob_end_flush(); //stops output buffering
 ?>
