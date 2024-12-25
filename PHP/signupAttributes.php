@@ -1,11 +1,5 @@
 <?php
 session_start();
-if (isset($_SESSION["userid"])) {
-    session_destroy();
-    session_unset();
-}
-setcookie("PHPSESSID", '', time() - 3600, '/');
-session_regenerate_id(true);
 ob_start();
 ?>
 <!DOCTYPE HTML>
@@ -18,7 +12,16 @@ ob_start();
     <link rel="stylesheet" href="/css/pageStyling.css">
     <script src="toast.js"></script>
 </head>
+<style>
+    #logout {
+        background-color: red;
+    }
 
+    #logout:hover {
+        background-color: #ffff;
+        color: red;
+    }
+</style>
 <body>
     <div class="page-banner">
         <div class="item-container">
@@ -30,8 +33,13 @@ ob_start();
                     <button type="button" value="Contact Support" id="contact-support">
                         Contact Support</button>
                     <div id="SupportEmail" style="display:none;">fakeContactSupport@fakeSupportMail.com</div>
-
                 </a>
+                <a href="http://localhost/php/signup.php">
+                        <button type="button" id="logout">Log out</button>
+                        <?php
+                        $_SESSION["logout"] = true;
+                        ?>
+                    </a>
             </div>
         </div>
     </div>
@@ -49,12 +57,12 @@ ob_start();
                 <div class="inputbox" id="attr">
                     <label for="weight"></label> <br />
                     <input type="number" name="weight" placeholder="Weight" id="weightKG" autocomplete="off" min="0"
-                        step="any" /> <br />
+                        step="any" required/> <br />
                     <label for="height"> </label>
                     <input type="number" name="height" placeholder="Height" id="heightCM" autocomplete="off" min="0"
-                        step="any" /> <br />
+                        step="any" required/> <br />
                     <label for="age"> </label>
-                    <input type="date" name="age" id="ageYRS" autocomplete="off" /> <br />
+                    <input type="date" name="age" id="ageYRS" autocomplete="off" required/> <br />
 
                     <label for="gender"></label>
                     <select name="gender" id="GenderENUM" type="text" required placeholder="Select gender"
@@ -65,8 +73,6 @@ ob_start();
                     </select>
                     <br />
                     <button type="submit" name="s">Confirm</button>
-                    <a href="http://localhost/php/Signup.php">
-                        <button>Back</button> </a>
                 </div>
                 <script>
                     function toggleVis1() {

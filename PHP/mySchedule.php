@@ -368,9 +368,12 @@ $activities = $activity->getActivities($_SESSION['userid']);
                 <div class="welcome-container">
                     <?php
                     if (!isset($_SESSION["userid"]) || !isset($_SESSION["username"])) {
-                        header("Location: http://localhost/php/Login.php");
+                        header("location: http://localhost/php/login.php");
                         exit();
                     } else {
+                        if (isset($_SESSION["Signup_in_progress"])) {
+                            header("location: http://localhost/php/SignupAttributes.php");
+                        }
                         $userid = $_SESSION["userid"];
                         $username = $_SESSION["username"];
                     }

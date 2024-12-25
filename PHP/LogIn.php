@@ -95,83 +95,101 @@ ob_start();
         </form>
 
         <?php
+        if (isset($_SESSION["userid"]) || isset($_SESSION["username"])) {
+            header("location: http://localhost/php/Homepage.php");
+        }
         if (!isset($_POST["s"])) {
             die("");
         }
         try {
             $connection = new mysqli("localhost", "root", "", "neaDatabaseAlexG");
-        } catch (mysqli_sql_exception $e) {
-            $_SESSION['toast_message'] = "Database Issue" . $e;
-        }
-        $username = $_POST["username"];
-        $password = $_POST["password"];
-        //collects data from POST form
-        try {
-            if (empty($username) || empty($password)) {
-                $_SESSION['toast_message'] = "All fields required!";
-            } else {
-                $userCheck = $connection->prepare("SELECT passwords, userid, weight, height, gender, age, activity From user Where user.username = ?");
-                //prepares a select statement to bind all user information to variables
-                $userCheck->bind_param("s", $username);
-                if (!$userCheck->execute()) {
-                    $_SESSION['toast_message'] = "UserCheck didn't execute correctly" . $userCheck->error;
+            $username = $_POST["username"];
+            $password = $_POST["password"];
+            //collects data from POST form
+            try {
+                if (empty($username) || empty($password)) {
+                    $_SESSION['toast_message'] = "All fields required!";
                 } else {
-                    $userCheck->store_result();
-                    if ($userCheck->num_rows == 0) {
-                        $_SESSION['toast_message'] = "Username doesn't exist.";
+                    $userCheck = $connection->prepare("SELECT passwords, userid, weight, height, gender, age, activity, salt From user Where user.username = ?");
+                    //prepares a select statement to bind all user information to variables
+                    $userCheck->bind_param("s", $username);
+                    if (!$userCheck->execute()) {
+                        $_SESSION['toast_message'] = "UserCheck didn't execute correctly" . $userCheck->error;
                     } else {
-                        $userCheck->bind_result($fetchedPass, $userid, $weight, $height, $gender, $age, $activity);
-                        //binds results to written variables
-                        while ($userCheck->fetch()) {   
-                            //fetch recieves 1 row at a time from the results so it iterates until all data has been collected
-                            $_SESSION["fetchedPass"] = $fetchedPass;
-                            $_SESSION["weight"] = $weight;
-                            $_SESSION["height"] = $height;
-                            $_SESSION["gender"] = $gender;
-                            $_SESSION["age"] = $age;
-                            $_SESSION["ActivityLevel"] = $activity;
-                            $_SESSION["username"] = $username;
-                            $_SESSION["userid"] = $userid;
-                            //binding values for all data, including the users already hashed password
-                        }
-                        $userCheck->close();
-                        //closing prepared statement connection
-                        $hashPW = hash("sha256", $password);
-                        //hashes the new entered password at login
-                        if ($hashPW === $fetchedPass) {
-                            $preferenceIDCheck = $connection->prepare("SELECT preferenceID From userpreferences Where userid = ?");
-                            $preferenceIDCheck->bind_param("i", $userid);
-                            if (!$preferenceIDCheck->execute()) {
-                                $_SESSION['toast_message'] = "PreferenceIDCheck didn't execute correctly." . $preferenceIDCheck->error;
-                            } else {
-                                $preferenceIDCheck->bind_result($preferenceID);
-                                //prepares a statement to also fetch the preference associated with the user
-                                $preferenceIDCheck->fetch();
-                                $preferenceIDCheck->close();
-
-                                $preferenceCheck = $connection->prepare("SELECT preferenceName From preference Where preferenceid = ?");
-                                $preferenceCheck->bind_param("i", $preferenceID);
-                            }
-                            if (!$preferenceCheck->execute()) {
-                                die($connection->error);
-                            } else {
-                                $preferenceCheck->bind_result($preference);
-                                $preferenceCheck->fetch();
-                                $_SESSION["Preference"] = $preference;
-                                $preferenceCheck->close();
-                            }
-                            unset($_SESSION["fetchedPass"]);
-                            header("Location: http://localhost/php/Homepage.php");
-                            exit();
+                        $userCheck->store_result();
+                        if ($userCheck->num_rows == 0) {
+                            $_SESSION['toast_message'] = "Username doesn't exist.";
                         } else {
-                            $_SESSION['toast_message'] = "Incorrect password.";
+                            $userCheck->bind_result($fetchedPass, $userid, $weight, $height, $gender, $age, $activity, $salt);
+                            //binds results to written variables
+                            while ($userCheck->fetch()) {
+                                //fetch recieves 1 row at a time from the results so it iterates until all data has been collected
+                                $_SESSION["fetchedPass"] = $fetchedPass;
+                                $_SESSION["weight"] = $weight;
+                                $_SESSION["height"] = $height;
+                                $_SESSION["gender"] = $gender;
+                                $_SESSION["age"] = $age;
+                                $_SESSION["ActivityLevel"] = $activity;
+                                $_SESSION["username"] = $username;
+                                $_SESSION["userid"] = $userid;
+                                //binding values for all data, including the users already hashed password
+                            }
+                            $userCheck->close();
+                            //closing prepared statement connection
+                            $saltedPassword = $password . $salt;
+                            $hashPW = hash("sha256", $saltedPassword);
+                            //hashes the new entered password at login
+                            echo "salt: " . $salt;
+                            echo "hashPW: " . $hashPW;
+                            echo "salted: " . $saltedPassword;
+                            echo "fetch: " . $fetchedPass;
+
+                            if ($hashPW === $fetchedPass) {
+                                $preferenceIDCheck = $connection->prepare("SELECT preferenceID From userpreferences Where userid = ?");
+                                $preferenceIDCheck->bind_param("i", $userid);
+                                if (!$preferenceIDCheck->execute()) {
+                                    $_SESSION['toast_message'] = "PreferenceIDCheck didn't execute correctly." . $preferenceIDCheck->error;
+                                } else {
+                                    $preferenceIDCheck->bind_result($preferenceID);
+                                    //prepares a statement to also fetch the preference associated with the user
+                                    $preferenceIDCheck->fetch();
+                                    $preferenceIDCheck->close();
+
+                                    $preferenceCheck = $connection->prepare("SELECT preferenceName From preference Where preferenceid = ?");
+                                    $preferenceCheck->bind_param("i", $preferenceID);
+                                }
+
+                                if (!$preferenceCheck->execute()) {
+                                    die($connection->error);
+                                } else {
+                                    $preferenceCheck->bind_result($preference);
+                                    $preferenceCheck->fetch();
+                                    $_SESSION["Preference"] = $preference;
+                                    $preferenceCheck->close();
+                                }
+                                unset($_SESSION["fetchedPass"]);
+                                $signUpIncompleteCheck = $connection->prepare("SELECT * FROM user WHERE userid = ? AND (weight IS NULL OR height IS NULL OR activity IS NULL);");
+                                $signUpIncompleteCheck->bind_param("i", $userid);
+                                $signUpIncompleteCheck->execute(); 
+                                $signUpIncompleteCheck->store_result();
+                                if ($signUpIncompleteCheck->num_rows() > 0) {
+                                    $_SESSION["Signup_in_progress"] = true;
+                                }
+                                $signUpIncompleteCheck->close();
+                                header("Location: http://localhost/php/Homepage.php");
+                                exit();
+                            } else {
+                                $_SESSION['toast_message'] = "Incorrect password.";
+                            }
                         }
-                    }   
+                    }
                 }
+            } catch (mysqli_sql_exception $e) {
+                $_SESSION['toast_message'] = "MySQLi Exception" . $e;
             }
         } catch (mysqli_sql_exception $e) {
-            $_SESSION['toast_message'] = "MySQLi Exception" . $e;
-        } 
+            $_SESSION['toast_message'] = "Database Issue: " . $e->getMessage();
+        }
         ?>
     </div>
 </body>
@@ -183,14 +201,14 @@ ob_start();
             const toast = document.getElementById('toast');
             if (toast) {
                 toast.innerHTML = <?php echo json_encode($_SESSION['toast_message']); ?>;
-                toast.style.display = 'block'; 
+                toast.style.display = 'block';
                 setTimeout(() => {
-                    toast.style.display = 'none'; 
-                }, 5000); 
+                    toast.style.display = 'none';
+                }, 5000);
             }
         });
     </script>
-    <?php unset($_SESSION['toast_message']); ?> 
-<?php endif; 
+    <?php unset($_SESSION['toast_message']); ?>
+<?php endif;
 ob_end_flush();
 ?>

@@ -13,16 +13,6 @@ ob_start();
     <script src="toast.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
 </head>
-<style>
-    #logout {
-        background-color: red;
-    }
-    #logout:hover {
-	background-color: #ffff;
-	color: red;
-}
-</style>
-
 <body>
     <form action="<?php $_SERVER['PHP_SELF'] ?>" method="post">
         <div class="page-banner">
@@ -43,12 +33,6 @@ ob_start();
                     </ul>
                     <a href="http://localhost/php/MySettings.php">
                         <img class="logoImg" src="/Other Files/settingCog.png"></a>
-                    <a href="http://localhost/php/signup.php"> 
-                        <button type="button" id="logout">Log out</button>
-                        <?php 
-                        $_SESSION["logout"] = true;
-                        ?>
-                    </a>
                 </nav>
             </div>
         </div>
@@ -56,10 +40,18 @@ ob_start();
         <div class="main-content">
             <div class="welcome-container">
                 <?php
+
                 if (!isset($_SESSION["userid"]) || !isset($_SESSION["username"])) {
                     header("location: http://localhost/php/login.php");
                     exit();
                 } else {
+                    if (isset($_SESSION["Signup_in_progress"])) {
+                        echo ($_SESSION["Signup_in_progress"]);
+                        header("location: http://localhost/php/SignupAttributes.php");
+                        exit();
+                    } else {
+                        echo "signup not set";
+                    }
                     $userid = $_SESSION["userid"];
                     $username = $_SESSION["username"];
                 }

@@ -73,7 +73,7 @@ ob_start();
                         }
                     } else {
                         $preference = $_SESSION["Preference"];
-                        // echo $preference; maybe there is no return from the query
+                        // echo $preference; 
                     }
 
                     $allergies = array();
@@ -114,16 +114,14 @@ ob_start();
                         <div class="title-text">Recommended Recipes:</div>
                         <div class="output-text">This section generates recommended meals tailored to you:</div>
                         <button type="button" class="recommendedMeals" id="recommendedSearch"
-                            onclick="searchRecommendedRecipes()">Feeling lazy?</button>
-                        <div id="errorMessage"></div>
-                    </div>
-                    <div class="outputbox" id='BLDSelect'>
-                        <div class="title-text">Select your meal:</div>
-                        <div class="output-text">Select the type of meal you want to search for:</div>
-                        <select id="BLDChoice" name="BLDC" class="genderIn">
+                        onclick="submitMealChoiceAndSearchRecipes()">Feeling lazy?</button>
+    
+                        <div class="title-text" id="mealSelect">Select your meal:</div>
+                        <span class="output-text">Select the type of meal you want to search for:</span>
+                        <select id="mealChoice" name="BLDC" class="genderIn">
                             <option value="Any">Any</option>
-                            <option value="Main%20Course">Main Course</option>
-                            <option value="Side%20Dish">Side Dish</option>
+                            <option value="Main Course">Main Course</option>
+                            <option value="Side Dish">Side Dish</option>
                             <option value="Dessert">Dessert</option>
                             <option value="Appetizer">Appetizer</option>
                             <option value="Salad">Salad</option>

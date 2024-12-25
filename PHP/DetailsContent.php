@@ -3,11 +3,9 @@ session_start();
 try {
     $connection = new mysqli("localhost", "root", "", "neaDatabaseAlexG");
 } catch (mysqli_sql_exception $e) {
-    $_SESSION['toast_message'] = "Database Issue" . $e;
-    //establish database connection
+    $_SESSION['toast_message'] = "Database Issue" . $e->getMessage();
 }
 echo "<span class='welcome-text'>Your<span id='webName'> Details:</span></span>";
-//welcome message
 if (!isset($_SESSION["userid"])  || !isset($_SESSION["username"])) {
     header("Location: http://localhost//php/Login.php");
     exit();

@@ -194,12 +194,12 @@ ob_start(); //output buffer, holds any data temporarily before sendingto the bro
             <div id="toast"></div>
     </form>
     <?php
-    if ($_SESSION["logout"] == true) {
-        $_SESSION = [];
-    } 
     if (isset($_SESSION["userid"]) || isset($_SESSION["username"])) {
         $userid = $_SESSION["userid"];
         $username = $_SESSION["username"];
+        if ($_SESSION["logout"] == true) {
+            $_SESSION = [];
+        }
         if (!isset($_SESSION["Signup_in_progress"])) {
             header("location: http://localhost/php/Homepage.php");
         } else {
@@ -230,12 +230,13 @@ ob_start(); //output buffer, holds any data temporarily before sendingto the bro
 
         $javaJDKPath = "C:/Program Files/Java/jdk-17/bin/java";
         $javaCompiledPath = "C:/Users/algub/OneDrive/Documents/NetBeansProjects/secureSaltingAlgorithm/src";
-        $saltLen = 18;
-        $command = "\"$javaJDKPath\" -cp \"$javaCompiledPath\" securesaltingalgorithm.SecureSalt $saltLen";
+        $saltLength = 18;
+        $command = "\"$javaJDKPath\" -cp \"$javaCompiledPath\" securesaltingalgorithm.SecureSalt $saltLength";
         $salt = shell_exec($command);
-
+        $salt = substr($salt, 0, 18);
         $saltedPassword = $password . $salt;
         $hashPW = hash("sha256", $saltedPassword);
+        echo "salt: ". $salt;
 
 
         $userCheck = $connection->prepare("SELECT username From user Where user.username = ?");
@@ -269,7 +270,6 @@ ob_start(); //output buffer, holds any data temporarily before sendingto the bro
                     $_SESSION["username"] = $username;
                     $_SESSION["userid"] = $userid;
                     $_SESSION["Signup_in_progress"] = true;
-                    //stores username and userid in session for use throughout the website
                     header("Location: http://localhost/php/signupAttributes.php");                    
                     exit();
                 }

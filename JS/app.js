@@ -1,13 +1,18 @@
 
-//Multiple API keys from different accounts to ensure queries can still be run during the NEA development period
+//Multiple API keys from different accounts to ensure queries can still be run during the NEA development 
+
+//const apiKey ="9d323fbea5be46e5b6872aaf660584f7";
 
 //const apiKey = "a92238f287be4371a6b190852c0be1b5"; 
 //first account
+
 //const apiKey = "342899e01df24fd79ae66ccd8fcb542d"; 
 //recipeAPI1@gmail.com
+
 const apiKey = "912595cf052c4231ac1e2528628d9d09";
 //recipeAPI2@gmail.com
-//const apiKey ="9d323fbea5be46e5b6872aaf660584f7";
+
+
 let recipeIds = [];
 
 function addStylesheet(url) {
@@ -17,14 +22,8 @@ function addStylesheet(url) {
     document.head.appendChild(link);
 }
 addStylesheet('/css/pageStyling.css');
-const SelectedMealType = document.getElementById("BLDChoice");
-const selectedValue = SelectedMealType.value;
-	console.log(selectedValue);
-
-
 
 async function searchRecipesByName() {
-
 	const query = document.getElementById("userInput").value;
 
 	if (!query) {
@@ -38,10 +37,6 @@ async function searchRecipesByName() {
 		} else {
 			queryURLBuilder = queryURLBuilder + `&diet=${encodeURIComponent(userPreference)}`;
 		}
-		if (selectedValue == "") {}
-		else {
-			apiQueryingUrl = apiQueryingUrl + `&type=${encodeURIComponent(selectedValue)}`;
-		}
 	console.log("URL:" + apiQueryingUrl);
 
 	try {
@@ -54,30 +49,36 @@ async function searchRecipesByName() {
 	}
 }
 
-async function searchRecommendedRecipes() {
-	//add allergies
-	var selectedMealType = document.getElementById("BLDChoice").value;
+
+function submitMealChoiceAndSearchRecipes() {
+	const selectedMealChoice = document.getElementById("mealChoice").value;
+	console.log("meal choice submitted: " + selectedMealChoice);
+    searchRecommendedRecipes(selectedMealChoice);
+
+
+}
+
+async function searchRecommendedRecipes(selectedMealChoice) {
 	var queryURLBuilder = `https://api.spoonacular.com/recipes/random?apiKey=${apiKey}&number=2`;
 
-    if (usePreferenceCheck() === false) {
-    } else {
+    if (!doesUserHaveNoPreference()) {
 		queryURLBuilder = queryURLBuilder + `&include-tags=${encodeURIComponent(userPreference)}`;
 	}
-	stringOfAllergies = "";
-	if (allergyCheck() === true) {
-		for (let i = 0; i < userAllergies.length; i++) {
-			stringOfAllergies += userAllergies[i] + ",";
-		}
-		stringOfAllergies = stringOfAllergies.slice(0, -1);
-		console.log("SOA:" . stringOfAllergies);
+	if (selectedMealChoice !== "Any") {
+		queryURLBuilder = queryURLBuilder + `&include-tags=${encodeURIComponent(selectedMealChoice)}`;
+	}
+	var stringOfAllergies = "";
+	if (allergyCheck()) {
+		stringOfAllergies = userAllergies.join(",");
+		console.log("String of allergies: " + stringOfAllergies);
 		queryURLBuilder = queryURLBuilder + `&exclude-tags=${encodeURIComponent(stringOfAllergies)}`;
+		console.log(queryURLBuilder);
 	}
     
 	var apiQueryingUrl = queryURLBuilder;
 	try {
 		const response = await fetch(apiQueryingUrl);
 		const data = await response.json();
-		console.log("full data: " . data);
 		if (data.recipes && Array.isArray(data.recipes)) {
             storeRecipeIds(data.recipes);
         } else {
@@ -89,15 +90,15 @@ async function searchRecommendedRecipes() {
 } 
 function allergyCheck() {
 	if (userAllergies.length > 0) {
+		console.log(userAllergies);
 		return true;
 	}
-	else {
-		return false;
-	}
+	return false;
 }
-function usePreferenceCheck() {
+
+function doesUserHaveNoPreference() {
     if (userPreference === 'No Preference') {
-       return false;
+       return true;
     } 
 }
 

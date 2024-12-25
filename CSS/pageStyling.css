@@ -172,11 +172,11 @@ button:hover {
 }
 #recommendedSearchBox {
 	width: 400px;
-	height: 230px;
+	height: 500px;
 }
 #BLDSelect {
 	width: 400px;
-	height: 240px;
+	height: 280px;
 }
 .recipeBox {
 	display: flex;
@@ -368,14 +368,14 @@ input:focus {
 } */
 
 #toast {
-    display: none; 
-    background-color: red; 
+	display: none;
+	background-color: red;
 	border-radius: 5px;
-    color: white; 
-    padding: 16px; 
-    position: relative;
-	margin-top: 10px; 
-    z-index: 1; 
+	color: white;
+	padding: 16px;
+	position: relative;
+	margin-top: 10px;
+	z-index: 1;
 }
 
 #note {
@@ -485,7 +485,6 @@ input:focus {
 	color: #333;
 	padding: 5px 0;
 	grid-template-rows: repeat(24, 1fr);
-	
 }
 #Mon,
 #Tue,
@@ -515,8 +514,8 @@ input:focus {
 .calendar {
 	display: grid;
 	grid-template-areas:
-	"empty  columnNames"
-	"time-labels contents";
+		"empty  columnNames"
+		"time-labels contents";
 	grid-template-columns: 120px;
 	grid-template-rows: 60px;
 	width: 95vw;

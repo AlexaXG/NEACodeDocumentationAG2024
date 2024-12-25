@@ -16,41 +16,74 @@ ob_start();
     .logoImg {
         height: 50px;
     }
+
+    #loadPageHere {
+        border-radius: 3px;
+        box-shadow: 0 6px 20px rgba(110, 54, 120, 0.7);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+        height: 400px;
+        width: 500px;
+        padding: 20px;
+    }
+
+    #logout {
+        background-color: red;
+    }
+
+    #logout:hover {
+        background-color: #ffff;
+        color: red;
+    }
 </style>
+
 <body>
     <form action="<?php $_SERVER["PHP_SELF"] ?>" method="post">
         <div class="page-banner">
             <div class="item-container">
                 <div class="button-container">
                     <a href="#"><img class="logoImg" src="/Other Files/GymmieMeals.png"></a>
-                    <a class="button" href="#" onclick="handlePageLoad('/php/AccountContent.php', this)">
+                    <a class="button" href="#" onclick="processAndLoadThisPage('/php/AccountContent.php')">
                         <button type="button">My Account</button></a>
-                    <a class="button" href="#" onclick="handlePageLoad('/php/DetailsContent.php', this)">
+                    <a class="button" href="#" onclick="processAndLoadThisPage('/php/DetailsContent.php')">
                         <button type="button">My Details</button></a>
-                    <a class="button" href="#" onclick="handlePageLoad('/php/PreferencesContent.php', this)">
+                    <a class="button" href="#" onclick="processAndLoadThisPage('/php/PreferencesContent.php')">
                         <button type="button">My Preferences</button></a>
-                    <a class="button" href="#" onclick="handlePageLoad('/php/AllergiesContent.php', this)">
+                    <a class="button" href="#" onclick="processAndLoadThisPage('/php/AllergiesContent.php')">
                         <button type="button">My Allergies</button></a>
-                    <a class="button" href="#" onclick="handlePageLoad('/php/ActivityContent.php', this)">
+                    <a class="button" href="#" onclick="processAndLoadThisPage('/php/ActivityContent.php')">
                         <button type="button">My Activity</button></a>
                     <a href="http://localhost/php/homepage.php">
                         <img class="logoImg" src="/Other Files/home.svg"></a>
+                    <a href="http://localhost/php/signup.php">
+                        <button type="button" id="logout">Log out</button>
+                        <?php
+                        $_SESSION["logout"] = true;
+                        ?>
+                    </a>
                 </div>
             </div>
         </div>
         <div class="main-content">
             <div class="welcome-container">
-
             </div>
-            <script>
-
-                function handlePageLoad(pageName, element) {
-                    highlightIt(element);
-                    loadThisPage(pageName);
+            <?php
+                if (!isset($_SESSION["userid"]) || !isset($_SESSION["username"])) {
+                    header("location: http://localhost/php/login.php");
+                    exit();
+                } else {
+                    if (isset($_SESSION["Signup_in_progress"])) {
+                        header("location: http://localhost/php/SignupAttributes.php");
+                    }
+                    $userid = $_SESSION["userid"];
+                    $username = $_SESSION["username"];
                 }
-                function loadThisPage(PageName) {
+            ?>
+            <script>
+                function processAndLoadThisPage(PageName) {
                     var AJAXConn = new XMLHttpRequest();
-                    //new instance of XMLHttpRequest 
                     AJAXConn.open('GET', PageName, true);
                     //processes http method, the page that is being called, and boolean whether it is asynchronous (script still runs whilst data is being fetched)
                     AJAXConn.onload = function () {
@@ -69,7 +102,7 @@ ob_start();
                     AJAXConn.send();
                 }
 
-                function loadUserData() {
+                function loadTheUserData() {
                     fetch('getUserData.php')
                         //http request to that php page
                         .then(response => response.json())
@@ -84,58 +117,35 @@ ob_start();
                             console.error();
                         });
                 }
-                function highlightIt(element) {
-                    var links = document.querySelectorAll('a');
-                    links.forEach(link => {
-                        link.classList.remove('highlighted');
-                        //removes "highlighted" css class from all <a> references
-                    });
-                    element.classList.add('highlighted');
-                    //then it adds the highlighted class to the button "this" that was clicked
-                }
                 window.onload = function () {
-                    var defaultLink = document.querySelector('a');
-                    //when the page is loaded, it will call the php page below as the default. 
-                    handlePageLoad('AccountContent.php', defaultLink);
+                    processAndLoadThisPage('AccountContent.php');
                 };
 
             </script>
             <div class="display-content">
-                <div class='outputbox' id='loadPageHere'>
+                <div class='pageContent' id='loadPageHere'>
                 </div>
             </div>
-            <script>
-                let alreadyHighlighted = null;
-                function highlightIt(buttonClicked) {
-                    if (alreadyHighlighted && alreadyHighlighted != buttonClicked) {
-                        //if alreadyHighlighted has a value and the value isnt the current clicked button
-                        alreadyHighlighted.classList.remove("highlight-box");
-                        //itll remove the highlight
-                    }
-                    if (alreadyHighlighted != buttonClicked) {
-                        buttonClicked.classList.add("highlight-box");
-                        //sets the current clicked button as alreadyHighlighted and adds a highlight
-                        alreadyHighlighted = buttonClicked;
-
-                    } else {
-                        alreadyHighlighted.classList.remove("highlight-box");
-                        //resets highlights
-                        alreadyHighlighted = null;
-                    }
-                }
-            </script>
         </div>
         <div id="toast"></div>
     </form>
 </body>
 
 </html>
-<?php
-if (isset($_SESSION['toast_message'])) { ?>
+<?php if (isset($_SESSION['toast_message'])): ?>
     <script>
-        document.getElementById("toast").innerHTML = '<div class="toast"><?php echo $_SESSION['toast_message']; ?></div>';
+        document.addEventListener('DOMContentLoaded', function () {
+            const toast = document.getElementById('toast');
+            if (toast) {
+                toast.innerHTML = <?php echo json_encode($_SESSION['toast_message']); ?>;
+                toast.style.display = 'block';
+                setTimeout(() => {
+                    toast.style.display = 'none';
+                }, 5000);
+            }
+        });
     </script>
-    <?php unset($_SESSION['toast_message']); // Clear the message after displaying it
-}
+    <?php unset($_SESSION['toast_message']); ?>
+<?php endif;
 ob_end_flush();
 ?>
