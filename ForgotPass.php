@@ -1,6 +1,9 @@
 <?php
 session_start(); //starts a session 
 ob_start(); //output buffer, holds any data temporarily before sendingto the browser 
+header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+header("Cache-Control: post-check=0, pre-check=0", false);
+header("Pragma: no-cache");
 ?>
 
 <!DOCTYPE HTML>
@@ -13,11 +16,30 @@ ob_start(); //output buffer, holds any data temporarily before sendingto the bro
     <link rel="stylesheet" href="/css/pageStyling.css">
 </head>
 <style>
-    form input[type="text"],
-    input[type="button"],
-    input[type="submit"],
-    input[type="password"] {
-        border-radius: 0px;
+
+    .checklist {
+        margin-top: 5px;
+        font-size: 12px;
+        list-style-type: none;
+        padding-left: 0;
+    }
+    #usernameCheck{
+        margin-right: 50px;
+    }
+    .checklistitem {
+        color: #ff0000;
+    }
+    #username-length2 {
+        color: #008000;
+        font-weight: bold;
+    }
+
+    .checklistitem.valid {
+        color: #008000;
+        font-weight: bold;
+    }
+    .checklistitem.notValid {
+        color: #ff0000;
     }
 </style>
 
@@ -49,16 +71,82 @@ ob_start(); //output buffer, holds any data temporarily before sendingto the bro
             <div class="inputbox" id="registration">
                 <label for="username"></label> <br />
                 <input type="text" name="username" placeholder="Username" id="username" required autocomplete="off" />
-                <br />
-                <label for="password"> </label> <br />
-                <input type="password" name="password" placeholder="New Password" id="password1" required
+                <ul class="checklist" id="usernameCheck">
+                    <li class="checklistitem" id="username-length"> - At least 4 characters</li>
+                    <li class="checklistitem" id="username-length2"> - No more than 16 characters</li>
+                    <li class="checklistitem" id="username-letters"> - Letters, numbers and underscores</li>
+                </ul>
+                <label for="password"> </label>
+                <input type="password" name="password" placeholder="Password" id="password1" required
                     autocomplete="off">
-                <!-- input for the first password field -->
-                <br /><br />
+                <ul class="checklist" id="passwordCheck">
+                    <li class="checklistitem" id="password-length"> - At least 8 characters</li>
+                    <li class="checklistitem" id="password-upper"> - Contains an uppercase letter</li>
+                    <li class="checklistitem" id="password-lower"> - Contains a lowercase letter</li>
+                    <li class="checklistitem" id="password-number"> - Contains a number</li>
+                    <li class="checklistitem" id="password-special"> - Contains a special character (e.g., !@#$%^&*)</li>
+                </ul>
+                <script>
+                    const usernameInput = document.getElementById('username');
+                    const usernameLength = document.getElementById('username-length');
+                    const usernameLength2 = document.getElementById('username-length2');
+                    const usernameLetters = document.getElementById('username-letters');
+
+                    usernameInput.addEventListener('input', function () {
+                        if (usernameInput.value.length >= 4) {
+                            usernameLength.classList.add('valid');
+                        } else {
+                            usernameLength.classList.remove('valid');
+                        }
+                        if (usernameInput.value.length > 16) {
+                            document.getElementById("username-length2").style.color = '#ff0000';
+                            document.getElementById("username-length2").style.fontWeight = 'normal';
+                        } 
+                        if (/^[a-zA-Z0-9]+$/.test(usernameInput.value)) {
+                            usernameLetters.classList.add('valid');
+                        } else {
+                            usernameLetters.classList.remove('valid');
+                        }
+                    });
+
+                    const passwordInput = document.getElementById('password1');
+                    const passwordLength = document.getElementById('password-length');
+                    const passwordUppercase = document.getElementById('password-upper');
+                    const passwordLowercase = document.getElementById('password-lower');
+                    const passwordNumber = document.getElementById('password-number');
+                    const passwordSpecial = document.getElementById('password-special');
+
+                    passwordInput.addEventListener('input', function () {
+                        if (passwordInput.value.length >= 8) {
+                            passwordLength.classList.add('valid');
+                        } else {
+                            passwordLength.classList.remove('valid');
+                        }
+                        if (/[A-Z]/.test(passwordInput.value)) {
+                            passwordUppercase.classList.add('valid');
+                        } else {
+                            passwordUppercase.classList.remove('valid');
+                        }
+                        if (/[a-z]/.test(passwordInput.value)) {
+                            passwordLowercase.classList.add('valid');
+                        } else {
+                            passwordLowercase.classList.remove('valid');
+                        }
+                        if (/\d/.test(passwordInput.value)) {
+                            passwordNumber.classList.add('valid');
+                        } else {
+                            passwordNumber.classList.remove('valid');
+                        }
+                        if (/[\W_]/.test(passwordInput.value)) {
+                            passwordSpecial.classList.add('valid');
+                        } else {
+                            passwordSpecial.classList.remove('valid');
+                        }
+                    });
+                </script>
                 <label for="password1"></label>
                 <input type="password" name="password2" id="password2" placeholder="Confirm password" required
                     autocomplete="off" />
-                <!-- input for the second password field-->
                 <a class="checkbox" onclick="toggleVis1()">
                     <img class="favImg" id="toggleEye" src="/Other Files/closedEye.svg" width="28px" draggable="false">
                     <label>Show Password</label>
@@ -66,7 +154,7 @@ ob_start(); //output buffer, holds any data temporarily before sendingto the bro
                 <script>
                     function toggleVis1() {
                         const svgData = document.getElementById("toggleEye");
-                        svgData.src = svgData.src.includes("closedEye.svg") ? "/Other Files/openEye.svg" : "/Other Files/closedEye.svg";
+                        svgData.src = svgData.src.includes("/Other Files/closedEye.svg") ? "/Other Files/openEye.svg" : "/Other Files/closedEye.svg";
 
                         var toggle = document.getElementById("password1");
                         var toggle1 = document.getElementById("password2");
@@ -105,7 +193,6 @@ ob_start(); //output buffer, holds any data temporarily before sendingto the bro
                     }
                 </script>
                 <button type="submit" name="s">Confirm</button>
-                <!-- button to submit the form and redirect to header-->
             </div>
         </div>
         </form>
@@ -131,31 +218,33 @@ ob_start(); //output buffer, holds any data temporarily before sendingto the bro
         } else if ($password !== $password2) {
             die("<div class='error-message'> Passwords do not match.</div>");
         } else {
+            putenv("JAVA_HOME=C:/Program Files/Java/jdk-19");
+            putenv("PATH=C:/Program Files/Java/jdk-19/bin;" . getenv("PATH"));
+            $javaJDKPath = getenv('JAVA_HOME') . "/bin/java";
+            $javaCompiledPath = "C:/Users/algub/OneDrive/Documents/NetBeansProjects/secureSaltingAlgorithm/src";
+            $saltLength = 18;
+            $command = "\"$javaJDKPath\" -cp \"$javaCompiledPath\" securesaltingalgorithm.SecureSalt $saltLength";
+            $salt = shell_exec($command);
+            $salt = substr($salt, 0, 18);
+            $saltedPassword = $password . $salt;
+            $newPassword = hash("sha256", $saltedPassword);
             function passwordCheck($password)
         {
             $pattern = '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/';
             return preg_match($pattern, $password);
         }   
             try {
-                $getId = $connection->prepare("SELECT userid from user where username = ?");
-                $getId->bind_param("s", $username);
-                $getId->execute();
-                $getId->bind_result($userid);
-                $getId->fetch();
-                $getId->close();
-
-                $getSalt = $connection->prepare("SELECT salt from user where userid = ?");
-                $getSalt->bind_param("i", $userid);
+                $getSalt = $connection->prepare("SELECT salt from user where username = ?");
+                $getSalt->bind_param("s", $username);
                 $getSalt->execute();
                 $getSalt->bind_result($salt);
                 $getSalt->fetch();
                 $getSalt->close();
 
-                $saltedPassword = $password . $salt;
-                $saltedPassword = hash("sha256", $password);
+                
 
-                $result = $connection->prepare("UPDATE user SET passwords =  (?) WHERE userid = (?)");
-                $result->bind_param("si", $saltedPassword, $userid);
+                $result = $connection->prepare("UPDATE user SET passwords =  (?) WHERE username = (?)");
+                $result->bind_param("ss", $newPassword, $username);
                 //in essence does the same function as the sign-up page, but instead of inserting values it updates at the username.
                 if (!$result->execute()) {
                     die(mysqli_error());

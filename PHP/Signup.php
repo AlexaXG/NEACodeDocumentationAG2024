@@ -180,7 +180,7 @@ ob_start(); //output buffer, holds any data temporarily before sendingto the bro
                         var buttonText = document.getElementById("contact-support");
                         buttonText.innerText = "Contact Support";
                         // this simply does the opposite of replaceText()
-                    }
+                    } 
                     function copyToCB() {
                         var textToCopy = document.getElementById('SupportEmail').innerText;
                         navigator.clipboard.writeText(textToCopy);
@@ -220,15 +220,16 @@ ob_start(); //output buffer, holds any data temporarily before sendingto the bro
     $username = $_POST["username"];
     $password = $_POST["password"];
     $password2 = $_POST["password2"];
-    $createdDate = date("Y-m-d H:i:s"); 
-    
+     
     //sets local variables by calling their values from the POST method
     if ($password !== $password2) {
         $_SESSION['toast_message'] = "Passwords don't match.";
     } else {
         //selection to ensure username and password fall under a criteria
 
-        $javaJDKPath = "C:/Program Files/Java/jdk-17/bin/java";
+        putenv("JAVA_HOME=C:/Program Files/Java/jdk-19");
+        putenv("PATH=C:/Program Files/Java/jdk-19/bin;" . getenv("PATH"));
+        $javaJDKPath = getenv('JAVA_HOME') . "/bin/java";
         $javaCompiledPath = "C:/Users/algub/OneDrive/Documents/NetBeansProjects/secureSaltingAlgorithm/src";
         $saltLength = 18;
         $command = "\"$javaJDKPath\" -cp \"$javaCompiledPath\" securesaltingalgorithm.SecureSalt $saltLength";
@@ -236,7 +237,6 @@ ob_start(); //output buffer, holds any data temporarily before sendingto the bro
         $salt = substr($salt, 0, 18);
         $saltedPassword = $password . $salt;
         $hashPW = hash("sha256", $saltedPassword);
-        echo "salt: ". $salt;
 
 
         $userCheck = $connection->prepare("SELECT username From user Where user.username = ?");
@@ -253,9 +253,9 @@ ob_start(); //output buffer, holds any data temporarily before sendingto the bro
             $_SESSION['toast_message'] = "Username already exists!";
         } else {
             try {
-                $connResult = $connection->prepare("INSERT INTO user (userName, Passwords, CreatedDate, salt) values (?, ?, ?, ?)");
+                $connResult = $connection->prepare("INSERT INTO user (userName, Passwords, salt) values (?, ?, ?)");
                 //prepares another parameterised sql statement to insert the entered information correctly
-                $connResult->bind_param("ssss", $username, $hashPW, $CreatedDate, $salt);
+                $connResult->bind_param("sss", $username, $hashPW, $salt);
                 if (!$connResult->execute()) {
                     $_SESSION['toast_message'] = "ConnResult failed to execute correctly" . $connResult->error;
                 } else {

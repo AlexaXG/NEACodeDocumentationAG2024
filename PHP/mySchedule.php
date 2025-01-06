@@ -373,7 +373,7 @@ $activities = $activity->getActivities($_SESSION['userid']);
                     } else {
                         if (isset($_SESSION["Signup_in_progress"])) {
                             header("location: http://localhost/php/SignupAttributes.php");
-                        }
+                        } 
                         $userid = $_SESSION["userid"];
                         $username = $_SESSION["username"];
                     }
@@ -446,7 +446,7 @@ if (isset($_SESSION['toast_message'])) { ?>
     <script>
         document.getElementById("toast").innerHTML = '<div class="toast"><?php echo $_SESSION['toast_message']; ?></div>';
     </script>
-    <?php unset($_SESSION['toast_message']); // Clear the message after displaying it
+    <?php unset($_SESSION['toast_message']); 
 }
 ob_end_flush();
 $dbConnection->close();

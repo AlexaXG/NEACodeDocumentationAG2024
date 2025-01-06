@@ -9,7 +9,7 @@ echo "<span class='welcome-text'>Your<span id='webName'> Allergies:</span></span
 if (!isset($_SESSION["userid"])  || !isset($_SESSION["username"])) {
     header("Location: http://localhost//php/Login.php");
     exit();
-}
+} 
     $userid = $_SESSION["userid"];
     $connUserAllergies = $connection->prepare("SELECT Allergy.AllergyName from userAllergies join Allergy on 
         userAllergies.AllergyID = Allergy.AllergyID where userAllergies.UserID = ?;");

@@ -69,7 +69,7 @@ ob_start();
         <div class="main-content">
             <div class="welcome-container">
             </div>
-            <?php
+            <?php 
                 if (!isset($_SESSION["userid"]) || !isset($_SESSION["username"])) {
                     header("location: http://localhost/php/login.php");
                     exit();

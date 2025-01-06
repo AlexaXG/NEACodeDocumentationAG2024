@@ -12,7 +12,16 @@ ob_start();
     <link rel="stylesheet" href="/css/pageStyling.css">
     <script src="toast.js"></script>
 </head>
+<style>
+    #logout {
+        background-color: red;
+    }
 
+    #logout:hover {
+        background-color: #ffff;
+        color: red;
+    }  
+</style>
 <body>
     <div class="page-banner">
         <div class="item-container">
@@ -20,54 +29,13 @@ ob_start();
                 <a href=""><img class="logoImg" src="/Other Files/GymmieMeals.png"></a>
                 <a class="button" href="http://localhost/php/Login.php">
                 <button type="button">Have an account?</button></a>
-                    <a class="button" onclick="copyToCB()" onmouseover="replaceText()" onmouseout="replaceTextBack()">
-                        <button type="button" value="Contact Support" id="contact-support">
-                            Contact Support</button>
-                        <div id="SupportEmail" style="display:none;">fakeContactSupport@fakeSupportMail.com</div>
-
+                <a href="http://localhost/php/signup.php">
+                        <button type="button" id="logout">Cancel signup</button>
+                        <?php
+                        $_SESSION["logout"] = true;
+                        ?>
                     </a>
             </div>
-            <script>
-                function toggleVis1() {
-                    const svgData = document.POSTElementById("toggleEye");
-                    svgData.src = svgData.src.includes("/Other Files/closedEye.svg") ? "/Other Files/openEye.svg" : "/Other Files/closedEye.svg";
-
-                    var toggle = document.POSTElementById("password1");
-                    var toggle1 = document.POSTElementById("password2");
-                    if (toggle.type === "password") {
-                        toggle.type = "text";
-                        toggle1.type = "text";
-                    } else {
-                        toggle.type = "password";
-                        toggle1.type = "password";
-                    } // toggles visibility of both input fields simultaneously
-                }
-                function replaceText() {
-                    var buttonText = document.POSTElementById("contact-support");
-                    if (buttonText.innerText === "Contact Support") {
-                        buttonText.innerText = "ContactSupport@fakeSupportMail.com";
-                        //the contact support button displays as "Contact Support", this function will replace this text
-                        //with a contact email instead
-                    }
-                    clearTimeout(timeoutID);
-                    setTimeout(function () {
-                        replaceTextBack();
-                    }, 5000);
-                    //this function will undo the replaceText() by calling replaceTextBack() after 5 seconds.
-                }
-                function replaceTextBack() {
-                    var buttonText = document.POSTElementById("contact-support");
-                    buttonText.innerText = "Contact Support";
-                    // this simply does the opposite of replaceText()
-                }
-                function copyToCB() {
-                    var textToCopy = document.POSTElementById('SupportEmail').innerText;
-                    navigator.clipboard.writeText(textToCopy);
-                    alert("Support email copied to clipboard.");
-                    // upon the user clicking the button, it'll automatically copy the email to their clipboard and give them a
-                    //pop up notification 
-                }
-            </script>
         </div>
     </div>
     <div class="container">
@@ -116,7 +84,7 @@ ob_start();
                 <div id="toast"></div>
         </form>
         <?php
-        if (isset($_SESSION["userid"]) || isset($_SESSION["username"])) {
+        if (isset($_SESSION["userid"]) && isset($_SESSION["username"])) {
             $userid = $_SESSION["userid"];
             $username = $_SESSION["username"];
             if (!isset($_SESSION["Signup_in_progress"])) {

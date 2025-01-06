@@ -23,7 +23,7 @@ class Activity {
     public function __construct($db) {
         $this->db = $db;
     }
-
+ 
     public function addActivity($userId, $activityName, $startTime, $endTime, $note, $recurrence) {
         $stmt = $this->db->prepare("INSERT INTO activities (userid, activity_name, start_time, end_time, note, recurrence) VALUES (?, ?, ?, ?, ?, ?)");
         $stmt->bind_param("isssss", $userId, $activityName, $startTime, $endTime, $note, $recurrence);

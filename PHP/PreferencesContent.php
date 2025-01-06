@@ -29,4 +29,4 @@ if (!isset($_SESSION["Preference"])) {
     header('Content-Type: application/json');
     echo htmlspecialchars($Preference);
 }
-?>
+?> 

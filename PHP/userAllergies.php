@@ -16,6 +16,14 @@ ob_start();
         display: block;
          text-align: center;
     }
+    #logout {
+        background-color: red;
+    }
+
+    #logout:hover {
+        background-color: #ffff;
+        color: red;
+    } 
 </style>
 <body>
     <div class="container">
@@ -23,15 +31,13 @@ ob_start();
             <div class="item-container">
                 <div class="button-container">
                     <a href=""><img class="logoImg" src="/Other Files/GymmieMeals.png"></a>
-                    <a class="button" href="http://localhost/php/Signup.php">
-                        <button type="button">Signup</button></a>
                     <a class="button" href="http://localhost/php/Login.php">
-                        <button type="button">Login</button></a>
-                    <a class="button" onclick="copyToCB()" onmouseover="replaceText()" onmouseout="replaceTextBack()">
-                        <button type="button" value="Contact Support" id="contact-support">
-                            Contact Support</button>
-                        <div id="SupportEmail" style="display:none;">fakeContactSupport@fakeSupportMail.com</div>
-
+                    <button type="button">Have an account?</button></a>
+                    <a href="http://localhost/php/signup.php">
+                        <button type="button" id="logout">Cancel signup</button>
+                        <?php
+                        $_SESSION["logout"] = true;
+                        ?>
                     </a>
                 </div>
             </div>
@@ -128,7 +134,7 @@ ob_start();
                 } else {
                     $_SESSION['toast_message'] = "Allergy already exists.";
                     //else statement checking if the allergy is already associated with the user
-                }
+                } 
             } else {
                 //if the allergy does NOT exist:
                 $result = $connection->prepare("Insert Into Allergy (AllergyName) values (?)");
@@ -140,9 +146,10 @@ ob_start();
                     $_SESSION["allergyid"] = $AllergyID;
                     $_SESSION["userid"] = $userid;
                     $_SESSION["username"] = $username;
-                    header("http://localhost/php/userAllergies.php");
+                    $_SESSION["Signup_in_progress"] = true;
+                    header("http://localhost/php/userGoals.php");
                     exit();
-                } else {
+                } else { 
                     $_SESSION['toast_message'] = "MySQLi failed to execute correctly." . mysqli_error();
                 }
             }

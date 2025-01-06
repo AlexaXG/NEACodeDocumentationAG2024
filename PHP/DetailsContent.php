@@ -9,7 +9,7 @@ echo "<span class='welcome-text'>Your<span id='webName'> Details:</span></span>"
 if (!isset($_SESSION["userid"])  || !isset($_SESSION["username"])) {
     header("Location: http://localhost//php/Login.php");
     exit();
-}
+} 
 if (!isset($_SESSION["weight"]) || !isset($_SESSION["height"]) || !isset($_SESSION["gender"]) || !isset($_SESSION["age"])) {
     //selects the session variables from sql if they are not set
     $username = $_SESSION["username"];

@@ -10,7 +10,7 @@ try {
 echo "<span class='welcome-text'>Your<span id='webName'> Activity:</span></span>";
 if (!isset($_SESSION["userid"])  || !isset($_SESSION["username"])) {
     header("Location: http://localhost//php/Login.php");
-    exit();
+    exit();  
 }
 if (!isset($_SESSION["ActivityLevel"])) {
     //checks if activity level session variable is set

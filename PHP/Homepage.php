@@ -13,6 +13,7 @@ ob_start();
     <script src="toast.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
 </head>
+
 <body>
     <form action="<?php $_SERVER['PHP_SELF'] ?>" method="post">
         <div class="page-banner">
@@ -36,7 +37,7 @@ ob_start();
                 </nav>
             </div>
         </div>
-        
+ 
         <div class="main-content">
             <div class="welcome-container">
                 <?php
@@ -46,11 +47,8 @@ ob_start();
                     exit();
                 } else {
                     if (isset($_SESSION["Signup_in_progress"])) {
-                        echo ($_SESSION["Signup_in_progress"]);
                         header("location: http://localhost/php/SignupAttributes.php");
                         exit();
-                    } else {
-                        echo "signup not set";
                     }
                     $userid = $_SESSION["userid"];
                     $username = $_SESSION["username"];
@@ -134,22 +132,28 @@ ob_start();
                         <div class='output-text' id='weightCategory'>Your weight category:</div>
                         <div class='output-value' id='catVal'>
                             <?php
-                            $javaJDKPath = getenv('JAVA_JDK_PATH');
+                            try {
+                                putenv("JAVA_HOME=C:/Program Files/Java/jdk-19");
+                                putenv("PATH=C:/Program Files/Java/jdk-19/bin;" . getenv("PATH"));
 
-                            //defining my file path to my JDK java folder
-                            $javaCompiledPath = getenv('FIND_BMI_CLASS');
-                            
-                                //defining the file path to the compiled java algorithm that calculates BMI and category
+                                $javaJDKPath = getenv('JAVA_HOME') . "/bin/java";
+                                $javaCompiledPath = getenv('FIND_BMI_CLASS');
                                 $command = "\"$javaJDKPath\" -cp \"$javaCompiledPath\" findbmi.FindBMIValue $weightArg $heightArg 2>&1";
-                                //this command does:
-                                // = "using this JDK version" -cp sets classpath, findbmi.FindBMIValue is the file name of my java algorithm, followed by parameters to parse into it
-                                // 2&>1 is used for debugging, redirecting error messages and outputs to the same location
+                                // Execute the command and capture output
                                 $javaOutput = shell_exec($command);
+
                                 //executing the command
-                                list($category, $bmi) = explode(",", trim($javaOutput));
-                                //splits the java algorithm output by "," and assigns each value to its own variable
-                                //setting the dynamic text
-                                echo htmlspecialchars($category);
+                                if (!$javaOutput) {
+                                    $_SESSION['toast_message'] = "FindBMI Value did not execute.";
+                                } else {
+                                    list($category, $bmi) = explode(",", trim($javaOutput));
+                                    //splits the java algorithm output by "," and assigns each value to its own variable
+                                    //setting the dynamic text
+                                    echo htmlspecialchars($category);
+                                }
+                            } catch (Exception $e) {
+                                error_log("Error: " . $e->getMessage());
+                            }
                             ?>
                         </div> <br>
                         <div class='output-text' id='bmiText'>Your BMI:</div>
@@ -172,10 +176,13 @@ ob_start();
                         $command2 = "\"$javaJDKPath\" -cp \"$javaCompiledPath2\" recommendedcalories.CalculateCalories $weightArg $heightArg $ageArg $genderArg $activityArg 2>&1";
                         //using the parameters, it calculates the necessary calories that a person must eat according to their data
                         //echo("Executing command: $command2");
-                        $javaOutput2 = shell_exec($command2);
-                        //echo("Java Output: $javaOutput2");
-                        $calories = floatval(htmlspecialchars($javaOutput2));
-                        echo $calories;
+                        if (!$javaOutput) {
+                            $_SESSION['toast_message'] = "recommendedCalories did not execute.";
+                        } else {
+                            $javaOutput2 = shell_exec($command2);
+                            $calories = floatval($javaOutput2);
+                            echo $calories;
+                        }
                         ?>
                     </div><br>
                     <div class='output-text' id='caloriesText'>Daily Macronutrients:</div>
@@ -184,7 +191,11 @@ ob_start();
                         $javaCompiledPath3 = getenv('CALCULATE_SPLITS_CLASS');
                         $command3 = "\"$javaJDKPath\" -cp \"$javaCompiledPath3\" calculatesplits.CalculateSplits $calories \"$goalArg\" 2>&1";
                         $javaOutput3 = shell_exec($command3);
+                        if (!$javaOutput3) {
+                            $_SESSION['toast_message'] = "calculate splits did not execute.";
+                        } else {
                         list($fats, $carbs, $protein) = explode(",", trim($javaOutput3));
+                        }
                         ?>
                         <table id="PFCTable">
                             <tr id="tags">

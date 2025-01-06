@@ -12,22 +12,29 @@ ob_start();
     <link rel="stylesheet" href="/css/pageStyling.css">
     <script src="toast.js"></script>
 </head>
+<style>
+    #logout {
+        background-color: red;
+    }
 
+    #logout:hover {
+        background-color: #ffff;
+        color: red;
+    } 
+</style>
 <body>
     <div class="container">
         <div class="page-banner">
             <div class="item-container">
-                <div class="button-container">
+                <div class="button-container"> 
                     <a href=""><img class="logoImg" src="/Other Files/GymmieMeals.png"></a>
-                    <a class="button" href="http://localhost/php/Signup.php">
-                        <button type="button">Signup</button></a>
-                    <a class="button" href="http://localhost/php/Login.php">
-                        <button type="button">Login</button></a>
-                    <a class="button" onclick="copyToCB()" onmouseover="replaceText()" onmouseout="replaceTextBack()">
-                        <button type="button" value="Contact Support" id="contact-support">
-                            Contact Support</button>
-                        <div id="SupportEmail" style="display:none;">fakeContactSupport@fakeSupportMail.com</div>
-
+                        <a class="button" href="http://localhost/php/Login.php">
+                        <button type="button">Have an account?</button></a>
+                        <a href="http://localhost/php/signup.php">
+                        <button type="button" id="logout">Cancel signup</button>
+                        <?php
+                        $_SESSION["logout"] = true;
+                        ?>
                     </a>
                 </div>
             </div>
@@ -125,7 +132,7 @@ ob_start();
                     $connUserID->fetch();
                     $connUserID->free_result();
                     $connUserID->close();
-                }
+                } 
                 $result = $connection->prepare("INSERT INTO UserPreferences (userID, PreferenceID) VALUES (?, ?)");
                 $result->bind_param("ii", $userid, $PreferenceID);
                 //inserting userID and preferenceID into userPreferences which links each user to a preference
@@ -134,6 +141,7 @@ ob_start();
                 }
                 $result->close();
                 $_SESSION["Preference"] = $Preference;
+                $_SESSION["Signup_in_progress"] = true;
                 header("Location: http://localhost/php/userAllergies.php");
                 exit();
             } catch (mysqli_sql_exception $e) {

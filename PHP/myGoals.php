@@ -95,7 +95,7 @@ ob_start();
             </div>
         </div>
         <div id="toast"></div>
-    </form>
+    </form> 
 </body>
 
 </html>

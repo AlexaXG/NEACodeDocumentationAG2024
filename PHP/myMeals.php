@@ -149,6 +149,13 @@ ob_start();
                             echo json_encode($allergies);
                             ?>;
                         console.log("User allergies from PHP:", userAllergies);
+ 
+                        var userID =
+                            <?php
+                            echo json_encode($userid);
+                            ?>;
+                        console.log("UserID from PHP:", userID);
+
                     </script>
                 </div>
                 <div class="outputbox" id='searchResults'>
@@ -169,7 +176,7 @@ ob_start();
         </div>
         <div id="toast"></div>
     </form>
-    <script src="/JS/app.js"></script>
+    <script src="/JS/mealAPISearch.js"></script>
 </body>
 
 </html>

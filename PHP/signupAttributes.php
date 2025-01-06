@@ -20,7 +20,7 @@ ob_start();
     #logout:hover {
         background-color: #ffff;
         color: red;
-    }
+    } 
 </style>
 <body>
     <div class="page-banner">
@@ -29,13 +29,8 @@ ob_start();
                 <a href=""><img class="logoImg" src="/Other Files/GymmieMeals.png"></a>
                 <a class="button" href="http://localhost/php/Login.php">
                     <button type="button">Have an account?</button></a>
-                <a class="button" onclick="copyToCB()" onmouseover="replaceText()" onmouseout="replaceTextBack()">
-                    <button type="button" value="Contact Support" id="contact-support">
-                        Contact Support</button>
-                    <div id="SupportEmail" style="display:none;">fakeContactSupport@fakeSupportMail.com</div>
-                </a>
                 <a href="http://localhost/php/signup.php">
-                        <button type="button" id="logout">Log out</button>
+                        <button type="button" id="logout">Cancel signup</button>
                         <?php
                         $_SESSION["logout"] = true;
                         ?>
@@ -56,12 +51,12 @@ ob_start();
                 </span>
                 <div class="inputbox" id="attr">
                     <label for="weight"></label> <br />
-                    <input type="number" name="weight" placeholder="Weight" id="weightKG" autocomplete="off" min="0"
+                    <input type="number" name="weight" placeholder="Weight" id="weightKG" autocomplete="off" min="0" max="400"
                         step="any" required/> <br />
                     <label for="height"> </label>
                     <input type="number" name="height" placeholder="Height" id="heightCM" autocomplete="off" min="0"
-                        step="any" required/> <br />
-                    <label for="age"> </label>
+                       max="300" step="any" required/> <br />
+                    <label for="age"> </label> 
                     <input type="date" name="age" id="ageYRS" autocomplete="off" required/> <br />
 
                     <label for="gender"></label>
@@ -74,47 +69,6 @@ ob_start();
                     <br />
                     <button type="submit" name="s">Confirm</button>
                 </div>
-                <script>
-                    function toggleVis1() {
-                        const svgData = document.getElementById("toggleEye");
-                        svgData.src = svgData.src.includes("/Other Files/closedEye.svg") ? "/Other Files/openEye.svg" : "/Other Files/closedEye.svg";
-
-                        var toggle = document.getElementById("password1");
-                        var toggle1 = document.getElementById("password2");
-                        if (toggle.type === "password") {
-                            toggle.type = "text";
-                            toggle1.type = "text";
-                        } else {
-                            toggle.type = "password";
-                            toggle1.type = "password";
-                        } // toggles visibility of both input fields simultaneously
-                    }
-                    function replaceText() {
-                        var buttonText = document.getElementById("contact-support");
-                        if (buttonText.innerText === "Contact Support") {
-                            buttonText.innerText = "ContactSupport@fakeSupportMail.com";
-                            //the contact support button displays as "Contact Support", this function will replace this text
-                            //with a contact email instead
-                        }
-                        clearTimeout(timeoutID);
-                        setTimeout(function () {
-                            replaceTextBack();
-                        }, 5000);
-                        //this function will undo the replaceText() by calling replaceTextBack() after 5 seconds.
-                    }
-                    function replaceTextBack() {
-                        var buttonText = document.getElementById("contact-support");
-                        buttonText.innerText = "Contact Support";
-                        // this simply does the opposite of replaceText()
-                    }
-                    function copyToCB() {
-                        var textToCopy = document.getElementById('SupportEmail').innerText;
-                        navigator.clipboard.writeText(textToCopy);
-                        alert("Support email copied to clipboard.");
-                        // upon the user clicking the button, it'll automatically copy the email to their clipboard and give them a
-                        //pop up notification 
-                    }
-                </script>
             </div>
             <div id="toast"></div>
         </form>
@@ -152,13 +106,14 @@ ob_start();
                 $_SESSION["height"] = $height;
                 $_SESSION["gender"] = $gender;
                 $_SESSION["age"] = $age;
+                $_SESSION["Signup_in_progress"] = true;
                 header("Location: http://localhost/php/ActivityLevel.php");
                 exit();
             }
         } catch (mysqli_sql_exception $e) {
             $_SESSION['toast_message'] = "MySQLi failed to execute correctly." . $e;
         }
-
+ 
         ?>
     </div>
 </body>

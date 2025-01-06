@@ -101,7 +101,7 @@ ob_start();
         if (!isset($_POST["s"])) {
             die("");
         }
-        try {
+        try { 
             $connection = new mysqli("localhost", "root", "", "neaDatabaseAlexG");
             $username = $_POST["username"];
             $password = $_POST["password"];
@@ -124,14 +124,6 @@ ob_start();
                             //binds results to written variables
                             while ($userCheck->fetch()) {
                                 //fetch recieves 1 row at a time from the results so it iterates until all data has been collected
-                                $_SESSION["fetchedPass"] = $fetchedPass;
-                                $_SESSION["weight"] = $weight;
-                                $_SESSION["height"] = $height;
-                                $_SESSION["gender"] = $gender;
-                                $_SESSION["age"] = $age;
-                                $_SESSION["ActivityLevel"] = $activity;
-                                $_SESSION["username"] = $username;
-                                $_SESSION["userid"] = $userid;
                                 //binding values for all data, including the users already hashed password
                             }
                             $userCheck->close();
@@ -139,10 +131,10 @@ ob_start();
                             $saltedPassword = $password . $salt;
                             $hashPW = hash("sha256", $saltedPassword);
                             //hashes the new entered password at login
-                            echo "salt: " . $salt;
-                            echo "hashPW: " . $hashPW;
-                            echo "salted: " . $saltedPassword;
-                            echo "fetch: " . $fetchedPass;
+                            //  echo "salt: " . $salt . "<br>";
+                            //  echo "hashPW: " . $hashPW. "<br>";
+                            //  echo "salted: " . $saltedPassword. "<br>";
+                            //  echo "fetch: " . $fetchedPass. "<br>";
 
                             if ($hashPW === $fetchedPass) {
                                 $preferenceIDCheck = $connection->prepare("SELECT preferenceID From userpreferences Where userid = ?");
@@ -176,6 +168,14 @@ ob_start();
                                     $_SESSION["Signup_in_progress"] = true;
                                 }
                                 $signUpIncompleteCheck->close();
+                                $_SESSION["fetchedPass"] = $fetchedPass;
+                                $_SESSION["weight"] = $weight;
+                                $_SESSION["height"] = $height;
+                                $_SESSION["gender"] = $gender;
+                                $_SESSION["age"] = $age;
+                                $_SESSION["ActivityLevel"] = $activity;
+                                $_SESSION["username"] = $username;
+                                $_SESSION["userid"] = $userid;
                                 header("Location: http://localhost/php/Homepage.php");
                                 exit();
                             } else {

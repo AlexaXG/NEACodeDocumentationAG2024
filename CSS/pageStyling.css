@@ -296,6 +296,11 @@ input:focus {
 	width: 400px;
 	height: 500px;
 }
+#goalsIn {
+	width: 400px;
+	height: 570px;
+	padding: 20px;
+}
 .genderIn {
 	color: #000000;
 	font-size: 18px;
