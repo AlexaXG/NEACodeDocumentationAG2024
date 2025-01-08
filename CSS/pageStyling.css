@@ -123,8 +123,18 @@ button {
 	height: 360px;
 }
 #queriesBox {
-	width: 400px;
+	width: 500px;
 	height: 800px;
+}
+#proteinInput1, #fatInput1, #carbsInput1, #proteinInput2, #fatInput2, #carbsInput2 {
+	width: 100px;
+}
+#calorieInput1, #calorieInput2 {
+	width: 155px;
+}
+.parameterBox {
+	display: flex;
+	justify-content: center;
 }
 #searchResults {
 	height: 800px;
@@ -132,7 +142,18 @@ button {
 }
 #searchBox {
 	width: 400px;
-	height: 260px;
+	height: 220px;
+	gap: 5px;
+}
+#favouriteMealsBox {
+	width: 400px;
+	height: 300px;
+	gap: 0px;
+}
+#recommendedSearchBox {
+	width: 400px;
+	height: 410px;
+	gap: 5px;
 }
 button:hover {
 	background-color: #ffff;
@@ -167,13 +188,10 @@ button:hover {
 	display: flex;
 	flex-direction: column;
 	justify-content: flex-start;
-	gap: 40px;
+	gap: 20px;
 	align-items: center;
 }
-#recommendedSearchBox {
-	width: 400px;
-	height: 500px;
-}
+
 #BLDSelect {
 	width: 400px;
 	height: 280px;
@@ -371,6 +389,7 @@ input:focus {
 	visibility: hidden;
 	transition: opacity 0.3s, visibility 0.3s;
 } */
+
 
 #toast {
 	display: none;

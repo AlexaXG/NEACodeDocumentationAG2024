@@ -29,8 +29,6 @@ ob_start();
                         <button type="button">My Goals</button></a>
                         <li><a class="button" href="http://localhost/php/MySchedule.php"></li>
                         <button type="button">My Schedule</button></a>
-                        <li><a class="button" href="http://localhost/php/LandingPage.php"></li>
-                        <button type="button">Test Button </button></a>
                     </ul>
                     <a href="http://localhost/php/MySettings.php">
                         <img class="logoImg" src="/Other Files/settingCog.png"></a>
@@ -133,8 +131,8 @@ ob_start();
                         <div class='output-value' id='catVal'>
                             <?php
                             try {
-                                putenv("JAVA_HOME=C:/Program Files/Java/jdk-19");
-                                putenv("PATH=C:/Program Files/Java/jdk-19/bin;" . getenv("PATH"));
+                                putenv("JAVA_HOME=C:/Program Files/Java/jdk-23");
+                                putenv("PATH=C:/Program Files/Java/jdk-23/bin;" . getenv("PATH"));
 
                                 $javaJDKPath = getenv('JAVA_HOME') . "/bin/java";
                                 $javaCompiledPath = getenv('FIND_BMI_CLASS');

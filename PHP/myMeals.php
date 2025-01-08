@@ -103,7 +103,6 @@ ob_start();
                 <div class="searchContainer">
                     <div class="outputbox" id='searchBox'>
                         <div class="title-text">Recipe Search:</div>
-
                         <input type="text" class="textbox" id="userInput" placeholder="Enter a keyword"
                             autocomplete="off" />
                         <button type="button" class="searchButton" id="search"
@@ -114,8 +113,8 @@ ob_start();
                         <div class="title-text">Recommended Recipes:</div>
                         <div class="output-text">This section generates recommended meals tailored to you:</div>
                         <button type="button" class="recommendedMeals" id="recommendedSearch"
-                        onclick="submitMealChoiceAndSearchRecipes()">Feeling lazy?</button>
-    
+                            onclick="submitMealChoiceAndSearchRecipes()">Feeling lazy?</button>
+
                         <div class="title-text" id="mealSelect">Select your meal:</div>
                         <span class="output-text">Select the type of meal you want to search for:</span>
                         <select id="mealChoice" name="BLDC" class="genderIn">
@@ -137,6 +136,11 @@ ob_start();
                         </select>
                         <div id="errorMessage"></div>
                     </div>
+                    <div class="outputbox" id='favouriteMealsBox'>
+                        <div class="title-text">Favourited Recipes:</div>
+                        <button type="button" class="favouriteMeals" id="favouriteMealsSearch"
+                            onclick="searchFavouritedMeals()">Show my favourites!</button>
+                    </div>
                     <script>
                         var userPreference =
                             <?php
@@ -149,7 +153,7 @@ ob_start();
                             echo json_encode($allergies);
                             ?>;
                         console.log("User allergies from PHP:", userAllergies);
- 
+
                         var userID =
                             <?php
                             echo json_encode($userid);
@@ -167,9 +171,53 @@ ob_start();
                 </div>
                 <div class="outputbox" id="queriesBox">
                     <div class="title-text">Specific Search Queries:</div>
-                    <?php
-                    echo $preference;
-                    ?>
+                    <input type="text" class="textbox" id="userInput" placeholder="Enter a keyword"
+                        autocomplete="off" />
+                        <div class="output-text">Macro Min values:</div> 
+                    <div class="parameterBox">
+                        <input type="number" class="textbox" id="proteinInput1" placeholder="Protein" autocomplete="off"
+                            min="0" />
+                        <input type="number" class="textbox" id="fatInput1" placeholder="Fat" autocomplete="off"
+                            min="0" />
+                        <input type="number" class="textbox" id="carbsInput1" placeholder="Carbs" autocomplete="off"
+                            min="0" />
+                    </div>
+                    <div class="output-text">Macro Max values:</div>
+                    <div class="parameterBox">  
+                        <input type="number" class="textbox" id="proteinInput2" placeholder="Protein" autocomplete="off"
+                            min="0" />
+                        <input type="number" class="textbox" id="fatInput2" placeholder="Fat" autocomplete="off"
+                            min="0" />
+                        <input type="number" class="textbox" id="carbsInput2" placeholder="Carbs" autocomplete="off"
+                            min="0" />  
+                    </div>
+                    <div class="output-text">Calorie Min/Max values:</div>
+                    <div class="parameterBox">
+                        <input type="number" class="textbox" id="calorieInput1" placeholder="Min. Calories" autocomplete="off"
+                            min="0" />
+                        <input type="number" class="textbox" id="calorieInput2" placeholder="Max Calories" autocomplete="off"
+                            min="0" />
+                    </div>
+                    <span class="output-text">Select the type of meal you want to search for:</span>
+                        <select id="mealChoice" name="BLDC" class="genderIn">
+                            <option value="Any">Any</option>
+                            <option value="Main Course">Main Course</option>
+                            <option value="Side Dish">Side Dish</option>
+                            <option value="Dessert">Dessert</option>
+                            <option value="Appetizer">Appetizer</option>
+                            <option value="Salad">Salad</option>
+                            <option value="Bread">Bread</option>
+                            <option value="Breakfast">Breakfast</option>
+                            <option value="Soup">Soup</option>
+                            <option value="Beverage">Beverage</option>
+                            <option value="Sauce">Sauce</option>
+                            <option value="Marinade">Marinade</option>
+                            <option value="Fingerfood">Fingerfood</option>
+                            <option value="Snack">Snack</option>
+                            <option value="Drink">Drink</option>
+                        </select>
+                    <button type="button" class="searchButton" id="search"
+                        onclick="searchRecipesByName()">Search</button>
                 </div>
             </div>
 
@@ -185,7 +233,7 @@ if (isset($_SESSION['toast_message'])) { ?>
     <script>
         document.getElementById("toast").innerHTML = '<div class="toast"><?php echo $_SESSION['toast_message']; ?></div>';
     </script>
-    <?php unset($_SESSION['toast_message']); 
+    <?php unset($_SESSION['toast_message']);
 }
 ob_end_flush();
 ?>

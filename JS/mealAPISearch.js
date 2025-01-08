@@ -1,10 +1,10 @@
 
 //Multiple API keys from different accounts to ensure queries can still be run during the NEA development 
 
-const apiKey ="9d323fbea5be46e5b6872aaf660584f7";
+//const apiKey ="9d323fbea5be46e5b6872aaf660584f7";
 //const apiKey = "a92238f287be4371a6b190852c0be1b5"; 
 //const apiKey = "342899e01df24fd79ae66ccd8fcb542d"; 
-//const apiKey = "912595cf052c4231ac1e2528628d9d09";
+const apiKey = "912595cf052c4231ac1e2528628d9d09";
 
 let recipeIds = [];
 
@@ -22,19 +22,27 @@ async function searchRecipesByName() {
 			"Must enter a query";
 		return;
 	}
-	var apiQueryingUrl = `https://api.spoonacular.com/recipes/complexSearch?query=${encodeURIComponent(query)}&apiKey=${apiKey}&number=3`;
+	var apiQueryingUrl = `https://api.spoonacular.com/recipes/complexSearch?query=${encodeURIComponent(query)}&apiKey=${apiKey}&number=3&addRecipeNutrition=true`;
 	//console.log("URL:" + apiQueryingUrl);
 	if (!doesUserHaveNoPreference()) {
-		queryURLBuilder = queryURLBuilder + `&diet=${encodeURIComponent(userPreference)}`;
+		apiQueryingUrl = apiQueryingUrl + `&diet=${encodeURIComponent(userPreference)}`;
 	}
 	try {
 		const response = await fetch(apiQueryingUrl);
-		const data = await response.json();
-		displayResultsHere(data.results);
-		sendRecipeToDatabase(data.results);
+        if (response.ok) {
+            const data = await response.json();
+            if (data.results && Array.isArray(data.results)) {
+		        displayResultsHere(data.results);
+		        sendRecipeToDatabase(data.results);
+            } else {
+                console.error("data results error");
+            }
+        } else {
+            console.log("response error");
+        }
 	} catch (error) {
 		document.getElementById("errorMessage").innerHTML =
-			"error getting data from API";
+			"Error getting data from API: " + error.message;
 	}
 }
 
@@ -126,6 +134,28 @@ async function ensureMealsExcludeAllergens(databaseDataReceived) {
     }
 }
 
+async function searchFavouritedMeals() {
+	try {
+        let databaseDataReceived = [];
+            const databaseResponse = await fetch(`http://localhost/PHP/searchFavouritedMeals.php?userID=${encodeURIComponent(userID)}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+            const favouritedMealsData = await databaseResponse.json();
+            if (favouritedMealsData.success && favouritedMealsData.meals.length > 0) {
+				displayFavouritedMeals(favouritedMealsData.meals);
+                return;
+            } else {
+                const resultsDiv = document.getElementById("displayResultsHere");
+				resultsDiv.innerHTML = "No favourited meals found";
+            }
+    } catch (error) {
+        console.error('Error during favourite meal fetch:', error);
+        return [];
+    }
+}
 
 async function searchRecommendedRecipes(selectedMealChoice) {
 	var queryURLBuilder = `https://api.spoonacular.com/recipes/complexSearch?apiKey=${apiKey}&number=3&sort=random&addRecipeNutrition=true`;
@@ -207,7 +237,6 @@ function displayResultsHereForDatabaseMeals(recipes) {
 	resultsDiv.innerHTML = "";
 
 	if (recipes.length === 0) {
-		console.log("no recipes found for: " . apiQueryingUrl);
 		resultsDiv.innerHTML = "No recipes found";
 		return;
 	}
@@ -217,10 +246,15 @@ function displayResultsHereForDatabaseMeals(recipes) {
 		recipeElement.innerHTML = `
 		<h2>${recipe.MealName}</h2>
 		<img src="${recipe.RecipeImg}" id="recipeImg" draggable="false" onerror="imagePostError(this)" width="115">
+		<div class="macros">
+            <p>Protein: ${recipe.Protein}g</p>
+            <p>Fats: ${recipe.Fats}g</p>
+            <p>Carbs: ${recipe.Carbs}g</p>
+        </div>
 		<div class="recipeButtons">
 		<a class="urlButton" href="${recipe.RecipeURL}" target="_blank">
 		<button type="button" id="recipeLink">Recipe Link</button></a>
-		<a class="favButton" onclick="saveThisRecipe(${recipe.MealID})">
+		<a class="favButton" onclick="addOrRemoveRecipeFromFavourites(${recipe.MealID})">
 		<img class="favImg" id=${recipe.MealID} src="/Other Files/heart-empty.svg" width="35px" draggable="false"></a>
 		</div>
         `;
@@ -233,7 +267,76 @@ function displayResultsHere(recipes) {
 	resultsDiv.innerHTML = "";
 
 	if (recipes.length === 0) {
-		console.log("no recipes found for: " . apiQueryingUrl);
+		resultsDiv.innerHTML = "No recipes found";
+		return;
+	}
+	recipes.forEach((recipe) => {
+		const Protein = recipe.nutrition.nutrients?.find(nutrient => nutrient.name === "Protein")?.amount;
+        const Fats = recipe.nutrition.nutrients?.find(nutrient => nutrient.name === "Fat")?.amount;
+        const Carbs = recipe.nutrition.nutrients?.find(nutrient => nutrient.name === "Carbohydrates")?.amount;
+		const recipeElement = document.createElement("div");
+        recipeElement.classList.add("recipeBox");
+		recipeElement.innerHTML = `
+        <h2>${recipe.title}</h2>
+        <img src="${recipe.image}" id="recipeImg" draggable="false" onerror="imagePostError(this)" width="115">
+        <div class="macros">
+            <p>Protein: ${Protein}g</p>
+            <p>Fats: ${Fats}g</p>
+            <p>Carbs: ${Carbs}g</p>
+        </div>
+        <div class="recipeButtons">
+            <a class="urlButton" href="${recipe.sourceUrl}" target="_blank">
+                <button type="button" id="recipeLink">Recipe Link</button>
+            </a>
+            <a class="favButton" onclick="addOrRemoveRecipeFromFavourites(${recipe.id})">
+                <img class="favImg" id=${recipe.id} src="/Other Files/heart-empty.svg" width="35px" draggable="false">
+            </a>
+        </div>
+    `;
+		resultsDiv.appendChild(recipeElement);
+	});
+}
+
+async function addOrRemoveRecipeFromFavourites(mealID) {
+    const svgData = document.getElementById(mealID);
+    const emptyHeart = "/Other Files/heart-empty.svg";
+    const fullHeart = "/Other Files/heart-full.svg";
+    const isFavourite = svgData.src.includes("heart-empty.svg");
+    svgData.src = isFavourite ? fullHeart : emptyHeart;
+
+    try {
+        if (isFavourite) {
+            const response = await fetch('http://localhost/PHP/addMealToFavourites.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ mealID: mealID, userID: userID }),
+            });
+            if (!response.ok) {
+                console.error("Meal wasnt added");
+                svgData.src = emptyHeart;
+            }
+        } else {
+            const response = await fetch('http://localhost/PHP/removeMealFromFavourites.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ mealID: mealID, userID: userID }),
+            });
+            if (!response.ok) {
+                console.error("Meal wasn't removed");
+                svgData.src = fullHeart;
+            }
+        }
+    } catch (error) {
+        console.error("error updating favourites:", error);
+        svgData.src = isFavourite ? emptyHeart : fullHeart;
+    }
+}
+
+function displayFavouritedMeals(recipes) {
+	const resultsDiv = document.getElementById("displayResultsHere");
+	resultsDiv.innerHTML = "";
+
+	if (recipes.length === 0) {
 		resultsDiv.innerHTML = "No recipes found";
 		return;
 	}
@@ -241,25 +344,22 @@ function displayResultsHere(recipes) {
 		const recipeElement = document.createElement("div");
         recipeElement.classList.add("recipeBox");
 		recipeElement.innerHTML = `
-		<h2>${recipe.title}</h2>
-		<img src="${recipe.image}" id="recipeImg" draggable="false" onerror="imagePostError(this)" width="115">
+		<h2>${recipe.MealName}</h2>
+		<img src="${recipe.RecipeImg}" id="recipeImg" draggable="false" onerror="imagePostError(this)" width="115">
+		<div class="macros">
+            <p>Protein: ${recipe.Protein}g</p>
+            <p>Fats: ${recipe.Fats}g</p>
+            <p>Carbs: ${recipe.Carbs}g</p>
+        </div>
 		<div class="recipeButtons">
-		<a class="urlButton" href="${recipe.sourceUrl}" target="_blank">
+		<a class="urlButton" href="${recipe.RecipeURL}" target="_blank">
 		<button type="button" id="recipeLink">Recipe Link</button></a>
-		<a class="favButton" onclick="saveThisRecipe(${recipe.id})">
-		<img class="favImg" id=${recipe.id} src="/Other Files/heart-empty.svg" width="35px" draggable="false"></a>
+		<a class="favButton" onclick="addOrRemoveRecipeFromFavourites(${recipe.MealID})">
+		<img class="favImg" id=${recipe.MealID} src="/Other Files/heart-full.svg" width="35px" draggable="false"></a>
 		</div>
         `;
 		resultsDiv.appendChild(recipeElement);
 	});
-}
-
-//add recipe id to database
-function saveThisRecipe(recipeID) {
-	const svgData = document.getElementById(recipeID);
-	const emptyHeart = "/Other Files/heart-empty.svg";
-	const fullHeart = "/Other Files/heart-full.svg";
-	svgData.src = svgData.src.includes("heart-empty.svg") ? fullHeart : emptyHeart;
 }
 
 
